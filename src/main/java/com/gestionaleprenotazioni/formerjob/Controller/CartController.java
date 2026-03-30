@@ -6,41 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/cart") // Prefisso per tutti gli endpoint di questa classe
-public class CartController {
+@RequestMapping("/api/cart")
 
-    private final CartService cartService;
+public class CartController extends AbstractController<CartDto> {
 
     @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
+    private CartService cartService;
 
-    // Recupera tutti i carrelli
-    @GetMapping("/all")
-    public ResponseEntity<List<CartDto>> getAllCarts() {
-        return ResponseEntity.ok(cartService.findAll());
-    }
 
-    // Recupera un carrello specifico per ID
-    @GetMapping("/{id}")
-    public ResponseEntity<CartDto> getCartById(@PathVariable Integer id) {
-        return ResponseEntity.ok(cartService.findById(id));
-    }
-
-    // Recupera il carrello di un utente specifico (usando il metodo JPQL che abbiamo fatto)
     @GetMapping("/user/{userId}")
     public ResponseEntity<CartDto> getCartByUserId(@PathVariable Integer userId) {
+        // Usiamo il metodo personalizzato che abbiamo scritto nel CartService
         return ResponseEntity.ok(cartService.findByUserId(userId));
     }
 
-    // Elimina un carrello
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteCart(@PathVariable Integer id) {
-        cartService.delete(id);
-        return ResponseEntity.noContent().build();
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<CartDto> getCartDetails(@PathVariable Integer id) {
+
+        return ResponseEntity.ok(cartService.read(id));
     }
 }
