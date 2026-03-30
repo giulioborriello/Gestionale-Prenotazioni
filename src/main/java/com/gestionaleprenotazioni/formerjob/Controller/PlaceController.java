@@ -24,7 +24,7 @@ public class PlaceController {
         this.eventRepository = eventRepository;
     }
 
-    //GET tutti i posti
+    //GET tutt è post!
     @GetMapping
     public List<PlaceDto> getAll() {
         return placeRepository.findAll().stream()
@@ -41,7 +41,7 @@ public class PlaceController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    //POST nuovo posto
+    //POST new posto
     @PostMapping
     public ResponseEntity<PlaceDto> create(@RequestBody PlaceDto dto) {
         Event event = eventRepository.findById(dto.getEventId()).orElse(null);
@@ -52,7 +52,7 @@ public class PlaceController {
         return ResponseEntity.ok(PlaceMapper.toDTO(place));
     }
 
-    //PUT aggiorna posto
+    //PUT aggiorn o' post
     @PutMapping("/{id}")
     public ResponseEntity<PlaceDto> update(@PathVariable Integer id, @RequestBody PlaceDto dto) {
         Place place = placeRepository.findById(id).orElse(null);
@@ -69,7 +69,7 @@ public class PlaceController {
         return ResponseEntity.ok(PlaceMapper.toDTO(place));
     }
 
-    //DELETE posto
+    //DELETE ò post!
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (!placeRepository.existsById(id)) return ResponseEntity.notFound().build();
