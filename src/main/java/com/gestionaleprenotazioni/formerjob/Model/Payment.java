@@ -17,24 +17,25 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // Specifichiamo che l'enum deve essere salvata come stringa nel DB (es: "PAYPAL")
+    // Salviamo il nome della costante Enum (es. "CREDIT_CARD") invece dell'indice numerico
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PaymentMethod method;
 
-    // Indica se il pagamento è stato verificato o andato a buon fine
+    // Flag per verificare se il pagamento è andato a buon fine
     @Column(nullable = false)
     private Boolean checked;
 
-    // La data e l'ora in cui è avvenuta la transazione
+    // Timestamp della transazione
     @Column(nullable = false)
     private LocalDateTime date;
 
     /**
-     * Relazione 1:1 con il carrello.
-     * Il cart_id sarà la chiave esterna in questa tabella.
+     * Questa è la parte "proprietaria" della relazione 1:1.
+     * @JoinColumn crea fisicamente la colonna 'cart_id' nella tabella 'payment'.
+     * In questo modo, il pagamento "sa" a quale carrello si riferisce.
      */
     @OneToOne
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false)
     private Cart cart;
 }
