@@ -1,4 +1,4 @@
 package com.gestionaleprenotazioni.formerjob.Repository;
 
-public interface UserRepository {
+public interface PlaceRepository {
 }
