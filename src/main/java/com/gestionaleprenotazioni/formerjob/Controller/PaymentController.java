@@ -10,7 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/payment")
-public class PaymentController {
+// 1. Fondamentale: Estendiamo l'AbstractController per avere le rotte base
+public class PaymentController extends AbstractController<PaymentDto> {
 
     private final PaymentService paymentService;
 
@@ -19,10 +20,13 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    // Lista di tutti i pagamenti effettuati
+    /**
+     * Lista di tutti i pagamenti effettuati.
+     * Nota: Usiamo 'getAll()' che è il nome ereditato dall'AbstractService.
+     */
     @GetMapping("/history")
-    public ResponseEntity<List<PaymentDto>> getAllPayments() {
-        return ResponseEntity.ok(paymentService.findAll());
+    public ResponseEntity<Iterable<PaymentDto>> getAllPayments() {
+        return ResponseEntity.ok(paymentService.getAll());
     }
 
     // Filtra pagamenti per metodo (es: /api/payment/method/paypal)

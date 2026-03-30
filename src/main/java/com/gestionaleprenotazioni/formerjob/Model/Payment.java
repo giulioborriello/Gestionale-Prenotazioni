@@ -30,11 +30,7 @@ public class Payment {
     @Column(nullable = false)
     private LocalDateTime date;
 
-    /**
-     * Questa è la parte "proprietaria" della relazione 1:1.
-     * @JoinColumn crea fisicamente la colonna 'cart_id' nella tabella 'payment'.
-     * In questo modo, il pagamento "sa" a quale carrello si riferisce.
-     */
+
     @OneToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false)
     private Cart cart;

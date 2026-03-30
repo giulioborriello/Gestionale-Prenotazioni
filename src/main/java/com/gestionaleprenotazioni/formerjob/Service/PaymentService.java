@@ -1,12 +1,11 @@
 package com.gestionaleprenotazioni.formerjob.Service;
 
 import com.gestionaleprenotazioni.formerjob.Dto.PaymentDto;
-import com.gestionaleprenotazioni.formerjob.Mapper.PaymentMapper; // Assumendo che esista un PaymentMapper
+import com.gestionaleprenotazioni.formerjob.Mapper.PaymentMapper;
 import com.gestionaleprenotazioni.formerjob.Model.Payment;
 import com.gestionaleprenotazioni.formerjob.Model.PaymentMethod;
 import com.gestionaleprenotazioni.formerjob.Repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,38 +13,36 @@ import java.util.List;
 @Service
 public class PaymentService extends AbstractService<Payment, PaymentDto> {
 
+    // Usiamo direttamente il nostro repository specifico
     private final PaymentRepository paymentRepository;
-    private final PaymentMapper paymentMapper;
 
     @Autowired
-    public PaymentService(JpaRepository<Payment, Integer> repository, PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
-        super(repository, paymentMapper);
+    public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper) {
+
+        super(paymentRepository, paymentMapper);
         this.paymentRepository = paymentRepository;
-        this.paymentMapper = paymentMapper;
     }
 
-    // JPQL: Pagamenti verificati per utente
+    // 1. JPQL: Pagamenti verificati per utente
     public List<PaymentDto> findAllVerifiedByUserId(Integer userId) {
-        return paymentRepository.findAllVerifiedPaymentsByUserId(userId)
-                .stream()
-                .map(paymentMapper::toDTO)
-                .toList();
+
+        return mapper.toDTOList(paymentRepository.findAllVerifiedPaymentsByUserId(userId));
     }
 
-    // DERIVATO: Pagamenti filtrati per metodo (String -> Enum)
+    // 2. DERIVATO: Pagamenti filtrati per metodo (String -> Enum)
     public List<PaymentDto> findByMethod(String method) {
-        PaymentMethod m = PaymentMethod.valueOf(method.toUpperCase());
-        return paymentRepository.findByMethod(m)
-                .stream()
-                .map(paymentMapper::toDTO)
-                .toList();
+        try {
+            PaymentMethod m = PaymentMethod.valueOf(method.toUpperCase());
+            return mapper.toDTOList(paymentRepository.findByMethod(m));
+        } catch (IllegalArgumentException e) {
+            // Se il metodo non esiste, restituiamo una lista vuota invece di crashare
+            return List.of();
+        }
     }
 
-    // DERIVATO: Pagamenti filtrati per stato (checked)
+    // 3. DERIVATO: Pagamenti filtrati per stato (checked)
     public List<PaymentDto> findByChecked(Boolean checked) {
-        return paymentRepository.findByChecked(checked)
-                .stream()
-                .map(paymentMapper::toDTO)
-                .toList();
+
+        return mapper.toDTOList(paymentRepository.findByChecked(checked));
     }
 }

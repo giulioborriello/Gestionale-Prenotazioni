@@ -5,11 +5,9 @@ import com.gestionaleprenotazioni.formerjob.Model.Payment;
 import com.gestionaleprenotazioni.formerjob.Model.PaymentMethod;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
-public class PaymentMapper implements Converter<Payment, PaymentDto> {
+public class PaymentMapper extends AbstractMapper<PaymentDto, Payment> {
 
     @Override
     public PaymentDto toDTO(Payment entity) {
@@ -17,14 +15,24 @@ public class PaymentMapper implements Converter<Payment, PaymentDto> {
 
         PaymentDto dto = new PaymentDto();
         dto.setId(entity.getId());
-        dto.setAmount(entity.getCart() != null ? entity.getCart().getTotalPrice() : 0.0);
-        dto.setStatus(entity.getChecked() ? "COMPLETED" : "PENDING");
-        dto.setMethod(entity.getMethod().name()); // Trasforma Enum in String
-        dto.setAttemptedAt(entity.getDate());
 
+        // Recuperiamo il prezzo totale dal Carrello associato (che abbiamo nel progetto)
         if (entity.getCart() != null) {
+            dto.setAmount(entity.getCart().getTotalPrice());
             dto.setOrderId(entity.getCart().getId());
+        } else {
+            dto.setAmount(0.0);
         }
+
+        // Trasformiamo il Boolean 'checked' in una Stringa leggibile per il Frontend
+        dto.setStatus(entity.getChecked() != null && entity.getChecked() ? "COMPLETED" : "PENDING");
+
+        // Trasforma l'Enum (es. CREDIT_CARD) in una Stringa (es. "CREDIT_CARD")
+        if (entity.getMethod() != null) {
+            dto.setMethod(entity.getMethod().name());
+        }
+
+        dto.setAttemptedAt(entity.getDate());
 
         return dto;
     }
@@ -35,24 +43,25 @@ public class PaymentMapper implements Converter<Payment, PaymentDto> {
 
         Payment entity = new Payment();
         entity.setId(dto.getId());
-        entity.setChecked(dto.getStatus().equalsIgnoreCase("COMPLETED"));
+
+        // Operazione inversa: Trasformiamo la stringa "COMPLETED" nel Boolean true
+        if (dto.getStatus() != null) {
+            entity.setChecked(dto.getStatus().equalsIgnoreCase("COMPLETED"));
+        }
+
         entity.setDate(dto.getAttemptedAt());
 
-        // Trasforma String in Enum
+
         if (dto.getMethod() != null) {
-            entity.setMethod(PaymentMethod.valueOf(dto.getMethod().toUpperCase()));
+            try {
+                entity.setMethod(PaymentMethod.valueOf(dto.getMethod().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                // Se il metodo non esiste nell'Enum, possiamo gestire l'errore qui
+            }
         }
 
         return entity;
     }
 
-    @Override
-    public List<PaymentDto> toDTOList(List<Payment> entities) {
-        return entities.stream().map(this::toDTO).collect(Collectors.toList());
-    }
 
-    @Override
-    public List<Payment> toEntityList(List<PaymentDto> dtos) {
-        return dtos.stream().map(this::toEntity).collect(Collectors.toList());
-    }
 }
