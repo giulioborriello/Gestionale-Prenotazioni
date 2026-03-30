@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractMapper<DTO, Entity> implements Mapper<DTO, Entity> {
+
+    // Converte un DTO EventDto in entità Event
+    // Anche qui ModelMapper gestisce automaticamente il mapping dei campi
     @Override
     public List<Entity> toEntityList(Iterable<DTO> dtoIterable) {
         List<Entity> list = new ArrayList<>();
@@ -17,6 +20,8 @@ public abstract class AbstractMapper<DTO, Entity> implements Mapper<DTO, Entity>
         return list;
     }
 
+    // Converte un'entità Event in DTO EventDto
+    // ModelMapper copia automaticamente tutti i campi che hanno lo stesso nome e tipo
     @Override
     public List<DTO> toDTOList(Iterable<Entity> entityIterable) {
         List<DTO> list = new ArrayList<>();
@@ -27,11 +32,4 @@ public abstract class AbstractMapper<DTO, Entity> implements Mapper<DTO, Entity>
         return list;
     }
 
-    // Converte un'entità Event in DTO EventDto
-    // ModelMapper copia automaticamente tutti i campi che hanno lo stesso nome e tipo
-    public abstract Event toDTO(Event entity);
-
-    // Converte un DTO EventDto in entità Event
-    // Anche qui ModelMapper gestisce automaticamente il mapping dei campi
-    public abstract EventDto toEntity(EventDto dto);
 }
