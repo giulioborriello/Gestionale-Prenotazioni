@@ -7,17 +7,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper extends AbstractMapper<User, UserDto>
+public class UserMapper extends AbstractMapper<UserDto, User>
 {
     final private ModelMapper mapper = new ModelMapper();
 
     @Override
-    public UserDto toEntity(User user) {
-        return null;
-    }
+    public UserDto toDTO(User entity) { return mapper.map(entity, UserDto.class); }
 
     @Override
-    public User toDTO(UserDto userDto) {
-        return null;
-    }
+    public User toEntity(UserDto dto) { return mapper.map(dto, User.class);}
 }
