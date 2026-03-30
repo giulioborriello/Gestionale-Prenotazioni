@@ -16,7 +16,6 @@ public class EventService extends AbstractService<Event, EventDto> {
         super(eventRepository, eventMapper);
         this.eventMapper = eventMapper;
         this.eventRepository = eventRepository;
-        //this.userRepository = userRepository;
     }
 
     // Aggiungere i metodi che utilizzeremo per il nostro applicativo
