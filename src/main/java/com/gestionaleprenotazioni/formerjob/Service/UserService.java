@@ -2,15 +2,16 @@ package com.gestionaleprenotazioni.formerjob.Service;
 
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
 import com.gestionaleprenotazioni.formerjob.Mapper.UserMapper;
+import com.gestionaleprenotazioni.formerjob.Model.User;
 import com.gestionaleprenotazioni.formerjob.Repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService AbstractService<User, UserDto>
+public class UserService extends AbstractService<UserDto, User>
 {
-     final UserMapper userMapper;
-     final UserRepository userRepository;
+      UserRepository userRepository;
+      UserMapper userMapper;
+
 
     public UserDto findByName(String name)
     {

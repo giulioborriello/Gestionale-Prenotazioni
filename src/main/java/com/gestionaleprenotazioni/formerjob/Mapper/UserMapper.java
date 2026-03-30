@@ -3,17 +3,21 @@ package com.gestionaleprenotazioni.formerjob.Mapper;
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
 import com.gestionaleprenotazioni.formerjob.Model.User;
 import jakarta.persistence.Entity;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
-//dobbiamo aggiungere in converter
-public class UserMapper
+@Component
+public class UserMapper extends AbstractMapper<User, UserDto>
 {
-   final private Modelmapper mapper = new ModelMapper();
+    final private ModelMapper mapper = new ModelMapper();
 
     @Override
-    public UserDto toDTO(User entity) { return mapper.map(entity, UserDto.class); }
+    public UserDto toEntity(User user) {
+        return null;
+    }
+
     @Override
-    public Entity toEntity(UserDto dto) { return mapper.map(dto, User.class);}
-
-
-
+    public User toDTO(UserDto userDto) {
+        return null;
+    }
 }
