@@ -2,6 +2,7 @@ package com.gestionaleprenotazioni.formerjob.Mapper;
 
 import com.gestionaleprenotazioni.formerjob.Dto.CartDto;
 import com.gestionaleprenotazioni.formerjob.Model.Cart;
+import com.gestionaleprenotazioni.formerjob.Model.Payment;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,7 @@ public class CartMapper extends AbstractMapper<CartDto, Cart> {
         Cart entity = new Cart();
         entity.setId(dto.getId());
         entity.setTotalPrice(dto.getTotalPrice());
-        // Nota: Le liste di Ticket solitamente vengono gestite dal Service
-        // recuperandole dal DB, per ora mappiamo i dati base.
+        // Le liste di Ticket e Payment vengono gestite dal Service
         return entity;
     }
 
@@ -31,12 +31,22 @@ public class CartMapper extends AbstractMapper<CartDto, Cart> {
         dto.setId(entity.getId());
         dto.setTotalPrice(entity.getTotalPrice());
 
-        // FIX: Usiamo getTicketId() invece di getId() come richiesto dal Model dei colleghi
+        // mappa la lista di ticket IDs
         if (entity.getTickets() != null) {
             List<Integer> ticketIds = entity.getTickets().stream()
                     .map(Ticket::getTicketId)
                     .collect(Collectors.toList());
             dto.setTicketIds(ticketIds);
+        }
+
+        // mappa la lista di payment IDs
+        // PRIMA era un singolo paymentId, ora è una lista perché
+        // un carrello può avere più tentativi di pagamento
+        if (entity.getPayments() != null) {
+            List<Integer> paymentIds = entity.getPayments().stream()
+                    .map(Payment::getId)
+                    .collect(Collectors.toList());
+            dto.setPaymentIds(paymentIds);
         }
 
         return dto;

@@ -27,19 +27,19 @@ public class Cart {
     private User user;
 
     /**
-     * Relazione 1:1 inversa.
-     * 'mappedBy = "cart"' indica che il campo che "comanda" la relazione (e che ha la FK)
-     * si trova nella classe Payment ed è chiamato 'cart'.
-     * CascadeType.ALL assicura che se cancelliamo il carrello, il pagamento associato venga gestito.
+     * Relazione 1:N con i pagamenti.
+     * Un carrello può avere più tentativi di pagamento.
+     * 'mappedBy = "cart"' indica che la FK cart_id si trova nella tabella Payment.
      */
-    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
-    private Payment payment;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @ToString.Exclude // evita cicli infiniti nel log
+    private List<Payment> payments;
 
     /**
      * Relazione 1:N con i ticket.
      * mappedBy = "cart" indica che nella tabella Ticket esiste una colonna cart_id.
      */
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    @ToString.Exclude // Cruciale: evita cicli infiniti nel log se Ticket ha un riferimento a Cart
+    @ToString.Exclude // evita cicli infiniti nel log
     private List<Ticket> tickets;
 }

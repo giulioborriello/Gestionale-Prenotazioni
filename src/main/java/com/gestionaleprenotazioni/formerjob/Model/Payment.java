@@ -30,8 +30,11 @@ public class Payment {
     @Column(nullable = false)
     private LocalDateTime date;
 
-
-    @OneToOne
+    // Relazione N:1 con Cart.
+    // Più pagamenti possono appartenere allo stesso carrello
+    // (es. più tentativi di pagamento).
+    // La FK cart_id si trova in questa tabella.
+    @ManyToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false)
     private Cart cart;
 }
