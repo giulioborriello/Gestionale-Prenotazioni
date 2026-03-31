@@ -22,8 +22,8 @@ public class Cart {
     private Double totalPrice;
 
     // Riferimento all'utente (Molti carrelli possono appartenere a un utente nel tempo)
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
     /**
