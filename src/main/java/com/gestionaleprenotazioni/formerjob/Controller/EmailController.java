@@ -1,5 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
+import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import com.gestionaleprenotazioni.formerjob.Service.EmailService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,15 @@ public class EmailController {
     }
 
     @GetMapping("/send-test-email")
-    public String sendTestEmail() {
+    public String sendTestEmail(TicketDto ticketDto,String receiver) {
         String to = "destinatario-di-prova@example.com"; // qualsiasi mail, non verrà usata realmente
         String subject = "Mail di prova da Spring + Mailtrap";
         String body = """
-                Ciao da EventIO!
-                Hai Completato l'acquisto del tuo ticket per 
+                Ciao,name_user da EventIO!
+                Hai Completato l'acquisto del tuo biglietto per l'evento event_name
+                che si terrà il giorno event_date al ticket_placeName.
+                
+                Grazie per aver scelto EventIO, ti aspettiamo all'evento!
              
                 """.formatted(LocalDateTime.now());
 
