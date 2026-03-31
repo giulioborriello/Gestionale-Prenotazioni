@@ -1,11 +1,14 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
+import com.gestionaleprenotazioni.formerjob.Model.Type;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("Event")
@@ -15,6 +18,53 @@ public class EventController extends AbstractController<EventDto> {
     @Autowired
     private EventService eventService;
 
-    // Aggiungere i controllers per il nostro applicativo
+    // 🔹 Per nome
+    @GetMapping("/findByName")
+    public EventDto findByName(@RequestParam("name") String name) {
+        return eventService.findByName(name);
+    }
+
+    // 🔹 Per descrizione
+    @GetMapping("/findByDescription")
+    public EventDto findByDescription(@RequestParam("description") String description) {
+        return eventService.findByDescription(description);
+    }
+
+    // 🔹 Per tipo
+    @GetMapping("/findByType")
+    public List<EventDto> findByType(@RequestParam("type") Type type) {
+        return eventService.findByType(type);
+    }
+
+    // 🔹 Per location
+    @GetMapping("/findByLocation")
+    public List<EventDto> findByLocation(@RequestParam("location") String location) {
+        return eventService.findByLocation(location);
+    }
+
+    // 🔹 Tra due date
+    @GetMapping("/findByDataBetween")
+    public List<EventDto> findByDataBetween(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+
+        return eventService.findByDataBetween(startDate, endDate);
+    }
+
+    // 🔹 Dopo una data
+    @GetMapping("/findByDataAfter")
+    public List<EventDto> findByDataAfter(
+            @RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
+
+        return eventService.findByDataAfter(data);
+    }
+
+    // 🔹 Prima di una data
+    @GetMapping("/findByDataBefore")
+    public List<EventDto> findByDataBefore(
+            @RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
+
+        return eventService.findByDataBefore(data);
+    }
 
 }
