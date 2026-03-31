@@ -23,7 +23,7 @@ public class CartDto {
     private Integer userId;
 
     // ID del pagamento associato al carrello (può essere null se non ancora pagato)
-    private Integer paymentId;
+    private List<Integer> paymentIds;
 
     // Lista degli ID dei biglietti presenti nel carrello
     // Invece della lista di oggetti Ticket, passiamo solo i loro id
