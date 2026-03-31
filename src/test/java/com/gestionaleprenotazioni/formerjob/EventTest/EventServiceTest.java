@@ -105,10 +105,10 @@ class EventServiceTest {
         Date start = new Date();
         Date end = new Date();
 
-        when(eventRepository.findByDataBetween(start, end)).thenReturn(List.of(event));
+        when(eventRepository.findByDateBetween(start, end)).thenReturn(List.of(event));
         when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
 
-        List<EventDto> result = eventService.findByDataBetween(start, end);
+        List<EventDto> result = eventService.findByDateBetween(start, end);
 
         assertFalse(result.isEmpty());
     }
@@ -118,10 +118,10 @@ class EventServiceTest {
     void testFindByDataAfter() {
         Date data = new Date();
 
-        when(eventRepository.findByDataAfter(data)).thenReturn(List.of(event));
+        when(eventRepository.findByDateAfter(data)).thenReturn(List.of(event));
         when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
 
-        List<EventDto> result = eventService.findByDataAfter(data);
+        List<EventDto> result = eventService.findByDateAfter(data);
 
         assertEquals(1, result.size());
     }
@@ -131,10 +131,10 @@ class EventServiceTest {
     void testFindByDataBefore() {
         Date data = new Date();
 
-        when(eventRepository.findByDataBefore(data)).thenReturn(List.of(event));
+        when(eventRepository.findByDateBefore(data)).thenReturn(List.of(event));
         when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
 
-        List<EventDto> result = eventService.findByDataBefore(data);
+        List<EventDto> result = eventService.findByDateBefore(data);
 
         assertEquals(1, result.size());
     }

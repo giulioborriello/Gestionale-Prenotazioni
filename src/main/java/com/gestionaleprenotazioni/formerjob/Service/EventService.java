@@ -44,18 +44,18 @@ public class EventService extends AbstractService<Event, EventDto> {
     }
 
     // 🔹 Metodo per trovare l'evento per nome
-    public List<EventDto> findByDataBetween(Date startDate, Date endDate) {
-        return eventMapper.toDTOList(eventRepository.findByDataBetween(startDate, endDate));
+    public List<EventDto> findByDateBetween(Date startDate, Date endDate) {
+        return eventMapper.toDTOList(eventRepository.findByDateBetween(startDate, endDate));
     }
 
     // 🔹 Metodo per trovare l'evento per nome
-    public List<EventDto> findByDataAfter(Date data) {
-        return eventMapper.toDTOList(eventRepository.findByDataAfter(data));
+    public List<EventDto> findByDateAfter(Date data) {
+        return eventMapper.toDTOList(eventRepository.findByDateAfter(data));
     }
 
     // 🔹 Metodo per trovare l'evento per nome
-    public List<EventDto> findByDataBefore(Date data) {
-        return eventMapper.toDTOList(eventRepository.findByDataBefore(data));
+    public List<EventDto> findByDateBefore(Date data) {
+        return eventMapper.toDTOList(eventRepository.findByDateBefore(data));
     }
 
 

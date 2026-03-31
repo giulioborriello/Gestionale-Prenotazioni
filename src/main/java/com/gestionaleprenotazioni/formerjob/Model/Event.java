@@ -35,4 +35,12 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private Type type; // tipologia di evento
 
+    @OneToOne
+    @JoinColumn(name = "place_id", referencedColumnName = "id", nullable = false)
+    private Place place;
+
+    @OneToOne
+    @JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = false)
+    private Ticket ticket;
+
 }

@@ -5,7 +5,6 @@ import com.gestionaleprenotazioni.formerjob.Mapper.Mapper;
 import com.gestionaleprenotazioni.formerjob.Mapper.UserMapper;
 import com.gestionaleprenotazioni.formerjob.Model.User;
 import com.gestionaleprenotazioni.formerjob.Repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
