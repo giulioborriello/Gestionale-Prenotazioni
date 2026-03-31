@@ -23,39 +23,39 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
         this.ticketRepository = ticketRepository;
     }
 
-    List<TicketDto> findTicketByNameAndSurname(String name, String surname) {
+    public List<TicketDto> findTicketByNameAndSurname(String name, String surname) {
         return ticketMapper.toDTOList(ticketRepository.findTicketByNameAndSurname(name, surname));
     }
 
-    List<TicketDto> findTicketByCreationDate(LocalDateTime creationDate) {
+    public List<TicketDto> findTicketByCreationDate(LocalDateTime creationDate) {
         return ticketMapper.toDTOList(ticketRepository.findTicketByCreationDate(creationDate));
-    };
-
-    List<TicketDto> findTicketByUser(User user) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByUser(user));
-    };
-
-    List<TicketDto> findTicketByCart(Cart cart) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByCart(cart));
-    };
-
-    List<TicketDto> findTicketByPlace(Place place) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByPlace(place));
-    };
-
-    List<TicketDto> findTicketByPriceGreaterThanEqual(Double price) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByPriceGreaterThanEqual(price));
-    };
-
-    List<TicketDto> findTicketByPriceLessThanEqual(Double priceIsLessThan) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByPriceLessThanEqual(priceIsLessThan));
-    };
-
-    List<TicketDto> findTicketByPriceRange(Double price) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByPriceRange(price));
     }
 
-    List<TicketDto> findTicketByDateRange(LocalDateTime startTime, LocalDateTime endTime) {
+    public List<TicketDto> findTicketByUser(User user) {
+        return ticketMapper.toDTOList(ticketRepository.findTicketByUser(user));
+    }
+
+    public List<TicketDto> findTicketByCart(Cart cart) {
+        return ticketMapper.toDTOList(ticketRepository.findTicketByCart(cart));
+    }
+
+    public List<TicketDto> findTicketByPlace(Place place) {
+        return ticketMapper.toDTOList(ticketRepository.findTicketByPlace(place));
+    }
+
+    public List<TicketDto> findTicketByPriceGreaterThanEqual(Double price) {
+        return ticketMapper.toDTOList(ticketRepository.findTicketByPriceGreaterThanEqual(price));
+    }
+
+    public List<TicketDto> findTicketByPriceLessThanEqual(Double priceIsLessThan) {
+        return ticketMapper.toDTOList(ticketRepository.findTicketByPriceLessThanEqual(priceIsLessThan));
+    }
+
+    public List<TicketDto> findTicketByPriceRange(Double initialPrice, Double endPrice) {
+        return ticketMapper.toDTOList(ticketRepository.findTicketByPriceRange(initialPrice, endPrice));
+    }
+
+    public List<TicketDto> findTicketByDateRange(LocalDateTime startTime, LocalDateTime endTime) {
         return ticketMapper.toDTOList(ticketRepository.findTicketByDateRange(startTime, endTime));
     }
 }

@@ -22,7 +22,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findTicketByPriceLessThanEqual(Double priceIsLessThan);
 
     @Query("SELECT t FROM Ticket t WHERE t.price >= ?1 AND t.price <= ?2")
-    List<Ticket> findTicketByPriceRange(Double price);
+    List<Ticket> findTicketByPriceRange(Double initialPrice, Double endPrice);
 
     @Query("SELECT t FROM Ticket t WHERE t.creationDate >= ?1 AND t.creationDate <= ?2")
     List<Ticket> findTicketByDateRange(LocalDateTime startDate, LocalDateTime endDate);
