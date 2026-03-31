@@ -35,7 +35,7 @@ public class UserDto
 
     private boolean status;
 
-    private List<Ticket> tickets;
+    private List<TicketDto> tickets;
 
     private Cart cart;
 

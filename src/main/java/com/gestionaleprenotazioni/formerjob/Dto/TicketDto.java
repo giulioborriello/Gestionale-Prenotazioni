@@ -1,5 +1,8 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
+import com.gestionaleprenotazioni.formerjob.Model.Cart;
+import com.gestionaleprenotazioni.formerjob.Model.Place;
+import com.gestionaleprenotazioni.formerjob.Model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +20,7 @@ public class TicketDto {
     private String surname;
     private Double price;
     private LocalDateTime creationDate;
+    private CartDto cart;
+    private PlaceDto place;
+    private UserDto user;
 }
