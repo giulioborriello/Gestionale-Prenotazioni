@@ -1,15 +1,36 @@
 package com.gestionaleprenotazioni.formerjob.Mapper;
-import com.gestionaleprenotazioni.formerjob.Model.Event;
+
 import com.gestionaleprenotazioni.formerjob.Dto.PlaceDto;
 import com.gestionaleprenotazioni.formerjob.Model.Place;
+import com.gestionaleprenotazioni.formerjob.Model.Event;
+import org.springframework.stereotype.Component;
 
+//mapper per convertire placemodel in placedto
+@Component
+public class PlaceMapper extends AbstractMapper<PlaceDto, Place> {
 
-public class PlaceMapper {
+    //converte dto in entity
+    @Override
+    public Place toEntity(PlaceDto dto) {
+        if (dto == null) return null;
 
-    // Converte Place in PlaceDTO
-    public static PlaceDto toDTO(Place place) {
+        Place place = new Place();
+        place.setId(dto.getId());
+        place.setCode(dto.getCode());
+        place.setStatus(dto.isStatus());
+
+        //event viene collegato nel controller e service
+        return place;
+    }
+
+    //converte entity in dto
+    @Override
+    public PlaceDto toDTO(Place place) {
         if (place == null) return null;
+
+        //prendo id evento se presente
         Integer eventId = (place.getEvent() != null) ? place.getEvent().getId() : null;
+
         return new PlaceDto(
                 place.getId(),
                 place.getCode(),
@@ -17,16 +38,5 @@ public class PlaceMapper {
                 place.getType(),
                 eventId
         );
-    }
-
-    // Converte PlaceDTO in Place, *serve l'oggetto Event per collegamento*
-    public static Place fromDTO(PlaceDto dto, Event event) {
-        if (dto == null) return null;
-        Place place = new Place();
-        place.setId(dto.getId());
-        place.setCode(dto.getCode());
-        place.setStatus(dto.isStatus());
-        place.setEvent(event); // collega l'evento
-        return place;
     }
 }
