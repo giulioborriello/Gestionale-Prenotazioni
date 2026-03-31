@@ -26,9 +26,9 @@ public class Cart {
     private User user;
 
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude // evita cicli infiniti nel log
-    private List<Payment> payments;
+    private Payment payment;
 
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
