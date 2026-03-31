@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,5 +22,5 @@ public class EventDto {
     private Date date; // data dell'evento
     private Type type; // tipologia di evento
     private PlaceDto place; // Posto a sedere dell'evento
-    private TicketDto user; // Biglietto collegato all'evento
+    private List<TicketDto> tickets; // Biglietti collegati all'evento
 }

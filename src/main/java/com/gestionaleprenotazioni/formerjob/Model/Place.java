@@ -1,9 +1,17 @@
 package com.gestionaleprenotazioni.formerjob.Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 //classe Place rappresenta un posto per un evento
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@Table(name = "Place", schema = "formerjob")
 public class Place {
 
     //id unico del posto
