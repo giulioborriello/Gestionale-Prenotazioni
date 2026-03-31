@@ -19,7 +19,7 @@ public class CartMapper extends AbstractMapper<CartDto, Cart> {
         Cart entity = new Cart();
         entity.setId(dto.getId());
         entity.setTotalPrice(dto.getTotalPrice());
-        // Le liste di Ticket e Payment vengono gestite dal Service
+
         return entity;
     }
 
@@ -31,17 +31,15 @@ public class CartMapper extends AbstractMapper<CartDto, Cart> {
         dto.setId(entity.getId());
         dto.setTotalPrice(entity.getTotalPrice());
 
-        // mappa la lista di ticket IDs
+
         if (entity.getTickets() != null) {
             List<Integer> ticketIds = entity.getTickets().stream()
-                    .map(Ticket::getTicketId)
+                    .map(Ticket::getId)
                     .collect(Collectors.toList());
             dto.setTicketIds(ticketIds);
         }
 
-        // mappa la lista di payment IDs
-        // PRIMA era un singolo paymentId, ora è una lista perché
-        // un carrello può avere più tentativi di pagamento
+
         if (entity.getPayments() != null) {
             List<Integer> paymentIds = entity.getPayments().stream()
                     .map(Payment::getId)

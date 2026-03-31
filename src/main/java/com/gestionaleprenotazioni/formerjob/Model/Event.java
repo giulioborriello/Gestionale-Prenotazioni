@@ -43,4 +43,5 @@ public class Event {
     @JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = false)
     private Ticket ticket;
 
+
 }

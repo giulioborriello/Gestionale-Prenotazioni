@@ -16,7 +16,7 @@ public class PaymentMapper extends AbstractMapper<PaymentDto, Payment> {
         PaymentDto dto = new PaymentDto();
         dto.setId(entity.getId());
 
-        // Recuperiamo il prezzo totale dal Carrello associato (che abbiamo nel progetto)
+
         if (entity.getCart() != null) {
             dto.setAmount(entity.getCart().getTotalPrice());
             dto.setOrderId(entity.getCart().getId());
@@ -24,10 +24,10 @@ public class PaymentMapper extends AbstractMapper<PaymentDto, Payment> {
             dto.setAmount(0.0);
         }
 
-        // Trasformiamo il Boolean 'checked' in una Stringa leggibile per il Frontend
+
         dto.setStatus(entity.getChecked() != null && entity.getChecked() ? "COMPLETED" : "PENDING");
 
-        // Trasforma l'Enum (es. CREDIT_CARD) in una Stringa (es. "CREDIT_CARD")
+
         if (entity.getMethod() != null) {
             dto.setMethod(entity.getMethod().name());
         }
@@ -44,7 +44,7 @@ public class PaymentMapper extends AbstractMapper<PaymentDto, Payment> {
         Payment entity = new Payment();
         entity.setId(dto.getId());
 
-        // Operazione inversa: Trasformiamo la stringa "COMPLETED" nel Boolean true
+
         if (dto.getStatus() != null) {
             entity.setChecked(dto.getStatus().equalsIgnoreCase("COMPLETED"));
         }
@@ -56,7 +56,7 @@ public class PaymentMapper extends AbstractMapper<PaymentDto, Payment> {
             try {
                 entity.setMethod(PaymentMethod.valueOf(dto.getMethod().toUpperCase()));
             } catch (IllegalArgumentException e) {
-                // Se il metodo non esiste nell'Enum, possiamo gestire l'errore qui
+
             }
         }
 

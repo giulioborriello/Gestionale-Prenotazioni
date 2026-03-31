@@ -1,5 +1,7 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
+import com.gestionaleprenotazioni.formerjob.Model.Cart;
+import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,5 +34,9 @@ public class UserDto
     private Date CreationDate;
 
     private boolean status;
+
+    private List<Ticket> tickets;
+
+    private Cart cart;
 
 }
