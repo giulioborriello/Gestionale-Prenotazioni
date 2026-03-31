@@ -17,7 +17,7 @@ public class CartController extends AbstractController<CartDto> {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<CartDto> getCartByUserId(@PathVariable Integer userId) {
-        // Usiamo il metodo personalizzato che abbiamo scritto nel CartService
+
         return ResponseEntity.ok(cartService.findByUserId(userId));
     }
 

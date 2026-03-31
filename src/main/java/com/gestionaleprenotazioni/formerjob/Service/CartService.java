@@ -21,19 +21,18 @@ public class CartService extends AbstractService<Cart, CartDto> {
         this.cartRepository = cartRepository;
     }
 
-    // 1. JPQL: Recupera il carrello tramite ID Utente
+
     public CartDto findByUserId(Integer userId) {
         Optional<Cart> cart = cartRepository.findByUserIdJPQL(userId);
         return cart.map(mapper::toDTO).orElse(null);
     }
 
-    // 2. DERIVATO: Trova carrelli senza pagamenti
-    // era findByPaymentIsNull() — ora il campo si chiama "payments"
+
     public List<CartDto> findByPaymentsIsEmpty() {
         return mapper.toDTOList(cartRepository.findByPaymentsIsEmpty());
     }
 
-    // 3. DERIVATO: Trova carrelli sopra una certa soglia di prezzo
+
     public List<CartDto> findByTotalPriceGreaterThan(Double price) {
         return mapper.toDTOList(cartRepository.findByTotalPriceGreaterThan(price));
     }
