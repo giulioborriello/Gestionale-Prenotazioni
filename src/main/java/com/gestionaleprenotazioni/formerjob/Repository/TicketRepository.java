@@ -4,10 +4,8 @@ import com.gestionaleprenotazioni.formerjob.Model.Cart;
 import com.gestionaleprenotazioni.formerjob.Model.Place;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import com.gestionaleprenotazioni.formerjob.Model.User;
-import org.hibernate.annotations.processing.Find;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -22,8 +20,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findTicketByPlace(Place place);
     List<Ticket> findTicketByPriceGreaterThanEqual(Double priceIsGreaterThan);
     List<Ticket> findTicketByPriceLessThanEqual(Double priceIsLessThan);
-    List<Ticket> findTicketByCreationDateGreaterThan(LocalDateTime creationDateIsGreaterThan);
-    List<Ticket> findTicketByCreationDateLessThan(LocalDateTime creationDateIsLessThan);
 
     @Query("SELECT t FROM Ticket t WHERE t.price >= ?1 AND t.price <= ?2")
     List<Ticket> findTicketByPriceRange(Double price);

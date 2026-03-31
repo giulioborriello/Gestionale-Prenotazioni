@@ -1,4 +1,44 @@
 package com.gestionaleprenotazioni.formerjob.Mapper;
 
-public class CartMapper {
+import com.gestionaleprenotazioni.formerjob.Dto.CartDto;
+import com.gestionaleprenotazioni.formerjob.Model.Cart;
+import com.gestionaleprenotazioni.formerjob.Model.Ticket;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component
+public class CartMapper extends AbstractMapper<CartDto, Cart> {
+
+    @Override
+    public Cart toEntity(CartDto dto) {
+        if (dto == null) return null;
+
+        Cart entity = new Cart();
+        entity.setId(dto.getId());
+        entity.setTotalPrice(dto.getTotalPrice());
+        // Nota: Le liste di Ticket solitamente vengono gestite dal Service
+        // recuperandole dal DB, per ora mappiamo i dati base.
+        return entity;
+    }
+
+    @Override
+    public CartDto toDTO(Cart entity) {
+        if (entity == null) return null;
+
+        CartDto dto = new CartDto();
+        dto.setId(entity.getId());
+        dto.setTotalPrice(entity.getTotalPrice());
+
+        // FIX: Usiamo getTicketId() invece di getId() come richiesto dal Model dei colleghi
+        if (entity.getTickets() != null) {
+            List<Integer> ticketIds = entity.getTickets().stream()
+                    .map(Ticket::getTicketId)
+                    .collect(Collectors.toList());
+            dto.setTicketIds(ticketIds);
+        }
+
+        return dto;
+    }
 }
