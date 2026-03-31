@@ -29,5 +29,5 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     // Trova i carrelli che contengono un pagamento con un certo ID
     // era findByPaymentId() — ora payments è una lista
-    List<Cart> findByPaymentsId(Integer paymentId);
+    Optional<Cart> findByPaymentId(Integer paymentId);
 }
