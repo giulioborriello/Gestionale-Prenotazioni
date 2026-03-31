@@ -46,4 +46,5 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "event")
     private Ticket ticket;
+
 }
