@@ -249,7 +249,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"ticketId\": 50,\n  \"name\": \"Mario\",\n  \"surname\": \"Rossi\",\n  \"price\": 60.0,\n  \"creationDate\": \"2026-03-31T12:00:00\"\n}"
+              "raw": "{\n  \"name\": \"Mario\",\n  \"surname\": \"Rossi\",\n  \"price\": 60.0,\n  \"creationDate\": \"2026-03-31T12:00:00\",\n  \"cartId\": 1,\n  \"placeId\": 1,\n  \"userId\": 1,\n  \"eventId\": 1\n}"
             },
             "url": "{{baseUrl}}/Ticket/insert"
           }
@@ -261,7 +261,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"ticketId\": 50,\n  \"name\": \"Mario\",\n  \"surname\": \"Rossi\",\n  \"price\": 65.0,\n  \"creationDate\": \"2026-03-31T12:05:00\"\n}"
+              "raw": "{\n  \"ticketId\": 1,\n  \"name\": \"Mario\",\n  \"surname\": \"Rossi\",\n  \"price\": 65.0,\n  \"creationDate\": \"2026-03-31T12:05:00\",\n  \"cartId\": 1,\n  \"placeId\": 1,\n  \"userId\": 1,\n  \"eventId\": 1\n}"
             },
             "url": "{{baseUrl}}/Ticket/update"
           }

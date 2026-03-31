@@ -15,19 +15,12 @@ public interface UserRepository extends JpaRepository<User, Integer>
         User findBySurname(String surname);
         User findByEmail(String email);
         User findByTaxCode(String taxCode);
-
-        @Query(value = "SELECT * FROM User u WHERE u.name = ?1 AND u.surname = ?2", nativeQuery = true)
+        User findBySurnameAndEmail(String surname,String email);
         User findByNameAndSurname(String name, String surname);
 
-        @Query(value = "SELECT * FROM User u WHERE u.surname =?1 AND u.mail = ?2", nativeQuery = true)
-        User findBySurnameAndEmail(String surname,String email);
 
-        /*
-        @Modifying
-        @Transactional
-        @Query("UPDATE User u SET u.email = :email WHERE u.id = :id")
-        int updateEmail(@Param("id") Integer id, @Param("email") String email);
-        */
+
+
 
 
 }
