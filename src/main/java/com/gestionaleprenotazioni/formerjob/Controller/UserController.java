@@ -44,4 +44,16 @@ public class UserController
         return service.findByNameAndSurname(name, surname);
     }
 
+    @GetMapping("/findBySurnameAndEmail")
+    public UserDto FindBySurnameAndEmail(String surname,String email)
+    {
+        return service.findBySurnameAndEmail(surname,email);
+    }
+
+
+
+
+
+
+
 }

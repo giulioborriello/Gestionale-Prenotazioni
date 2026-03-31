@@ -5,6 +5,7 @@ import com.gestionaleprenotazioni.formerjob.Mapper.Mapper;
 import com.gestionaleprenotazioni.formerjob.Mapper.UserMapper;
 import com.gestionaleprenotazioni.formerjob.Model.User;
 import com.gestionaleprenotazioni.formerjob.Repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,8 +48,14 @@ public class UserService extends AbstractService<User,UserDto>
 
     public UserDto findByNameAndSurname(String name, String surname)
     {
-        UserDto UserDto = userMapper.toDTO(userRepository.findByNameAndSurname(name, surname));
-        return UserDto;
+        UserDto userDto = userMapper.toDTO(userRepository.findByNameAndSurname(name, surname));
+        return userDto;
+    }
+
+    public UserDto findBySurnameAndEmail(String surname,String email)
+    {
+        UserDto userDto = userMapper.toDTO(userRepository.findBySurnameAndEmail(surname,email));
+        return userDto;
     }
 
 
