@@ -1,8 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
-import com.gestionaleprenotazioni.formerjob.Model.Place;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

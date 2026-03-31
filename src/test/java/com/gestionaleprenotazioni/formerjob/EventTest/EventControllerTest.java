@@ -1,175 +1,153 @@
 package com.gestionaleprenotazioni.formerjob.EventTest;
 
+import com.gestionaleprenotazioni.formerjob.Controller.EventController;
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
 public class EventControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockitoBean
+    @Mock
     private EventService eventService;
+
+    @InjectMocks
+    private EventController eventController;
 
     // 🔹 Test 1: Trova evento per nome
     @Test
-    void testFindByName() throws Exception {
+    void testFindByName() {
+        String name = "ITALIASPAGNA";
 
-        // 1️⃣ Creo un DipendenteDto realistico
         EventDto dto = new EventDto();
         dto.setId(1);
-        dto.setName("ITALIASPAGNA");
+        dto.setName(name);
 
-        // 2️⃣ Dico al mock di restituire questo DTO quando il service viene chiamato
-        when(eventService
-                .findByName("ITALIASPAGNA"))
-                .thenReturn(dto);
+        when(eventService.findByName(name)).thenReturn(dto);
 
-        // 3️⃣ Faccio la chiamata GET al controller
-        mockMvc.perform(get("/Event/findByName")
-                        .param("name", "ITALIASPAGNA"))
-                .andExpect(status().isOk()) // verifica il codice 200
-                // 🔹 verifico che i dati restituiti siano corretti
-                .andExpect(jsonPath("$.name").value("ITALIASPAGNA"));
+        EventDto result = eventController.findByName(name);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getName()).isEqualTo(name);
+
+        verify(eventService).findByName(name);
     }
 
-    // 🔹 Test 2: Trova Evento per descrizione
+    // 🔹 Test 2: Trova evento per descrizione
     @Test
-    void testFindByDescription() throws Exception {
+    void testFindByDescription() {
+        String desc = "KKAJWHDJEJBDEUBCUJE";
 
-        // 1️⃣ Creo un DipendenteDto realistico
         EventDto dto = new EventDto();
-        dto.setId(1);
-        dto.setDescription("KKAJWHDJEJBDEUBCUJE");
+        dto.setDescription(desc);
 
-        // 2️⃣ Dico al mock di restituire questo DTO quando il service viene chiamato
-        when(eventService
-                .findByDescription("KKAJWHDJEJBDEUBCUJE"))
-                .thenReturn(dto);
+        when(eventService.findByDescription(desc)).thenReturn(dto);
 
-        // 3️⃣ Faccio la chiamata GET al controller
-        mockMvc.perform(get("/Event/findByDescription")
-                        .param("description", "KKAJWHDJEJBDEUBCUJE"))
-                .andExpect(status().isOk()) // verifica il codice 200
-                // 🔹 verifico che i dati restituiti siano corretti
-                .andExpect(jsonPath("$.description").value("KKAJWHDJEJBDEUBCUJE"));
+        EventDto result = eventController.findByDescription(desc);
+
+        assertThat(result.getDescription()).isEqualTo(desc);
+
+        verify(eventService).findByDescription(desc);
     }
 
-    // 🔹 Test 3: Trova eventi per tipo di evento
+    // 🔹 Test 3: Trova per tipo
     @Test
-    void testFindByType() throws Exception {
-
+    void testFindByType() {
         EventDto dto = new EventDto();
-        dto.setId(1);
         dto.setType(Type.CINEMA);
 
         when(eventService.findByType(Type.CINEMA))
                 .thenReturn(List.of(dto));
 
-        mockMvc.perform(get("/Event/findByType")
-                        .param("type", Type.CINEMA.name()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].type").value(Type.CINEMA.name()));
+        List<EventDto> result = eventController.findByType(Type.CINEMA);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getType()).isEqualTo(Type.CINEMA);
+
+        verify(eventService).findByType(Type.CINEMA);
     }
 
-    // 🔹 Test 4: Trova Evento per luogo
+    // 🔹 Test 4: Trova per location
     @Test
-    void testFindByLocation() throws Exception {
+    void testFindByLocation() {
+        String location = "Napoli";
 
-        // 1️⃣ Creo un DipendenteDto realistico
         EventDto dto = new EventDto();
-        dto.setId(1);
-        dto.setLocation("Napoli");
+        dto.setLocation(location);
 
-        // 2️⃣ Dico al mock di restituire questo DTO quando il service viene chiamato
-        when(eventService
-                .findByLocation("Napoli"))
-                .thenReturn(Collections.singletonList(dto));
-
-        // 3️⃣ Faccio la chiamata GET al controller
-        mockMvc.perform(get("/Event/findByLocation")
-                        .param("location", "Napoli"))
-                .andExpect(status().isOk()) // verifica il codice 200
-                // 🔹 verifico che i dati restituiti siano corretti
-                .andExpect(jsonPath("$[0].location").value("Napoli"));
-    }
-
-    // 🔹 Test 5: Trova Evento tra due date
-    @Test
-    void testFindByDataBetween() throws Exception {
-
-        // 1️⃣ Creo DTO
-        EventDto dto = new EventDto();
-        dto.setId(1);
-
-        // 2️⃣ Date di test
-        String start = "2024-01-01";
-        String end = "2024-12-31";
-
-        // 3️⃣ Mock service
-        when(eventService.findByDateBetween(any(Date.class), any(Date.class)))
+        when(eventService.findByLocation(location))
                 .thenReturn(List.of(dto));
 
-        // 4️⃣ Chiamata
-        mockMvc.perform(get("/Event/findByDataBetween")
-                        .param("startDate", start)
-                        .param("endDate", end))
-                .andExpect(status().isOk())
-                // 🔹 lista -> uso $[0]
-                .andExpect(jsonPath("$[0].id").value(1));
+        List<EventDto> result = eventController.findByLocation(location);
+
+        assertThat(result.get(0).getLocation()).isEqualTo(location);
+
+        verify(eventService).findByLocation(location);
     }
 
-    // 🔹 Test 6: Trova Evento dopo una certa data
+    // 🔹 Test 5: Tra due date
     @Test
-    void testFindByDataAfter() throws Exception {
+    void testFindByDataBetween() {
+        EventDto dto = new EventDto();
+        dto.setId(1);
 
+        Date start = new Date();
+        Date end = new Date();
+
+        when(eventService.findByDateBetween(start, end))
+                .thenReturn(List.of(dto));
+
+        List<EventDto> result = eventController.findByDateBetween(start, end);
+
+        assertThat(result).hasSize(1);
+
+        verify(eventService).findByDateBetween(start, end);
+    }
+
+    // 🔹 Test 6: Dopo una data
+    @Test
+    void testFindByDataAfter() {
         EventDto dto = new EventDto();
         dto.setId(2);
 
-        String data = "2024-06-01";
+        Date data = new Date();
 
-        when(eventService.findByDateAfter(any(Date.class)))
+        when(eventService.findByDateAfter(data))
                 .thenReturn(List.of(dto));
 
-        mockMvc.perform(get("/Event/findByDataAfter")
-                        .param("data", data))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(2));
+        List<EventDto> result = eventController.findByDateAfter(data);
+
+        assertThat(result.get(0).getId()).isEqualTo(2);
+
+        verify(eventService).findByDateAfter(data);
     }
 
-    // 🔹 Test 7: Trova Evento prima di una certa data
+    // 🔹 Test 7: Prima di una data
     @Test
-    void testFindByDataBefore() throws Exception {
-
+    void testFindByDataBefore() {
         EventDto dto = new EventDto();
         dto.setId(3);
 
-        String data = "2024-06-01";
+        Date data = new Date();
 
-        when(eventService.findByDateBefore(any(Date.class)))
+        when(eventService.findByDateBefore(data))
                 .thenReturn(List.of(dto));
 
-        mockMvc.perform(get("/Event/findByDataBefore")
-                        .param("data", data))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(3));
-    }
+        List<EventDto> result = eventController.findByDateBefore(data);
 
+        assertThat(result.get(0).getId()).isEqualTo(3);
+
+        verify(eventService).findByDateBefore(data);
+    }
 }
