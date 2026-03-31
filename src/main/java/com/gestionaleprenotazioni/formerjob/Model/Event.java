@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -39,9 +40,8 @@ public class Event {
     @JoinColumn(name = "place_id", referencedColumnName = "id", nullable = false)
     private Place place;
 
-    @OneToOne
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = false)
-    private Ticket ticket;
+    @OneToMany(mappedBy = "event")
+    private List<Ticket> tickets;
 
 
 }
