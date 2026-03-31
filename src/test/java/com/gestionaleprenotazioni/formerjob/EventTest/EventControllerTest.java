@@ -1,14 +1,11 @@
 package com.gestionaleprenotazioni.formerjob.EventTest;
 
-import com.gestionaleprenotazioni.formerjob.Controller.EventController;
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(EventController.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class EventControllerTest {
 
@@ -128,7 +124,7 @@ public class EventControllerTest {
         String end = "2024-12-31";
 
         // 3️⃣ Mock service
-        when(eventService.findByDataBetween(any(Date.class), any(Date.class)))
+        when(eventService.findByDateBetween(any(Date.class), any(Date.class)))
                 .thenReturn(List.of(dto));
 
         // 4️⃣ Chiamata
@@ -149,7 +145,7 @@ public class EventControllerTest {
 
         String data = "2024-06-01";
 
-        when(eventService.findByDataAfter(any(Date.class)))
+        when(eventService.findByDateAfter(any(Date.class)))
                 .thenReturn(List.of(dto));
 
         mockMvc.perform(get("/Event/findByDataAfter")
@@ -167,7 +163,7 @@ public class EventControllerTest {
 
         String data = "2024-06-01";
 
-        when(eventService.findByDataBefore(any(Date.class)))
+        when(eventService.findByDateBefore(any(Date.class)))
                 .thenReturn(List.of(dto));
 
         mockMvc.perform(get("/Event/findByDataBefore")
