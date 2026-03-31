@@ -1,63 +1,72 @@
 package com.gestionaleprenotazioni.formerjob.PlaceTest;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.jupiter.api.Test;
-
 import com.gestionaleprenotazioni.formerjob.Controller.PlaceController;
-import com.gestionaleprenotazioni.formerjob.Service.PlaceService;
 import com.gestionaleprenotazioni.formerjob.Dto.PlaceDto;
-
+import com.gestionaleprenotazioni.formerjob.Service.PlaceService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+//CONTROLLATE RAGAZZI SE VA BENE
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.ArrayList;
 
-//test del controller placontroller
-@WebMvcTest(PlaceController.class)
+import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-//disabilita sicurezza se ce Spring Security attiv
-@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
 public class PlaceControllerTest {
 
-    //simula le chiamate HTTP
-    @Autowired
-    private MockMvc mockMvc;
-
-    //mock del service (niente DB)
-    @MockBean
+    @Mock
     private PlaceService placeService;
 
-    @Test
-    public void testGetAllPlaces() throws Exception {
+    @InjectMocks
+    private PlaceController placeController;
 
-        //creo dato finto
+    // cosi dovrei aver fixato fratm
+    @BeforeEach
+    void setup() throws Exception {
+        Field field = placeController.getClass()
+                .getSuperclass()
+                .getDeclaredField("service");
+
+        field.setAccessible(true);
+        field.set(placeController, placeService);
+    }
+
+    @Test
+    public void testGetAllPlacesController() {
         PlaceDto dto = new PlaceDto(1, "A1", false, "STANDARD", null);
 
-        //simulo risposta service
         when(placeService.getAll()).thenReturn(List.of(dto));
 
-        //chiamata GET place
-        mockMvc.perform(get("/Place"))
-                .andExpect(status().isOk());
+        Iterable<PlaceDto> result = placeController.getAll();
+
+        List<PlaceDto> list = new ArrayList<>();
+        result.forEach(list::add);
+
+        assertThat(list).isNotNull();
+        assertThat(list.get(0).getId()).isEqualTo(1);
+
+        verify(placeService, times(1)).getAll();
     }
 
     @Test
-    public void testGetPlaceById() throws Exception {
-
-        //dato finto
+    public void testGetPlaceByIdController() {
         PlaceDto dto = new PlaceDto(1, "A1", false, "STANDARD", null);
 
-        //mock service
         when(placeService.read(1)).thenReturn(dto);
 
-        //chiamata GET place1
-        mockMvc.perform(get("/Place/1"))
-                .andExpect(status().isOk());
+        PlaceDto result = placeController.read(1);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(1);
+
+        verify(placeService, times(1)).read(1);
     }
 }
+
+

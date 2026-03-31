@@ -91,3 +91,4 @@ public class PlaceServiceTest {
         verify(placeRepository, times(1)).findById(1);
     }
 }
+
