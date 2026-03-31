@@ -1,8 +1,5 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
-import com.gestionaleprenotazioni.formerjob.Model.Cart;
-import com.gestionaleprenotazioni.formerjob.Model.Ticket;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +32,8 @@ public class UserDto
 
     private boolean status;
 
-    private List<TicketDto> tickets;
+    private List<Integer> ticketIds;
 
-    private Cart cart;
+    private Integer cartId;
 
 }
