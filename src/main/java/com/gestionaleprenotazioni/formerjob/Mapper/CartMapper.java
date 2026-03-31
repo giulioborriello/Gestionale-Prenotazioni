@@ -34,7 +34,7 @@ public class CartMapper extends AbstractMapper<CartDto, Cart> {
 
         if (entity.getTickets() != null) {
             List<Integer> ticketIds = entity.getTickets().stream()
-                    .map(Ticket::getTicketId)
+                    .map(Ticket::getId)
                     .collect(Collectors.toList());
             dto.setTicketIds(ticketIds);
         }
