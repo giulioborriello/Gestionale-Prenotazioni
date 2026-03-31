@@ -13,31 +13,32 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "User", schema = "formerjob")
 public class User
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //@Column(nullable = false)
+
     private String name;
 
-   // @Column(nullable = false)
+
     private String surname;
 
-   // @Column(nullable = false)
+
     private String email;
 
-   // @Column(nullable = false)
+
     private String password;
 
-   // @Column(nullable = false)
+
     private String taxCode;
 
-    //@Column(nullable = false)
+
     private Date DateOfBirth;
 
-   // @Column(nullable = false)
+
     private Date CreationDate;
 
     private boolean status;

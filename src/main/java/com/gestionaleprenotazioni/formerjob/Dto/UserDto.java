@@ -1,7 +1,5 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +14,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserDto
 {
-    @Id
     private Integer id;
 
     private String name;
