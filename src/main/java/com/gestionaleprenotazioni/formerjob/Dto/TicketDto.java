@@ -17,4 +17,8 @@ public class TicketDto {
     private String surname;
     private Double price;
     private LocalDateTime creationDate;
+    private Integer cartId;
+    private Integer placeId;
+    private Integer userId;
+    private Integer eventId;
 }

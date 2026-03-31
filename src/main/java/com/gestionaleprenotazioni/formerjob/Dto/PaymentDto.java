@@ -14,21 +14,15 @@ public class PaymentDto {
 
     private Integer id;
 
-
     private Integer orderId;
-
 
     private Double amount;
 
-
     private String status;
-
 
     private String method;
 
-
     private String transactionId;
-
 
     private LocalDateTime attemptedAt;
 }
