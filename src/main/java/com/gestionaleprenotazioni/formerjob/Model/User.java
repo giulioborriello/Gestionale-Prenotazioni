@@ -43,4 +43,12 @@ public class User
 
     private boolean status;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private java.util.List<Ticket> tickets;
+
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
+
+
 }
