@@ -2,11 +2,11 @@ package com.gestionaleprenotazioni.formerjob.Model;
 
 import jakarta.persistence.*;
 
-//classe place rappresenta un posto per n evento
+//classe Place rappresenta un posto per un evento
 @Entity
 public class Place {
 
-    //id unic del posto
+    //id unico del posto
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -20,9 +20,9 @@ public class Place {
     //tipo del posto sempre "STANDARD"
     private String type = "STANDARD";
 
-    //evento a cui appartiene il posto
+    //evento a cui appartiene il posto (molti posti possono appartenere a un evento)
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id") //colonna che fa da foreign key verso Event
     private Event event;
 
     //costruttore vuoto
@@ -37,7 +37,7 @@ public class Place {
         this.event = event;
     }
 
-    // gt st
+    //gt st
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
