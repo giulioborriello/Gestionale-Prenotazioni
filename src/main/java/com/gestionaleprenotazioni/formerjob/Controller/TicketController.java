@@ -1,4 +1,77 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
-public class TicketController {
+import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
+import com.gestionaleprenotazioni.formerjob.Model.Cart;
+import com.gestionaleprenotazioni.formerjob.Model.Place;
+import com.gestionaleprenotazioni.formerjob.Model.User;
+import com.gestionaleprenotazioni.formerjob.Service.TicketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RestController
+@RequestMapping("Ticket")
+@CrossOrigin(origins="http://localhost:4200")
+public class TicketController extends AbstractController<TicketDto> {
+
+	@Autowired
+	private TicketService ticketService;
+
+	@GetMapping("/findByNameAndSurname")
+	public List<TicketDto> findTicketByNameAndSurname(@RequestParam("name") String name,
+													  @RequestParam("surname") String surname) {
+		return ticketService.findTicketByNameAndSurname(name, surname);
+	}
+
+	@GetMapping("/findTicketByCreationDate")
+	public List<TicketDto> findTicketByCreationDate(
+			@RequestParam("creationDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime creationDate) {
+		return ticketService.findTicketByCreationDate(creationDate);
+	}
+
+	@GetMapping("/findTicketByUser")
+	public List<TicketDto> findTicketByUser(@ModelAttribute User user) {
+		return ticketService.findTicketByUser(user);
+	}
+
+	@GetMapping("/findTicketByCart")
+	public List<TicketDto> findTicketByCart(@ModelAttribute Cart cart) {
+		return ticketService.findTicketByCart(cart);
+	}
+
+	@GetMapping("/findTicketByPlace")
+	public List<TicketDto> findTicketByPlace(@ModelAttribute Place place) {
+		return ticketService.findTicketByPlace(place);
+	}
+
+	@GetMapping("/findTicketByPriceGreaterThanEqual")
+	public List<TicketDto> findTicketByPriceGreaterThanEqual(@RequestParam("price") Double price) {
+		return ticketService.findTicketByPriceGreaterThanEqual(price);
+	}
+
+	@GetMapping("/findTicketByPriceLessThanEqual")
+	public List<TicketDto> findTicketByPriceLessThanEqual(@RequestParam("price") Double price) {
+		return ticketService.findTicketByPriceLessThanEqual(price);
+	}
+
+	@GetMapping("/findTicketByPriceRange")
+	public List<TicketDto> findTicketByPriceRange(@RequestParam("initialPrice") Double initialPrice,
+												  @RequestParam("endPrice") Double endPrice) {
+		return ticketService.findTicketByPriceRange(initialPrice, endPrice);
+	}
+
+	@GetMapping("/findTicketByDateRange")
+	public List<TicketDto> findTicketByDateRange(
+			@RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+			@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime) {
+		return ticketService.findTicketByDateRange(startTime, endTime);
+	}
 }
