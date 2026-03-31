@@ -40,11 +40,10 @@ public class CartMapper extends AbstractMapper<CartDto, Cart> {
         }
 
 
-        if (entity.getPayments() != null) {
-            List<Integer> paymentIds = entity.getPayments().stream()
-                    .map(Payment::getId)
-                    .collect(Collectors.toList());
-            dto.setPaymentIds(paymentIds);
+
+        if (entity.getPayment() != null) {
+
+            dto.setPaymentId(entity.getPayment().getId());
         }
 
         return dto;

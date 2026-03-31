@@ -29,7 +29,7 @@ public class CartService extends AbstractService<Cart, CartDto> {
 
 
     public List<CartDto> findByPaymentsIsEmpty() {
-        return mapper.toDTOList(cartRepository.findByPaymentsIsEmpty());
+        return mapper.toDTOList(cartRepository.findByPaymentIsNull());
     }
 
 
