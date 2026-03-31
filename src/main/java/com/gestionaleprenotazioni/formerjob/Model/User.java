@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,7 +45,7 @@ public class User
     private boolean status;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private java.util.List<Ticket> tickets;
+    private List<Ticket> tickets;
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
