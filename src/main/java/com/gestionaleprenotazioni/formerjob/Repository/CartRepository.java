@@ -25,9 +25,11 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     // Trova tutti i carrelli con un prezzo totale superiore a una certa cifra
     List<Cart> findByTotalPriceGreaterThan(Double price);
 
-    // Trova i carrelli che non hanno ancora un pagamento (utili per i "carrelli abbandonati")
-    List<Cart> findByPaymentIsNull();
+    // Trova i carrelli che non hanno ancora nessun pagamento associato
+    // era findByPaymentIsNull() — ora il campo è una lista quindi usiamo IsEmpty
+    List<Cart> findByPaymentsIsEmpty();
 
-    // Trova il carrello che contiene un determinato pagamento
-    Optional<Cart> findByPaymentId(Integer paymentId);
+    // Trova i carrelli che contengono un pagamento con un certo ID
+    // era findByPaymentId() — ora payments è una lista
+    List<Cart> findByPaymentsId(Integer paymentId);
 }
