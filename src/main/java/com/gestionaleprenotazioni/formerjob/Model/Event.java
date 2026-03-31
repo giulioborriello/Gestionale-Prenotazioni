@@ -40,7 +40,8 @@ public class Event {
     private Place place;
 
     @OneToOne
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "ticket_id", referencedColumnName = "ticketId", nullable = false)
     private Ticket ticket;
+
 
 }
