@@ -1,5 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
+import com.gestionaleprenotazioni.formerjob.Model.Place;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,4 +22,6 @@ public class EventDto {
     private String location; // luogo dell'evento
     private Date date; // data dell'evento
     private Type type; // tipologia di evento
+    private PlaceDto place; // Posto a sedere dell'evento
+    private TicketDto user; // Biglietto collegato all'evento
 }

@@ -24,11 +24,11 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByLocation(String location);
 
     // Metodo che ricerca eventi tra due date
-    List<Event> findByDataBetween(Date startDate, Date endDate);
+    List<Event> findByDateBetween(Date startDate, Date endDate);
 
     // Metodo che ricerca eventi dopo una certa data
-    List<Event> findByDataAfter(Date data);
+    List<Event> findByDateAfter(Date data);
 
     // Metodo che ricerca eventi prima di una certa data
-    List<Event> findByDataBefore(Date data);
+    List<Event> findByDateBefore(Date data);
 }

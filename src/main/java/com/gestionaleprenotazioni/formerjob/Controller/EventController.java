@@ -44,27 +44,27 @@ public class EventController extends AbstractController<EventDto> {
 
     // 🔹 Tra due date
     @GetMapping("/findByDataBetween")
-    public List<EventDto> findByDataBetween(
+    public List<EventDto> findByDateBetween(
             @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
             @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
 
-        return eventService.findByDataBetween(startDate, endDate);
+        return eventService.findByDateBetween(startDate, endDate);
     }
 
     // 🔹 Dopo una data
     @GetMapping("/findByDataAfter")
-    public List<EventDto> findByDataAfter(
+    public List<EventDto> findByDateAfter(
             @RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
 
-        return eventService.findByDataAfter(data);
+        return eventService.findByDateAfter(data);
     }
 
     // 🔹 Prima di una data
     @GetMapping("/findByDataBefore")
-    public List<EventDto> findByDataBefore(
+    public List<EventDto> findByDateBefore(
             @RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
 
-        return eventService.findByDataBefore(data);
+        return eventService.findByDateBefore(data);
     }
 
 }
