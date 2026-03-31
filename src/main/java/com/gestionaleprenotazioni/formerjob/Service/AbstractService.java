@@ -2,6 +2,8 @@ package com.gestionaleprenotazioni.formerjob.Service;
 
 import com.gestionaleprenotazioni.formerjob.Mapper.Mapper;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 public abstract class AbstractService<ENTITY,DTO> implements ServiceDTO<DTO> {
 
@@ -27,7 +29,9 @@ public abstract class AbstractService<ENTITY,DTO> implements ServiceDTO<DTO> {
 
     @Override
     public DTO read(Integer id) {
-        return mapper.toDTO(repository.findById(id).get());
+        ENTITY entity = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource not found with id: " + id));
+        return mapper.toDTO(entity);
     }
 
     @Override
