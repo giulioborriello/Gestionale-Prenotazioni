@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ticketId;
+    private Integer id;
 
     @Column(nullable = false)
     private String name;
