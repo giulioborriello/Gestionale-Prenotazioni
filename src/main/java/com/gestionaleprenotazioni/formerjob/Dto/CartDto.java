@@ -13,15 +13,11 @@ public class CartDto {
 
     private Integer id;
 
-
     private Double totalPrice;
-
 
     private Integer userId;
 
-
-    private List<Integer> paymentIds;
-
+    private Integer paymentId;
 
     private List<Integer> ticketIds;
 }

@@ -30,7 +30,7 @@ public class Payment {
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false)
     private Cart cart;
 }
