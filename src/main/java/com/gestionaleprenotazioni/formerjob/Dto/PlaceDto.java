@@ -1,5 +1,12 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PlaceDto {
 
     private Integer id;
