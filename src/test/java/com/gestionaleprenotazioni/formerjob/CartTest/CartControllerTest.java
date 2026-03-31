@@ -1,29 +1,29 @@
-package com.gestionaleprenotazioni.formerjob.Test;
+package com.gestionaleprenotazioni.formerjob.CartTest;
 
 import com.gestionaleprenotazioni.formerjob.Controller.CartController;
 import com.gestionaleprenotazioni.formerjob.Dto.CartDto;
 import com.gestionaleprenotazioni.formerjob.Service.CartService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(CartController.class)
-class CartControllerTest {
+@ExtendWith(MockitoExtension.class)
+public class CartControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private CartService cartService;
+
+    @InjectMocks
+    private CartController cartController;
 
     private CartDto createCartDto() {
         CartDto dto = new CartDto();
@@ -34,38 +34,28 @@ class CartControllerTest {
     }
 
     @Test
-    @WithMockUser
-    void testFindAll() throws Exception {
+    void testGetCartDetails() {
         CartDto dto = createCartDto();
-        // findAll() viene ereditato da AbstractService
-        when(cartService.findAll()).thenReturn(List.of(dto));
+        // getCartDetails() chiama cartService.read() internamente
+        when(cartService.read(1)).thenReturn(dto);
 
-        mockMvc.perform(get("/Cart/findAll")) // Assicurati che l'URL nel Controller sia /Cart/findAll
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1));
+        ResponseEntity<CartDto> result = cartController.getCartDetails(1);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getBody().getId()).isEqualTo(1);
+        verify(cartService).read(1);
     }
 
     @Test
-    @WithMockUser
-    void testFindById() throws Exception {
+    void testGetCartByUserId() {
         CartDto dto = createCartDto();
-        // findById() viene ereditato da AbstractService
-        when(cartService.findById(1)).thenReturn(dto);
-
-        mockMvc.perform(get("/Cart/findById/1")) // Assicurati che l'URL nel Controller sia /Cart/findById/{id}
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
-    }
-
-    @Test
-    @WithMockUser
-    void testFindByUserId() throws Exception {
-        CartDto dto = createCartDto();
-        // Questo è il metodo specifico che hai scritto tu nel CartService!
+        // getCartByUserId() chiama cartService.findByUserId() internamente
         when(cartService.findByUserId(1)).thenReturn(dto);
 
-        mockMvc.perform(get("/Cart/findByUserId/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
+        ResponseEntity<CartDto> result = cartController.getCartByUserId(1);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getBody().getId()).isEqualTo(1);
+        verify(cartService).findByUserId(1);
     }
 }
