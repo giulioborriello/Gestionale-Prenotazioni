@@ -1,4 +1,4 @@
-package PlaceTest;
+package com.gestionaleprenotazioni.formerjob.PlaceTest;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

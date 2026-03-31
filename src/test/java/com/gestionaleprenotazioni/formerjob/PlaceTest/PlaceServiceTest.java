@@ -1,4 +1,4 @@
-package PlaceTest;
+package com.gestionaleprenotazioni.formerjob.PlaceTest;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
