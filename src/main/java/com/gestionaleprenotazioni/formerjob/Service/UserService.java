@@ -23,38 +23,32 @@ public class UserService extends AbstractService<User,UserDto>
 
     public UserDto findByName(String name)
     {
-        UserDto userDto = userMapper.toDTO(userRepository.findByName(name));
-        return userDto;
+        return userMapper.toDTO(userRepository.findByName(name));
     }
 
     public UserDto findBySurname(String surname)
     {
-        UserDto userDto = userMapper.toDTO(userRepository.findBySurname(surname));
-        return userDto;
+        return userMapper.toDTO(userRepository.findBySurname(surname));
     }
 
     public UserDto findByEmail(String email)
     {
-        UserDto userDto = userMapper.toDTO(userRepository.findByEmail(email));
-        return userDto;
+        return userMapper.toDTO(userRepository.findByEmail(email));
     }
 
     public UserDto findByTaxCode(String taxCode)
     {
-        UserDto userDto = userMapper.toDTO(userRepository.findByTaxCode(taxCode));
-        return userDto;
+        return userMapper.toDTO(userRepository.findByTaxCode(taxCode));
     }
 
     public UserDto findByNameAndSurname(String name, String surname)
     {
-        UserDto userDto = userMapper.toDTO(userRepository.findByNameAndSurname(name, surname));
-        return userDto;
+        return userMapper.toDTO(userRepository.findByNameAndSurname(name, surname));
     }
 
     public UserDto findBySurnameAndEmail(String surname,String email)
     {
-        UserDto userDto = userMapper.toDTO(userRepository.findBySurnameAndEmail(surname,email));
-        return userDto;
+        return userMapper.toDTO(userRepository.findBySurnameAndEmail(surname,email));
     }
 
 
