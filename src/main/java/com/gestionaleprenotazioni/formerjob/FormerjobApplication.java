@@ -10,4 +10,5 @@ public class FormerjobApplication {
 		SpringApplication.run(FormerjobApplication.class, args);
 	}
 
+
 }
