@@ -19,25 +19,25 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String surname;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String taxCode;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private Date DateOfBirth;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private Date CreationDate;
 
     private boolean status;
