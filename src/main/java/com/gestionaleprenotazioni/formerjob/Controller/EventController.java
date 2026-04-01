@@ -67,4 +67,28 @@ public class EventController extends AbstractController<EventDto> {
         return eventService.findByDateBefore(data);
     }
 
+    // 🔹 Per location
+    @GetMapping("/findBySelledTickets")
+    public List<EventDto> findBySelledTickets(@RequestParam("selledTickets") Integer selledTickets) {
+        return eventService.findBySelledTickets(selledTickets);
+    }
+
+    // 🔹 Per location
+    @GetMapping("/findBySelledTickets")
+    public List<EventDto> findBySelledTicketsLessThan(@RequestParam("selledTickets") Integer selledTickets) {
+        return eventService.findBySelledTicketsLessThan(selledTickets);
+    }
+
+    // 🔹 Per location
+    @GetMapping("/findBySelledTickets")
+    public List<EventDto> findBySelledTicketsGreaterThan(@RequestParam("selledTickets") Integer selledTickets) {
+        return eventService.findBySelledTicketsGreaterThan(selledTickets);
+    }
+
+    // 🔹 Per location
+    @GetMapping("/findBySelledTickets")
+    public List<EventDto> findByTicketPrice(@RequestParam("selledTickets") Double ticketPrice) {
+        return eventService.findByTicketPrice(ticketPrice);
+    }
+
 }
