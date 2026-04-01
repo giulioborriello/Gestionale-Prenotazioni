@@ -34,10 +34,11 @@ public class PlaceServiceTest {
     public void testGetAllPlacesService() {
         Place place = new Place();
         place.setId(1);
+        place.setNome("Posto A1");
         place.setCode("A1");
         place.setStatus(false);
 
-        PlaceDto dto = new PlaceDto(1, "A1", false, "STANDARD", null);
+        PlaceDto dto = new PlaceDto(1, "Posto A1", "A1", false, "STANDARD", null);
 
         when(placeRepository.findAll()).thenReturn(List.of(place));
         when(placeMapper.toDTOList(List.of(place))).thenReturn(List.of(dto));
@@ -59,10 +60,11 @@ public class PlaceServiceTest {
     public void testGetPlaceByIdService() {
         Place place = new Place();
         place.setId(1);
+        place.setNome("Posto A1");
         place.setCode("A1");
         place.setStatus(false);
 
-        PlaceDto dto = new PlaceDto(1, "A1", false, "STANDARD", null);
+        PlaceDto dto = new PlaceDto(1, "Posto A1", "A1", false, "STANDARD", null);
 
         when(placeRepository.findById(1)).thenReturn(Optional.of(place));
         when(placeMapper.toDTO(place)).thenReturn(dto);

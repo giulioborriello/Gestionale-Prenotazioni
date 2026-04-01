@@ -6,6 +6,8 @@ import com.gestionaleprenotazioni.formerjob.Model.Place;
 import com.gestionaleprenotazioni.formerjob.Repository.PlaceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 //service per gestire la logica dei posti
 @Service
 public class PlaceService extends AbstractService<Place, PlaceDto> {
@@ -23,5 +25,7 @@ public class PlaceService extends AbstractService<Place, PlaceDto> {
         this.placeMapper = placeMapper;
     }
 
-    //se aggiungo i metodi personalizz. confrontarmi con il team
+    public List<PlaceDto> findByNome(String nome) {
+        return placeMapper.toDTOList(placeRepository.findByNome(nome));
+    }
 }

@@ -39,7 +39,7 @@ public class PlaceControllerTest {
 
     @Test
     public void testGetAllPlacesController() {
-        PlaceDto dto = new PlaceDto(1, "A1", false, "STANDARD", null);
+        PlaceDto dto = new PlaceDto(1, "Posto A1", "A1", false, "STANDARD", null);
 
         when(placeService.getAll()).thenReturn(List.of(dto));
 
@@ -56,7 +56,7 @@ public class PlaceControllerTest {
 
     @Test
     public void testGetPlaceByIdController() {
-        PlaceDto dto = new PlaceDto(1, "A1", false, "STANDARD", null);
+        PlaceDto dto = new PlaceDto(1, "Posto A1", "A1", false, "STANDARD", null);
 
         when(placeService.read(1)).thenReturn(dto);
 
