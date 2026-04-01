@@ -31,4 +31,16 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     // Metodo che ricerca eventi prima di una certa data
     List<Event> findByDateBefore(Date data);
+
+    // Metodo che ricerca eventi per numero di biglietti venduti
+    List<Event> findBySelledTickets(Integer selledTickets);
+
+    // Metodo che ricerca eventi con meno di X biglietti venduti
+    List<Event> findBySelledTicketsLessThan(Integer selledTickets);
+
+    // Metodo che ricerca eventi con più di X biglietti venduti
+    List<Event> findBySelledTicketsGreaterThan(Integer selledTickets);
+
+    // Metodo che ricerca eventi per il costo del biglietto
+    List<Event> findByTicketPrice(Double ticketPrice);
 }

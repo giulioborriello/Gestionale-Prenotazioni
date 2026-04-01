@@ -55,8 +55,27 @@ public class EventService extends AbstractService<Event, EventDto> {
 
     // 🔹 Metodo per trovare l'evento per nome
     public List<EventDto> findByDateBefore(Date data) {
-        return eventMapper.toDTOList(eventRepository.findByDateBefore(data));
+        return eventMapper.toDTOList(eventRepository.findByDateAfter(data));
     }
 
+    // 🔹 Metodo per trovare l'evento per per numero di biglietti venduti
+    public List<EventDto> findBySelledTickets(Integer selledTickets) {
+        return eventMapper.toDTOList(eventRepository.findBySelledTickets(selledTickets));
+    }
+
+    // 🔹 Metodo per trovare l'evento con meno di X biglietti venduti
+    public List<EventDto> findBySelledTicketsLessThan(Integer selledTickets) {
+        return eventMapper.toDTOList(eventRepository.findBySelledTicketsLessThan(selledTickets));
+    }
+
+    // 🔹 Metodo per trovare l'evento con più di X biglietti venduti
+    public List<EventDto> findBySelledTicketsGreaterThan(Integer selledTickets) {
+        return eventMapper.toDTOList(eventRepository.findBySelledTicketsGreaterThan(selledTickets));
+    }
+
+    // 🔹 Metodo per trovare l'evento per il costo del biglietto
+    public List<EventDto> findByTicketPrice(Double ticketPrice) {
+        return eventMapper.toDTOList(eventRepository.findByTicketPrice(ticketPrice));
+    }
 
 }
