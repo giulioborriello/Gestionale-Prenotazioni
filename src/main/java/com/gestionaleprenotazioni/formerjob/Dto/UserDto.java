@@ -1,5 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
+import com.gestionaleprenotazioni.formerjob.Model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +36,7 @@ public class UserDto
     private List<Integer> ticketIds;
 
     private Integer cartId;
+
+    private Role role;
 
 }
