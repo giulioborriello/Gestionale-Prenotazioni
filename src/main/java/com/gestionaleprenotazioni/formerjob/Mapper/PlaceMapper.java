@@ -2,7 +2,6 @@ package com.gestionaleprenotazioni.formerjob.Mapper;
 
 import com.gestionaleprenotazioni.formerjob.Dto.PlaceDto;
 import com.gestionaleprenotazioni.formerjob.Model.Place;
-import com.gestionaleprenotazioni.formerjob.Model.Event;
 import org.springframework.stereotype.Component;
 
 //mapper per convertire placemodel in placedto
@@ -16,8 +15,10 @@ public class PlaceMapper extends AbstractMapper<PlaceDto, Place> {
 
         Place place = new Place();
         place.setId(dto.getId());
+        place.setNome(dto.getNome());
         place.setCode(dto.getCode());
         place.setStatus(dto.isStatus());
+        place.setType(dto.getType());
 
         //event viene collegato nel controller e service
         return place;
@@ -33,6 +34,7 @@ public class PlaceMapper extends AbstractMapper<PlaceDto, Place> {
 
         return new PlaceDto(
                 place.getId(),
+                place.getNome(),
                 place.getCode(),
                 place.isStatus(),
                 place.getType(),
