@@ -36,11 +36,6 @@ public class UserService extends AbstractService<User,UserDto>
         return userMapper.toDTO(userRepository.findByEmail(email));
     }
 
-    public UserDto findByTaxCode(String taxCode)
-    {
-        return userMapper.toDTO(userRepository.findByTaxCode(taxCode));
-    }
-
     public UserDto findByNameAndSurname(String name, String surname)
     {
         return userMapper.toDTO(userRepository.findByNameAndSurname(name, surname));

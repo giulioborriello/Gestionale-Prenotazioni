@@ -15,9 +15,6 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findTicketByNameAndSurname(String name, String surname);
     List<Ticket> findTicketByCreationDate(LocalDateTime creationDate);
-    List<Ticket> findTicketByUser(User user);
-    List<Ticket> findTicketByCart(Cart cart);
-    List<Ticket> findTicketByPlace(Place place);
     List<Ticket> findTicketByPriceGreaterThanEqual(Double priceIsGreaterThan);
     List<Ticket> findTicketByPriceLessThanEqual(Double priceIsLessThan);
 

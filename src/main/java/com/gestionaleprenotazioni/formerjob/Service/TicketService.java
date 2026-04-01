@@ -116,18 +116,6 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
         return ticketMapper.toDTOList(ticketRepository.findTicketByCreationDate(creationDate));
     }
 
-    public List<TicketDto> findTicketByUser(User user) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByUser(user));
-    }
-
-    public List<TicketDto> findTicketByCart(Cart cart) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByCart(cart));
-    }
-
-    public List<TicketDto> findTicketByPlace(Place place) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByPlace(place));
-    }
-
     public List<TicketDto> findTicketByPriceGreaterThanEqual(Double price) {
         return ticketMapper.toDTOList(ticketRepository.findTicketByPriceGreaterThanEqual(price));
     }

@@ -33,25 +33,7 @@ public class User
 
     private String password;
 
-
-    private String taxCode;
-
-
     private Date DateOfBirth;
-
-
-    private Date CreationDate;
-
-    private boolean status;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Ticket> tickets;
-
-    @OneToOne(mappedBy = "user")
-    private Cart cart;
 
 
 

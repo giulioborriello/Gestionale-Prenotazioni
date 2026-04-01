@@ -34,12 +34,6 @@ public class UserController
         return service.findByEmail(email);
     }
 
-    @GetMapping("/findByTaxCode")
-    public UserDto FindByTaxCode(String taxCode)
-    {
-        return service.findByTaxCode(taxCode);
-    }
-
     @GetMapping("/findByNameAndSurname")
     public UserDto FindByNameAndSurname(String name, String surname)
     {

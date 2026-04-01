@@ -74,22 +74,6 @@ public class UserServiceTest {
     }
 
     @Test
-    void findByTaxCode()
-    {
-        String taxCode = "GNNSPT99H34F839Z";
-
-        User entity = new User();
-        UserDto dto = new UserDto();
-
-        when(userRepository.findByTaxCode(taxCode)).thenReturn(entity);
-        when(userMapper.toDTO(entity)).thenReturn(dto);
-
-        UserDto result = userService.findByTaxCode(taxCode);
-
-        assertThat(result).isEqualTo(dto);
-    }
-
-    @Test
     void findByNameAndSurname()
     {
         User entity = new User();
