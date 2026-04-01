@@ -4,17 +4,17 @@ import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
 import com.gestionaleprenotazioni.formerjob.Dto.PlaceDto;
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
-import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import com.gestionaleprenotazioni.formerjob.Service.EmailService;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
 import com.gestionaleprenotazioni.formerjob.Service.PlaceService;
 import com.gestionaleprenotazioni.formerjob.Service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/email")
@@ -32,29 +32,17 @@ public class EmailController {
         this.userService = userService;
     }
 
-    @GetMapping("/send-test-email")
-    public String sendTestEmail(@RequestParam String to, @RequestParam TicketDto ticketDto) {
-
+    @PostMapping("/send-test-email")
+    public ResponseEntity<Map<String, String>> sendTestEmail(@RequestBody TicketDto ticketDto) {
         PlaceDto placeDto = placeService.read(ticketDto.getPlaceId());
         EventDto eventDto = eventService.read(ticketDto.getEventId());
         UserDto userDto = userService.read(ticketDto.getUserId());
 
-        String subject = "Mail automatica";
-        String body = """
-                Ciao,  da EventIO!
-                Hai Completato l'acquisto del tuo biglietto per l'evento event_name
-                che si terrà il giorno event_date al ticket_placeName.
-                
-                Grazie per aver scelto EventIO, ti aspettiamo all'evento!
-             
-                """.formatted(LocalDateTime.now());
+        String subject = emailService.buildPurchaseConfirmationSubject(eventDto.getName());
+        String body = emailService.buildPurchaseConfirmationBody(userDto, eventDto, placeDto);
 
-        try {
-            emailService.sendSimpleEmail(to, subject, body);
-            return "✅ Email di prova inviata (controlla la inbox Mailtrap)";
-        } catch (Exception e) {
-            // Qui puoi anche loggare l'eccezione con un logger
-            return "❌ Errore durante l'invio: " + e.getMessage();
-        }
+        emailService.sendSimpleEmail(userDto.getEmail(), subject, body);
+
+        return ResponseEntity.ok(Map.of("message", "Email di conferma inviata con successo"));
     }
 }
