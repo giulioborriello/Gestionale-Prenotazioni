@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Place", schema = "formerjob")
 public class Place {
 
@@ -18,6 +19,9 @@ public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    //nome del posto
+    private String nome;
 
     //codice del posto es a1 b2 c3
     private String code;
@@ -33,30 +37,5 @@ public class Place {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    //costruttore vuoto
-    public Place() {}
 
-    //costruttore completo
-    public Place(Integer id, String code, boolean status, Event event) {
-        this.id = id;
-        this.code = code;
-        this.status = status;
-        this.type = "STANDARD";
-        this.event = event;
-    }
-
-    // gt st
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
-    public String getCode() { return code; }
-    public void setCode(String code) { this.code = code; }
-
-    public boolean isStatus() { return status; }
-    public void setStatus(boolean status) { this.status = status; }
-
-    public String getType() { return type; }
-
-    public Event getEvent() { return event; }
-    public void setEvent(Event event) { this.event = event; }
 }

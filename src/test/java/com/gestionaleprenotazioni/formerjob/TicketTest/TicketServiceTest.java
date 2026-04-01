@@ -45,7 +45,7 @@ public class TicketServiceTest {
         fixedDate = LocalDateTime.of(2026, 3, 31, 10, 0);
 
         ticketEntity = new Ticket();
-        ticketEntity.setTicketId(1);
+        ticketEntity.setId(1);
         ticketEntity.setName("Mario");
         ticketEntity.setSurname("Rossi");
         ticketEntity.setPrice(20.0);
