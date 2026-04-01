@@ -1,5 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Dto;
 
+import com.gestionaleprenotazioni.formerjob.Model.PaymentMethod;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,15 +15,11 @@ public class PaymentDto {
 
     private Integer id;
 
-    private Integer orderId;
+    private PaymentMethod method;
 
-    private Double amount;
+    private double totalPrice;
 
-    private String status;
+    private LocalDateTime date;
 
-    private String method;
 
-    private String transactionId;
-
-    private LocalDateTime attemptedAt;
 }

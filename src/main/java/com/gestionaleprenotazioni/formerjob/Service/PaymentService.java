@@ -23,13 +23,6 @@ public class PaymentService extends AbstractService<Payment, PaymentDto> {
         this.paymentRepository = paymentRepository;
     }
 
-
-    public List<PaymentDto> findAllVerifiedByUserId(Integer userId) {
-
-        return mapper.toDTOList(paymentRepository.findAllVerifiedPaymentsByUserId(userId));
-    }
-
-
     public List<PaymentDto> findByMethod(String method) {
         try {
             PaymentMethod m = PaymentMethod.valueOf(method.toUpperCase());

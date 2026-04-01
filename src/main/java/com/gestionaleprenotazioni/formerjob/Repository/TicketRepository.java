@@ -1,7 +1,5 @@
 package com.gestionaleprenotazioni.formerjob.Repository;
 
-import com.gestionaleprenotazioni.formerjob.Model.Cart;
-import com.gestionaleprenotazioni.formerjob.Model.Place;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import com.gestionaleprenotazioni.formerjob.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

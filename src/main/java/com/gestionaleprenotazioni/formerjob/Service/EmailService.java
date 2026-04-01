@@ -1,7 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Service;
 
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
-import com.gestionaleprenotazioni.formerjob.Dto.PlaceDto;
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -30,7 +29,7 @@ public class EmailService {
         return "Conferma acquisto biglietto - " + eventName;
     }
 
-    public String buildPurchaseConfirmationBody(UserDto userDto, EventDto eventDto, PlaceDto placeDto) {
+    public String buildPurchaseConfirmationBody(UserDto userDto, EventDto eventDto) {
         return "Ciao " + userDto.getName() + " " + userDto.getSurname() + ",\n\n"
                 + "grazie per il tuo acquisto su EventIO.\n"
                 + "Il tuo biglietto e stato confermato con i seguenti dettagli:\n\n"

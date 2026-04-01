@@ -22,15 +22,10 @@ public class Payment {
     @Column(nullable = false)
     private PaymentMethod method;
 
-
-    @Column(nullable = false)
-    private Boolean checked;
-
+    private double totalPrice;
 
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id", referencedColumnName = "id", nullable = false)
-    private Cart cart;
+
 }

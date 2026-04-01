@@ -27,5 +27,7 @@ public class UserDto
 
     private Date DateOfBirth;
 
+    private Role role;
+
 
 }

@@ -1,12 +1,10 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
-import com.gestionaleprenotazioni.formerjob.Dto.PlaceDto;
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
 import com.gestionaleprenotazioni.formerjob.Service.EmailService;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
-import com.gestionaleprenotazioni.formerjob.Service.PlaceService;
 import com.gestionaleprenotazioni.formerjob.Service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,14 +19,12 @@ import java.util.Map;
 public class EmailController {
 
     private final EmailService emailService;
-    private final PlaceService placeService;
     private final EventService eventService;
     private final UserService userService;
 
-    public EmailController(EmailService emailService, PlaceService placeService, EventService eventService, UserService userService) {
+    public EmailController(EmailService emailService, EventService eventService, UserService userService) {
         this.emailService = emailService;
         this.eventService = eventService;
-        this.placeService = placeService;
         this.userService = userService;
     }
 

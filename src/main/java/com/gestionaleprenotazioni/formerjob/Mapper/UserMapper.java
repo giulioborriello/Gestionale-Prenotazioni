@@ -22,10 +22,7 @@ public class UserMapper extends AbstractMapper<UserDto, User>
         dto.setSurname(entity.getSurname());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
-        dto.setTaxCode(entity.getTaxCode());
         dto.setDateOfBirth(entity.getDateOfBirth());
-        dto.setCreationDate(entity.getCreationDate());
-        dto.setStatus(entity.isStatus());
         dto.setRole(entity.getRole());
 
         if (entity.getTickets() != null) {
@@ -53,10 +50,7 @@ public class UserMapper extends AbstractMapper<UserDto, User>
         user.setSurname(dto.getSurname());
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
-        user.setTaxCode(dto.getTaxCode());
         user.setDateOfBirth(dto.getDateOfBirth());
-        user.setCreationDate(dto.getCreationDate());
-        user.setStatus(dto.isStatus());
         user.setRole(dto.getRole());
         return user;
     }
