@@ -25,18 +25,7 @@ public class UserDto
 
     private String password;
 
-    private String taxCode;
-
     private Date DateOfBirth;
 
-    private Date CreationDate;
-
-    private boolean status;
-
-    private List<Integer> ticketIds;
-
-    private Integer cartId;
-
-    private Role role;
 
 }

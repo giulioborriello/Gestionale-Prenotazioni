@@ -1,15 +1,11 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
-import com.gestionaleprenotazioni.formerjob.Model.Cart;
-import com.gestionaleprenotazioni.formerjob.Model.Place;
-import com.gestionaleprenotazioni.formerjob.Model.User;
 import com.gestionaleprenotazioni.formerjob.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,21 +31,6 @@ public class TicketController extends AbstractController<TicketDto> {
 	public List<TicketDto> findTicketByCreationDate(
 			@RequestParam("creationDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime creationDate) {
 		return ticketService.findTicketByCreationDate(creationDate);
-	}
-
-	@GetMapping("/findTicketByUser")
-	public List<TicketDto> findTicketByUser(@ModelAttribute User user) {
-		return ticketService.findTicketByUser(user);
-	}
-
-	@GetMapping("/findTicketByCart")
-	public List<TicketDto> findTicketByCart(@ModelAttribute Cart cart) {
-		return ticketService.findTicketByCart(cart);
-	}
-
-	@GetMapping("/findTicketByPlace")
-	public List<TicketDto> findTicketByPlace(@ModelAttribute Place place) {
-		return ticketService.findTicketByPlace(place);
 	}
 
 	@GetMapping("/findTicketByPriceGreaterThanEqual")

@@ -31,20 +31,4 @@ public class Ticket {
     @Column(nullable = false)
     private LocalDateTime creationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
-    @ManyToOne
-    @JoinColumn(name = "place_id")
-    private Place place;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "event_id", referencedColumnName = "id", nullable = false)
-    private Event event;
-
 }

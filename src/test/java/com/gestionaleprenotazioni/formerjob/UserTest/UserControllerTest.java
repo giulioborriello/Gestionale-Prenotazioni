@@ -75,22 +75,6 @@ public class UserControllerTest
     }
 
     @Test
-    void shouldFindByTaxCode() {
-        String taxCode = "GNNESP99A01F839K";
-        UserDto dto = new UserDto();
-        dto.setTaxCode(taxCode);
-
-        when(userService.findByTaxCode(taxCode)).thenReturn(dto);
-        UserDto result = userController.FindByTaxCode(taxCode);
-
-        assertThat(result).isNotNull();
-        assertThat(result.getTaxCode()).isEqualTo(taxCode);
-
-        verify(userService).findByTaxCode(taxCode);
-
-    }
-
-    @Test
     void shouldFindByNameAndSurname()
     {
         String name = "Massimo";
