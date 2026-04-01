@@ -26,6 +26,7 @@ public class UserMapper extends AbstractMapper<UserDto, User>
         dto.setDateOfBirth(entity.getDateOfBirth());
         dto.setCreationDate(entity.getCreationDate());
         dto.setStatus(entity.isStatus());
+        dto.setRole(entity.getRole());
 
         if (entity.getTickets() != null) {
             dto.setTicketIds(entity.getTickets().stream()
@@ -56,6 +57,7 @@ public class UserMapper extends AbstractMapper<UserDto, User>
         user.setDateOfBirth(dto.getDateOfBirth());
         user.setCreationDate(dto.getCreationDate());
         user.setStatus(dto.isStatus());
+        user.setRole(dto.getRole());
         return user;
     }
 }
