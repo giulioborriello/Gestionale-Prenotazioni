@@ -33,12 +33,17 @@ public class Event {
     @Column(nullable=false)
     private Date date; // data dell'evento
 
+    @Column(nullable=false)
+    private Integer maxTickets = 250;
+
+    @Column(nullable=false)
+    private Integer selledTickets = 0;
+
     @Enumerated(EnumType.STRING)
     private Type type; // tipologia di evento
 
-    @OneToOne
-    @JoinColumn(name = "place_id", referencedColumnName = "id", nullable = false)
-    private Place place;
+    @Column(nullable=false)
+    private Double ticketPrice;
 
     @OneToMany(mappedBy = "event")
     private List<Ticket> tickets;
