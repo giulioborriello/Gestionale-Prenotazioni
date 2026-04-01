@@ -13,9 +13,6 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-    // 1. QUERY JPQL: Trova tutti i pagamenti verificati (checked = true) per un utente
-    @Query("SELECT p FROM Payment p WHERE p.cart.user.id = :userId AND p.checked = true")
-    List<Payment> findAllVerifiedPaymentsByUserId(@Param("userId") Integer userId);
 
     // 2. METODI DERIVATI
 
@@ -28,6 +25,4 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     // Trova i pagamenti in base allo stato checked (true/false)
     List<Payment> findByChecked(Boolean checked);
 
-    // Trova il pagamento associato a un ID carrello specifico
-    List<Payment> findByCartId(Integer cartId);
 }

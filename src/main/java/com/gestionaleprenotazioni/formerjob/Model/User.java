@@ -35,6 +35,7 @@ public class User
 
     private Date DateOfBirth;
 
+    private Role role;
 
 
 }
