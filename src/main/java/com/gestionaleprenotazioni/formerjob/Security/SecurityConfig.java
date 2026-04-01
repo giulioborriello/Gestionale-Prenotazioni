@@ -1,6 +1,5 @@
 package com.gestionaleprenotazioni.formerjob.Security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile; //import per @Profile
@@ -17,12 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // BCrypt è l'algoritmo standard per cifrare le password
         return new BCryptPasswordEncoder();
     }
 
@@ -38,6 +33,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // disabilitiamo CSRF per le API REST
                 .authorizeHttpRequests(auth -> auth
+
+                        // endpoint di login pubblico (nessuna autenticazione richiesta)
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 
                         // solo ADMIN può inserire, aggiornare e cancellare
                         .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
