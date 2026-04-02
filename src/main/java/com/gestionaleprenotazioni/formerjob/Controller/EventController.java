@@ -67,27 +67,27 @@ public class EventController extends AbstractController<EventDto> {
         return eventService.findByDateBefore(data);
     }
 
-    // 🔹 Per location
+    // 🔹 Per biglietti venduti uguali a un valore
     @GetMapping("/findBySelledTickets")
     public List<EventDto> findBySelledTickets(@RequestParam("selledTickets") Integer selledTickets) {
         return eventService.findBySelledTickets(selledTickets);
     }
 
-    // 🔹 Per location
-    @GetMapping("/findBySelledTickets")
+    // 🔹 Per biglietti venduti minori di un valore
+    @GetMapping("/findBySelledTicketsLessThan")
     public List<EventDto> findBySelledTicketsLessThan(@RequestParam("selledTickets") Integer selledTickets) {
         return eventService.findBySelledTicketsLessThan(selledTickets);
     }
 
-    // 🔹 Per location
-    @GetMapping("/findBySelledTickets")
+    // 🔹 Per biglietti venduti maggiori di un valore
+    @GetMapping("/findBySelledTicketsGreaterThan")
     public List<EventDto> findBySelledTicketsGreaterThan(@RequestParam("selledTickets") Integer selledTickets) {
         return eventService.findBySelledTicketsGreaterThan(selledTickets);
     }
 
-    // 🔹 Per location
-    @GetMapping("/findBySelledTickets")
-    public List<EventDto> findByTicketPrice(@RequestParam("selledTickets") Double ticketPrice) {
+    // 🔹 Per prezzo biglietto
+    @GetMapping("/findByTicketPrice")
+    public List<EventDto> findByTicketPrice(@RequestParam("ticketPrice") Double ticketPrice) {
         return eventService.findByTicketPrice(ticketPrice);
     }
 
