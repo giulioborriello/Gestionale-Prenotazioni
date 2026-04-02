@@ -13,10 +13,10 @@ TRUNCATE TABLE formerjob."user" RESTART IDENTITY CASCADE;
 -- NOTE: role non e` annotato con @Enumerated in Model.User, quindi viene salvato come ORDINAL
 -- ADMIN = 0, USER = 1
 INSERT INTO formerjob."user" (name, surname, email, password, date_of_birth, role) VALUES
-                                                                                         ('Filippo','Rossi','filippo.rossi01@mail.com','pwd001','1980-01-01', 0),
-                                                                                         ('Giacomo','Bianchi','giacomo.bianchi02@mail.com','pwd002','1981-02-15', 1),
-                                                                                         ('Martina','Verdi','martina.verdi03@mail.com','pwd003','1982-03-20', 1),
-                                                                                         ('Laura','Conti','laura.conti04@mail.com','pwd004','1983-04-25', 1),
+                                                                                         ('Mario','Merola','merola.mario01@mail.com','pwd001','1980-01-01', 0),
+                                                                                         ('Giacomo','Merola','giacomo.bianchi02@mail.com','pwd002','1981-02-15', 1),
+                                                                                         ('Martina','Smeraldi','martina.verdi03@mail.com','pwd003','1982-03-20', 1),
+                                                                                         ('Silvio','Berlusconi','laura.conti04@mail.com','pwd004','1983-04-25', 1),
                                                                                          ('Luca','De Santis','luca.desantis05@mail.com','pwd005','1984-05-30', 1),
                                                                                          ('Francesca','Galli','francesca.galli06@mail.com','pwd006','1985-06-10', 1),
                                                                                          ('Andrea','Moretti','andrea.moretti07@mail.com','pwd007','1986-07-15', 1),

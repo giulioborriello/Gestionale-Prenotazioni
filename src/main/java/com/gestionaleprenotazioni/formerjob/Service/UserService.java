@@ -8,6 +8,8 @@ import com.gestionaleprenotazioni.formerjob.Repository.UserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService extends AbstractService<User,UserDto>
 {
@@ -21,14 +23,14 @@ public class UserService extends AbstractService<User,UserDto>
         this.userRepository = userRepository;
     }
 
-    public UserDto findByName(String name)
+    public List<UserDto> findByName(String name)
     {
-        return userMapper.toDTO(userRepository.findByName(name));
+        return userMapper.toDTOList(userRepository.findByName(name));
     }
 
-    public UserDto findBySurname(String surname)
+    public List<UserDto> findBySurname(String surname)
     {
-        return userMapper.toDTO(userRepository.findBySurname(surname));
+        return userMapper.toDTOList(userRepository.findBySurname(surname));
     }
 
     public UserDto findByEmail(String email)
@@ -36,9 +38,9 @@ public class UserService extends AbstractService<User,UserDto>
         return userMapper.toDTO(userRepository.findByEmail(email));
     }
 
-    public UserDto findByNameAndSurname(String name, String surname)
+    public List<UserDto> findByNameAndSurname(String name, String surname)
     {
-        return userMapper.toDTO(userRepository.findByNameAndSurname(name, surname));
+        return userMapper.toDTOList(userRepository.findByNameAndSurname(name, surname));
     }
 
     public UserDto findBySurnameAndEmail(String surname,String email)

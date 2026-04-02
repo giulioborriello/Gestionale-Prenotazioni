@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,12 +32,12 @@ public class UserControllerTest
         UserDto dto = new UserDto();
         dto.setName(name);
 
-        when(userService.findByName(name)).thenReturn(dto);
+        when(userService.findByName(name)).thenReturn(List.of(dto));
 
-        UserDto result = userController.FindByName(name);
+        List<UserDto> result = userController.findByName(name);
 
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo(name);
+        assertThat(result.get(0).getName()).isEqualTo(name);
 
         verify(userService).findByName(name);
     }
@@ -47,12 +49,12 @@ public class UserControllerTest
         UserDto dto = new UserDto();
         dto.setSurname(surname);
 
-        when(userService.findBySurname(surname)).thenReturn(dto);
+        when(userService.findBySurname(surname)).thenReturn(List.of(dto));
 
-        UserDto result = userController.FindBySurname(surname);
+        List<UserDto> result = userController.FindBySurname(surname);
 
         assertThat(result).isNotNull();
-        assertThat(result.getSurname()).isEqualTo(surname);
+        assertThat(result.get(0).getSurname()).isEqualTo(surname);
 
         verify(userService).findBySurname(surname);
     }
@@ -83,12 +85,12 @@ public class UserControllerTest
         dto.setName(name);
         dto.setSurname(surname);
 
-        when(userService.findByNameAndSurname(name, surname)).thenReturn(dto);
-        UserDto result = userController.FindByNameAndSurname(name, surname);
+        when(userService.findByNameAndSurname(name, surname)).thenReturn(List.of(dto));
+        List<UserDto> result = userController.FindByNameAndSurname(name, surname);
 
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo(name);
-        assertThat(result.getSurname()).isEqualTo(surname);
+        assertThat(result.get(0).getName()).isEqualTo(name);
+        assertThat(result.get(0).getSurname()).isEqualTo(surname);
 
         verify(userService).findByNameAndSurname(name, surname);
     }
