@@ -27,7 +27,7 @@ public class EventService extends AbstractService<Event, EventDto> {
         this.eventRepository = eventRepository;
     }
 
-    private Event buildEventFromDto(EventDto dto) {
+    public Event buildEventFromDto(EventDto dto) {
         if (dto == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event is required");
         }
