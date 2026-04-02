@@ -36,7 +36,6 @@ public class PaymentServiceTest {
     private Payment createPayment() {
         Payment payment = new Payment();
         payment.setId(1);
-        payment.setChecked(true);
         payment.setMethod(PaymentMethod.PAYPAL);
         payment.setDate(LocalDateTime.of(2024, 1, 15, 10, 30));
         return payment;
@@ -46,12 +45,9 @@ public class PaymentServiceTest {
     private PaymentDto createPaymentDto() {
         PaymentDto dto = new PaymentDto();
         dto.setId(1);
-        dto.setOrderId(10);
-        dto.setAmount(99.99);
-        dto.setStatus("COMPLETED");
-        dto.setMethod("PAYPAL");
-        dto.setTransactionId("TXN-001");
-        dto.setAttemptedAt(LocalDateTime.of(2024, 1, 15, 10, 30));
+        dto.setMethod(PaymentMethod.PAYPAL);
+        dto.setTotalPrice(99.99);
+        dto.setDate(LocalDateTime.of(2024, 1, 15, 10, 30));
         return dto;
     }
 
@@ -134,23 +130,6 @@ public class PaymentServiceTest {
     }
 
     @Test
-    void testFindAllVerifiedByUserId() {
-        Payment payment = createPayment();
-        PaymentDto dto = createPaymentDto();
-
-        // metodo JPQL specifico di PaymentService
-        when(paymentRepository.findAllVerifiedPaymentsByUserId(1)).thenReturn(List.of(payment));
-        when(paymentMapper.toDTOList(List.of(payment))).thenReturn(List.of(dto));
-
-        List<PaymentDto> result = paymentService.findAllVerifiedByUserId(1);
-
-        assertThat(result).isNotNull();
-        assertThat(result.get(0).getId()).isEqualTo(1);
-        verify(paymentRepository).findAllVerifiedPaymentsByUserId(1);
-        verify(paymentMapper).toDTOList(List.of(payment));
-    }
-
-    @Test
     void testFindByMethod() {
         Payment payment = createPayment();
         PaymentDto dto = createPaymentDto();
@@ -162,7 +141,7 @@ public class PaymentServiceTest {
         List<PaymentDto> result = paymentService.findByMethod("PAYPAL");
 
         assertThat(result).isNotNull();
-        assertThat(result.get(0).getMethod()).isEqualTo("PAYPAL");
+        assertThat(result.get(0).getMethod()).isEqualTo(PaymentMethod.PAYPAL);
         verify(paymentRepository).findByMethod(PaymentMethod.PAYPAL);
         verify(paymentMapper).toDTOList(List.of(payment));
     }
@@ -180,19 +159,19 @@ public class PaymentServiceTest {
     }
 
     @Test
-    void testFindByChecked() {
+    void testFindByUserId() {
         Payment payment = createPayment();
         PaymentDto dto = createPaymentDto();
 
-        // metodo derivato per stato checked
-        when(paymentRepository.findByChecked(true)).thenReturn(List.of(payment));
+        // metodo derivato per ricercare pagamenti per ID utente
+        when(paymentRepository.findByUser_Id(1)).thenReturn(List.of(payment));
         when(paymentMapper.toDTOList(List.of(payment))).thenReturn(List.of(dto));
 
-        List<PaymentDto> result = paymentService.findByChecked(true);
+        List<PaymentDto> result = paymentService.findByUserId(1);
 
         assertThat(result).isNotNull();
-        assertThat(result.get(0).getStatus()).isEqualTo("COMPLETED");
-        verify(paymentRepository).findByChecked(true);
+        assertThat(result.get(0).getId()).isEqualTo(1);
+        verify(paymentRepository).findByUser_Id(1);
         verify(paymentMapper).toDTOList(List.of(payment));
     }
 }

@@ -99,9 +99,9 @@ public class EventService extends AbstractService<Event, EventDto> {
         return eventMapper.toDTOList(eventRepository.findByDateAfter(data));
     }
 
-    // 🔹 Metodo per trovare l'evento per nome
+    // 🔹 Metodo per trovare l'evento prima di una certa data
     public List<EventDto> findByDateBefore(Date data) {
-        return eventMapper.toDTOList(eventRepository.findByDateAfter(data));
+        return eventMapper.toDTOList(eventRepository.findByDateBefore(data));
     }
 
     // 🔹 Metodo per trovare l'evento per per numero di biglietti venduti
