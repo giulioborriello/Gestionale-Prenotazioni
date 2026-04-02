@@ -45,11 +45,4 @@ public class UserController
     {
         return service.findBySurnameAndEmail(surname,email);
     }
-
-
-
-
-
-
-
 }

@@ -30,12 +30,11 @@ public class EmailController {
 
     @PostMapping("/send-test-email")
     public ResponseEntity<Map<String, String>> sendTestEmail(@RequestBody TicketDto ticketDto) {
-        PlaceDto placeDto = placeService.read(ticketDto.getPlaceId());
         EventDto eventDto = eventService.read(ticketDto.getEventId());
         UserDto userDto = userService.read(ticketDto.getUserId());
 
         String subject = emailService.buildPurchaseConfirmationSubject(eventDto.getName());
-        String body = emailService.buildPurchaseConfirmationBody(userDto, eventDto, placeDto);
+        String body = emailService.buildPurchaseConfirmationBody(userDto, eventDto);
 
         emailService.sendSimpleEmail(userDto.getEmail(), subject, body);
 

@@ -12,8 +12,6 @@ import java.util.List;
 
 @Service
 public class PaymentService extends AbstractService<Payment, PaymentDto> {
-
-
     private final PaymentRepository paymentRepository;
 
     @Autowired

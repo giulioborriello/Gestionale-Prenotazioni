@@ -45,6 +45,4 @@ public class UserService extends AbstractService<User,UserDto>
     {
         return userMapper.toDTO(userRepository.findBySurnameAndEmail(surname,email));
     }
-
-
 }

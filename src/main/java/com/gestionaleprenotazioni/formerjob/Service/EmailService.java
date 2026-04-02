@@ -35,7 +35,7 @@ public class EmailService {
                 + "Il tuo biglietto e stato confermato con i seguenti dettagli:\n\n"
                 + "Evento: " + eventDto.getName() + "\n"
                 + "Data evento: " + formatEventDate(eventDto.getDate()) + "\n"
-                + "Posto: " + placeDto.getNome() + " (codice " + placeDto.getCode() + ")\n\n"
+                + "\n"
                 + "Ti aspettiamo!\n"
                 + "Team EventIO";
     }

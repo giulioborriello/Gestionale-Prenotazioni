@@ -12,8 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-
 @Service
 public class AuthService {
 
@@ -50,19 +48,14 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenziali non valide");
         }
 
-        // 3. Verifica che l'account sia attivo
-        if (!user.isStatus()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Account disabilitato");
-        }
-
-        // 4. Restituisce i dati dell'utente (senza password)
+        // 3. Restituisce i dati dell'utente (senza password)
         return new LoginResponseDto(
                 user.getId(),
                 user.getName(),
                 user.getSurname(),
                 user.getEmail(),
                 user.getRole(),
-                user.isStatus()
+                true
         );
     }
 
@@ -84,10 +77,7 @@ public class AuthService {
         user.setSurname(request.getSurname());
         user.setEmail(request.getEmail());
         user.setPassword(encodedPassword);
-        user.setTaxCode(request.getTaxCode());
         user.setDateOfBirth(request.getDateOfBirth());
-        user.setCreationDate(new Date());
-        user.setStatus(true);
         user.setRole(Role.USER); // ruolo di default per nuovi utenti
 
         // 4. Salva nel database
@@ -100,7 +90,7 @@ public class AuthService {
                 saved.getSurname(),
                 saved.getEmail(),
                 saved.getRole(),
-                saved.isStatus()
+                true
         );
     }
 }

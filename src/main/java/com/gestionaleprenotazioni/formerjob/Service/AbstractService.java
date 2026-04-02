@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 public abstract class AbstractService<ENTITY,DTO> implements ServiceDTO<DTO> {
-
-
     protected JpaRepository<ENTITY,Integer> repository;
     protected Mapper<DTO,ENTITY> mapper;
 
