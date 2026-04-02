@@ -33,8 +33,8 @@ public class PaymentController extends AbstractController<PaymentDto> {
     }
 
 
-    @GetMapping("/status/{checked}")
-    public ResponseEntity<List<PaymentDto>> getByStatus(@PathVariable Boolean checked) {
-        return ResponseEntity.ok(paymentService.findByChecked(checked));
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<PaymentDto>> getByUserId(@PathVariable Integer userId) {
+        return ResponseEntity.ok(paymentService.findByUserId(userId));
     }
 }

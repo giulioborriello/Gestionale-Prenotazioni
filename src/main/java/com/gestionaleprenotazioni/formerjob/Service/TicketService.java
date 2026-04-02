@@ -64,13 +64,6 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
 
         Ticket ticket = ticketMapper.toEntity(dto);
         ticket.setEvent(resolveEvent(dto.getEventId()));
-
-        if (dto.getCartId() != null) {
-            ticket.setCart(resolveCart(dto.getCartId()));
-        }
-        if (dto.getPlaceId() != null) {
-            ticket.setPlace(resolvePlace(dto.getPlaceId()));
-        }
         if (dto.getUserId() != null) {
             ticket.setUser(resolveUser(dto.getUserId()));
         }

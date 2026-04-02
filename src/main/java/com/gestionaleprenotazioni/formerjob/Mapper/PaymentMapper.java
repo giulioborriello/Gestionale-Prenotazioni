@@ -2,7 +2,7 @@ package com.gestionaleprenotazioni.formerjob.Mapper;
 
 import com.gestionaleprenotazioni.formerjob.Dto.PaymentDto;
 import com.gestionaleprenotazioni.formerjob.Model.Payment;
-import com.gestionaleprenotazioni.formerjob.Model.PaymentMethod;
+import com.gestionaleprenotazioni.formerjob.Model.User;
 import org.springframework.stereotype.Component;
 
 
@@ -15,24 +15,12 @@ public class PaymentMapper extends AbstractMapper<PaymentDto, Payment> {
 
         PaymentDto dto = new PaymentDto();
         dto.setId(entity.getId());
-
-
-        if (entity.getCart() != null) {
-            dto.setAmount(entity.getCart().getTotalPrice());
-            dto.setOrderId(entity.getCart().getId());
-        } else {
-            dto.setAmount(0.0);
+        dto.setMethod(entity.getMethod());
+        dto.setTotalPrice(entity.getTotalPrice());
+        dto.setDate(entity.getDate());
+        if (entity.getUser() != null) {
+            dto.setUserId(entity.getUser().getId());
         }
-
-
-        dto.setStatus(entity.getChecked() != null && entity.getChecked() ? "COMPLETED" : "PENDING");
-
-
-        if (entity.getMethod() != null) {
-            dto.setMethod(entity.getMethod().name());
-        }
-
-        dto.setAttemptedAt(entity.getDate());
 
         return dto;
     }
@@ -44,20 +32,13 @@ public class PaymentMapper extends AbstractMapper<PaymentDto, Payment> {
         Payment entity = new Payment();
         entity.setId(dto.getId());
 
-
-        if (dto.getStatus() != null) {
-            entity.setChecked(dto.getStatus().equalsIgnoreCase("COMPLETED"));
-        }
-
-        entity.setDate(dto.getAttemptedAt());
-
-
-        if (dto.getMethod() != null) {
-            try {
-                entity.setMethod(PaymentMethod.valueOf(dto.getMethod().toUpperCase()));
-            } catch (IllegalArgumentException e) {
-
-            }
+        entity.setMethod(dto.getMethod());
+        entity.setTotalPrice(dto.getTotalPrice());
+        entity.setDate(dto.getDate());
+        if (dto.getUserId() != null) {
+            User user = new User();
+            user.setId(dto.getUserId());
+            entity.setUser(user);
         }
 
         return entity;

@@ -16,18 +16,12 @@ import java.util.List;
 public class UserDto
 {
     private Integer id;
-
     private String name;
-
     private String surname;
-
     private String email;
-
     private String password;
-
     private Date DateOfBirth;
-
     private Role role;
-
-
+    private List<Integer> ticketIds;
+    private List<Integer> paymentIds;
 }

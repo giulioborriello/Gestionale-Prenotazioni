@@ -1,11 +1,11 @@
 package com.gestionaleprenotazioni.formerjob.Mapper;
 
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
+import com.gestionaleprenotazioni.formerjob.Model.Payment;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import com.gestionaleprenotazioni.formerjob.Model.User;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapper extends AbstractMapper<UserDto, User>
@@ -28,11 +28,13 @@ public class UserMapper extends AbstractMapper<UserDto, User>
         if (entity.getTickets() != null) {
             dto.setTicketIds(entity.getTickets().stream()
                     .map(Ticket::getId)
-                    .collect(Collectors.toList()));
+                    .toList());
         }
 
-        if (entity.getCart() != null) {
-            dto.setCartId(entity.getCart().getId());
+        if (entity.getPayments() != null) {
+            dto.setPaymentIds(entity.getPayments().stream()
+                    .map(Payment::getId)
+                    .toList());
         }
 
         return dto;

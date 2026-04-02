@@ -11,15 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDto {
-
-
     private Integer id;
-
     private PaymentMethod method;
-
     private double totalPrice;
-
     private LocalDateTime date;
-
-
+    private Integer userId;
 }

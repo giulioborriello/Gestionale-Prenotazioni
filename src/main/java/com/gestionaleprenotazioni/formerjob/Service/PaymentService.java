@@ -34,8 +34,7 @@ public class PaymentService extends AbstractService<Payment, PaymentDto> {
     }
 
 
-    public List<PaymentDto> findByChecked(Boolean checked) {
-
-        return mapper.toDTOList(paymentRepository.findByChecked(checked));
+    public List<PaymentDto> findByUserId(Integer userId) {
+        return mapper.toDTOList(paymentRepository.findByUser_Id(userId));
     }
 }

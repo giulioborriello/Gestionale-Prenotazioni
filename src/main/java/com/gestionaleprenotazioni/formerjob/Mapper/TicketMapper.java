@@ -1,7 +1,9 @@
 package com.gestionaleprenotazioni.formerjob.Mapper;
 
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
+import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
+import com.gestionaleprenotazioni.formerjob.Model.User;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +21,19 @@ public class TicketMapper extends AbstractMapper<TicketDto, Ticket> {
         ticket.setSurname(ticketDto.getSurname());
         ticket.setPrice(ticketDto.getPrice());
         ticket.setCreationDate(ticketDto.getCreationDate());
+
+        if (ticketDto.getUserId() != null) {
+            User user = new User();
+            user.setId(ticketDto.getUserId());
+            ticket.setUser(user);
+        }
+
+        if (ticketDto.getEventId() != null) {
+            Event event = new Event();
+            event.setId(ticketDto.getEventId());
+            ticket.setEvent(event);
+        }
+
         return ticket;
     }
 
@@ -35,12 +50,6 @@ public class TicketMapper extends AbstractMapper<TicketDto, Ticket> {
         dto.setPrice(ticket.getPrice());
         dto.setCreationDate(ticket.getCreationDate());
 
-        if (ticket.getCart() != null) {
-            dto.setCartId(ticket.getCart().getId());
-        }
-        if (ticket.getPlace() != null) {
-            dto.setPlaceId(ticket.getPlace().getId());
-        }
         if (ticket.getUser() != null) {
             dto.setUserId(ticket.getUser().getId());
         }
