@@ -1,6 +1,7 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
+import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class EventController extends AbstractController<EventDto> {
 
     @Autowired
     private EventService eventService;
+
+    @PostMapping("/buildEventFromDto")
+    public Event buildEventFromDto(@RequestBody EventDto dto) {
+        return eventService.buildEventFromDto(dto);
+    }
 
     // 🔹 Per nome
     @GetMapping("/findByName")
