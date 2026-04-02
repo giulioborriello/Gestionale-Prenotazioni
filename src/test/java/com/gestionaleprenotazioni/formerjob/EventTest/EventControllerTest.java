@@ -150,4 +150,83 @@ public class EventControllerTest {
 
         verify(eventService).findByDateBefore(data);
     }
+
+    // 🔹 Test 8: Trova eventi con biglietti venduti uguali
+    @Test
+    void testFindBySelledTickets() {
+        Integer selledTickets = 50;
+
+        EventDto dto = new EventDto();
+        dto.setSelledTickets(selledTickets);
+
+        when(eventService.findBySelledTickets(selledTickets))
+                .thenReturn(List.of(dto));
+
+        List<EventDto> result = eventController.findBySelledTickets(selledTickets);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getSelledTickets()).isEqualTo(selledTickets);
+
+        verify(eventService).findBySelledTickets(selledTickets);
+    }
+
+
+    // 🔹 Test 9: Trova eventi con biglietti venduti minori di un valore
+    @Test
+    void testFindBySelledTicketsLessThan() {
+        Integer limit = 100;
+
+        EventDto dto = new EventDto();
+        dto.setSelledTickets(80);
+
+        when(eventService.findBySelledTicketsLessThan(limit))
+                .thenReturn(List.of(dto));
+
+        List<EventDto> result = eventController.findBySelledTicketsLessThan(limit);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getSelledTickets()).isLessThan(limit);
+
+        verify(eventService).findBySelledTicketsLessThan(limit);
+    }
+
+
+    // 🔹 Test 10: Trova eventi con biglietti venduti maggiori di un valore
+    @Test
+    void testFindBySelledTicketsGreaterThan() {
+        Integer limit = 30;
+
+        EventDto dto = new EventDto();
+        dto.setSelledTickets(60);
+
+        when(eventService.findBySelledTicketsGreaterThan(limit))
+                .thenReturn(List.of(dto));
+
+        List<EventDto> result = eventController.findBySelledTicketsGreaterThan(limit);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getSelledTickets()).isGreaterThan(limit);
+
+        verify(eventService).findBySelledTicketsGreaterThan(limit);
+    }
+
+
+    // 🔹 Test 11: Trova eventi per prezzo biglietto
+    @Test
+    void testFindByTicketPrice() {
+        Double price = 50.0;
+
+        EventDto dto = new EventDto();
+        dto.setTicketPrice(price);
+
+        when(eventService.findByTicketPrice(price))
+                .thenReturn(List.of(dto));
+
+        List<EventDto> result = eventController.findByTicketPrice(price);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getTicketPrice()).isEqualTo(price);
+
+        verify(eventService).findByTicketPrice(price);
+    }
 }

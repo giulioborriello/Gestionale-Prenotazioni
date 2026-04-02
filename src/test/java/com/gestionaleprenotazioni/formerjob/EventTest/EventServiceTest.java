@@ -138,4 +138,94 @@ class EventServiceTest {
 
         assertEquals(1, result.size());
     }
+
+    // 🔹 Test 8: Trova Evento per biglietti venduti
+    @Test
+    void testFindBySelledTickets() {
+        when(eventRepository.findBySelledTickets(50)).thenReturn(List.of(event));
+        when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
+
+        List<EventDto> result = eventService.findBySelledTickets(50);
+
+        assertEquals(1, result.size());
+        verify(eventRepository).findBySelledTickets(50);
+    }
+
+    // 🔹 Test 9: Trova Evento per biglietti venduti minori di X
+    @Test
+    void testFindBySelledTicketsLessThan() {
+        when(eventRepository.findBySelledTicketsLessThan(100)).thenReturn(List.of(event));
+        when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
+
+        List<EventDto> result = eventService.findBySelledTicketsLessThan(100);
+
+        assertEquals(1, result.size());
+        verify(eventRepository).findBySelledTicketsLessThan(100);
+    }
+
+    // 🔹 Test 10: Trova Evento per biglietti venduti maggiori di X
+    @Test
+    void testFindBySelledTicketsGreaterThan() {
+        when(eventRepository.findBySelledTicketsGreaterThan(30)).thenReturn(List.of(event));
+        when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
+
+        List<EventDto> result = eventService.findBySelledTicketsGreaterThan(30);
+
+        assertEquals(1, result.size());
+        verify(eventRepository).findBySelledTicketsGreaterThan(30);
+    }
+
+    // 🔹 Test 11: Trova Evento per prezzo del biglietto
+    @Test
+    void testFindByTicketPrice() {
+        when(eventRepository.findByTicketPrice(50.0)).thenReturn(List.of(event));
+        when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
+
+        List<EventDto> result = eventService.findByTicketPrice(50.0);
+
+        assertEquals(1, result.size());
+        verify(eventRepository).findByTicketPrice(50.0);
+    }
+
+    // 🔹 Test 12: Creazione evento Ok
+    @Test
+    void testBuildEventFromDto_OK() {
+        eventDto.setTicketPrice(50.0);
+
+        when(eventMapper.toEntity(eventDto)).thenReturn(event);
+
+        Event result = eventService.buildEventFromDto(eventDto);
+
+        assertNotNull(result);
+        assertEquals(250, result.getMaxTickets());
+        assertEquals(0, result.getSelledTickets());
+    }
+
+    // 🔹 Test 13: Creazione evento Dto NULL
+    @Test
+    void testBuildEventFromDto_NullDto() {
+        assertThrows(RuntimeException.class, () -> {
+            eventService.buildEventFromDto(null);
+        });
+    }
+
+    // 🔹 Test 14: Creazione nome dell'evento NULL
+    @Test
+    void testBuildEventFromDto_NameNull() {
+        eventDto.setName(null);
+
+        assertThrows(RuntimeException.class, () -> {
+            eventService.buildEventFromDto(eventDto);
+        });
+    }
+
+    // 🔹 Test 15: Creazione prezzo del biglietto dell'evento NULL
+    @Test
+    void testBuildEventFromDto_TicketPriceNull() {
+        eventDto.setTicketPrice(null);
+
+        assertThrows(RuntimeException.class, () -> {
+            eventService.buildEventFromDto(eventDto);
+        });
+    }
 }
