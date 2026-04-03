@@ -3,10 +3,7 @@ package com.gestionaleprenotazioni.formerjob.Controller;
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
-import com.gestionaleprenotazioni.formerjob.Service.AllegatoService;
-import com.gestionaleprenotazioni.formerjob.Service.EmailService;
-import com.gestionaleprenotazioni.formerjob.Service.EventService;
-import com.gestionaleprenotazioni.formerjob.Service.UserService;
+import com.gestionaleprenotazioni.formerjob.Service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +17,14 @@ public class EmailController {
     private final EventService eventService;
     private final UserService userService;
     private final AllegatoService allegatoService;
+    private final TicketService ticketService;
 
-    public EmailController(EmailService emailService, EventService eventService, UserService userService,AllegatoService allegatoService) {
+    public EmailController(EmailService emailService, EventService eventService, UserService userService, AllegatoService allegatoService, TicketService ticketService) {
         this.emailService = emailService;
         this.eventService = eventService;
         this.userService = userService;
         this.allegatoService = allegatoService;
+        this.ticketService = ticketService;
     }
 
     @PostMapping("/send-test-email")
@@ -42,10 +41,9 @@ public class EmailController {
     }
 
     @PostMapping("/invia-mail-pdf")
-    public ResponseEntity<Map<String, String>> inviaMailPdf(@RequestParam Long ordineId,
-                                                             @RequestParam String email) {
+    public ResponseEntity<Map<String, String>> inviaMailPdf(@RequestParam Integer id) {
         try {
-            allegatoService.inviaOrdineConAllegato(ordineId, email);
+            allegatoService.inviaOrdineConAllegato(ticketService.read(id), eventService.read(ticketService.read(id).getEventId()), userService.read(ticketService.read(id).getUserId()));
             return ResponseEntity.ok(Map.of("message", "Mail inviata con PDF allegato con successo"));
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest()
