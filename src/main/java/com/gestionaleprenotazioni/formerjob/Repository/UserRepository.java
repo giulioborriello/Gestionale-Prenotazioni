@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>
 {
+        //Query JPA , la query viene generata automaticamente , non c'è bisogno di scriverla
         List<User> findByName(String name);
         List<User> findBySurname(String surname);
         User findByEmail(String email);
