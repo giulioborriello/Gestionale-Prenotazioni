@@ -40,7 +40,6 @@ public class TicketServiceTest {
     @BeforeEach
     public void init() {
         fixedDate = LocalDateTime.of(2026, 3, 31, 10, 0);
-
         ticketEntity = new Ticket();
         ticketEntity.setId(1);
         ticketEntity.setName("Mario");

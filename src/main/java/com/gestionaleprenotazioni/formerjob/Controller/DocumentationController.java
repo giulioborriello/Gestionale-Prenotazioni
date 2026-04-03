@@ -2,7 +2,6 @@ package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Service.PdfService;
 import com.gestionaleprenotazioni.formerjob.Service.SwaggerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +9,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/docs")
 public class DocumentationController {
 
-    @Autowired
-    private SwaggerService swaggerService;
+    private final SwaggerService swaggerService;
+    private final PdfService pdfService;
 
-    @Autowired
-    private PdfService pdfService;
+    public DocumentationController(SwaggerService swaggerService, PdfService pdfService) {
+        this.swaggerService = swaggerService;
+        this.pdfService = pdfService;
+    }
 
     // 🔹 JSON Swagger
     @GetMapping("/json")

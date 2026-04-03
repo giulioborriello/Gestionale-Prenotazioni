@@ -15,8 +15,8 @@ public class PaymentController extends AbstractController<PaymentDto> {
 
     private final PaymentService paymentService;
 
-    @Autowired
     public PaymentController(PaymentService paymentService) {
+        super(paymentService);
         this.paymentService = paymentService;
     }
 

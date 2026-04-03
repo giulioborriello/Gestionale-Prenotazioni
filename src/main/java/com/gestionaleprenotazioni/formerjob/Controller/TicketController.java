@@ -2,7 +2,6 @@ package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Service.TicketService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,12 @@ import java.util.List;
 @CrossOrigin(origins="http://localhost:4200")
 public class TicketController extends AbstractController<TicketDto> {
 
-	@Autowired
-	private TicketService ticketService;
+	private final TicketService ticketService;
+
+	public TicketController(TicketService ticketService) {
+		super(ticketService);
+		this.ticketService = ticketService;
+	}
 
 	@GetMapping("/findByNameAndSurname")
 	public List<TicketDto> findTicketByNameAndSurname(@RequestParam("name") String name,

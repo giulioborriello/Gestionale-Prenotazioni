@@ -12,14 +12,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class DevSecurityConfig {
     @Bean
-    public SecurityFilterChain devSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                );
+    public SecurityFilterChain devSecurityFilterChain(HttpSecurity http) {
+        try {
+            http
+                    .csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(auth -> auth
+                            .anyRequest().permitAll()
+                    );
 
-        return http.build();
+            return http.build();
+        } catch (Exception e) {
+            throw new IllegalStateException("Errore nella configurazione security dev", e);
+        }
     }
 }
 

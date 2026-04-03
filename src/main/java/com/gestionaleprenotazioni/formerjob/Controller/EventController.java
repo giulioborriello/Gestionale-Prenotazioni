@@ -4,7 +4,6 @@ import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
 import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +15,12 @@ import java.util.List;
 @CrossOrigin(origins="http://localhost:4200")
 public class EventController extends AbstractController<EventDto> {
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
+
+    public EventController(EventService eventService) {
+        super(eventService);
+        this.eventService = eventService;
+    }
 
     @PostMapping("/buildEventFromDto")
     public Event buildEventFromDto(@RequestBody EventDto dto) {
