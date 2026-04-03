@@ -1,13 +1,15 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Service.ServiceDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public abstract class AbstractController<DTO> {
-    @Autowired
-    private ServiceDTO<DTO> service;
+    private final ServiceDTO<DTO> service;
+
+    protected AbstractController(ServiceDTO<DTO> service) {
+        this.service = service;
+    }
 
     @GetMapping("/getall")
     public Iterable<DTO> getAll(){

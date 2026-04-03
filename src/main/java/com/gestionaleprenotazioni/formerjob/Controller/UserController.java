@@ -2,7 +2,6 @@ package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
 import com.gestionaleprenotazioni.formerjob.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +14,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController
 {
-    @Autowired
-    private UserService service;
+    private final UserService service;
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @GetMapping("/findByName")
     public List<UserDto> findByName(String name)
