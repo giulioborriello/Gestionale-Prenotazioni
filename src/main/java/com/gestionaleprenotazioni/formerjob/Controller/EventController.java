@@ -4,7 +4,8 @@ import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
 import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +16,13 @@ import java.util.List;
 @RequestMapping("Event")
 @CrossOrigin(origins="http://localhost:4200")
 public class EventController extends AbstractController<EventDto> {
-//Questo controller espone tutte le funzionalità del sistema lato client: permette di cercare eventi con filtri diversi,
-// creare nuovi eventi e ottenere informazioni dettagliate.
-    @Autowired
-    private EventService eventService;
+
+    private final EventService eventService;
+
+    public EventController(EventService eventService) {
+        super(eventService);
+        this.eventService = eventService;
+    }
 
     @PostMapping("/buildEventFromDto")
     public Event buildEventFromDto(@RequestBody EventDto dto) {
@@ -26,8 +30,9 @@ public class EventController extends AbstractController<EventDto> {
     }
 
     // 🔹 Per nome
+    @Operation(summary = "Trova un evento per nome")
     @GetMapping("/findByName")
-    public EventDto findByName(@RequestParam("name") String name) {
+    public EventDto findByName(@Parameter(description = "Nome dell'evento da cercare", required = true) @RequestParam("name") String name) {
         return eventService.findByName(name);
     }
 

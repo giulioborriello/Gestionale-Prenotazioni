@@ -8,48 +8,53 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 @Profile("prod") //questa classe è attiva solo quando il profilo è "prod"
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private static final String API_PATTERN = "/api/**";
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
+
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+            AuthenticationConfiguration config) {
+        try {
+            return config.getAuthenticationManager();
+        } catch (Exception e) {
+            throw new IllegalStateException("Errore nella creazione di AuthenticationManager", e);
+        }
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
-        http
-                .csrf(csrf -> csrf.disable()) // disabilitiamo CSRF per le API REST
-                .authorizeHttpRequests(auth -> auth
+        try {
+            http
+                    .csrf(csrf -> csrf.disable()) // disabilitiamo CSRF per le API REST
+                    .authorizeHttpRequests(auth -> auth
 
-                        // endpoint di login pubblico (nessuna autenticazione richiesta)
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                            // endpoint di login pubblico (nessuna autenticazione richiesta)
+                            .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 
-                        // solo ADMIN può inserire, aggiornare e cancellare
-                        .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN")
+                            // solo ADMIN può inserire, aggiornare e cancellare
+                            .requestMatchers(HttpMethod.POST, API_PATTERN).hasAuthority(ROLE_ADMIN)
+                            .requestMatchers(HttpMethod.PUT, API_PATTERN).hasAuthority(ROLE_ADMIN)
+                            .requestMatchers(HttpMethod.DELETE, API_PATTERN).hasAuthority(ROLE_ADMIN)
 
-                        // tutti gli utenti autenticati possono leggere
-                        .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+                            // tutti gli utenti autenticati possono leggere
+                            .requestMatchers(HttpMethod.GET, API_PATTERN).authenticated()
 
-                        // tutto il resto richiede autenticazione
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(basic -> {}); // usiamo Basic Auth
+                            // tutto il resto richiede autenticazione
+                            .anyRequest().authenticated()
+                    )
+                    .httpBasic(basic -> {}); // usiamo Basic Auth
 
-        return http.build();
+            return http.build();
+        } catch (Exception e) {
+            throw new IllegalStateException("Errore nella configurazione security prod", e);
+        }
     }
 }
