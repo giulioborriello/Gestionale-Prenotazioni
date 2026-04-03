@@ -4,7 +4,8 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+//Qui definiamo tutti gli strumenti e librerie necessarie al progetto,
+	//come Spring Boot, gestione database, mail, test e conversione oggetti DTO ↔ Entità.
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

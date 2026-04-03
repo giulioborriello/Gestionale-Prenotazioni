@@ -14,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventDto {
-
+//Questo oggetto viene utilizzato per inviare e ricevere informazioni sull’evento tra front-end e back-end,
+// senza esporre direttamente il database.
     private Integer id; // identificativo dell'evento
     private String name; // nome dell'evento
     private String description; // descrizione dell'evento

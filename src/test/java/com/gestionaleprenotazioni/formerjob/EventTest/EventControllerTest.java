@@ -18,7 +18,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EventControllerTest {
-
+//Questi test dimostrano che tutte le funzionalità funzionano come previsto.
+// Non serve avere il database reale, perché usiamo mock per simulare dati.
+// È un modo per garantire affidabilità del sistema.
     @Mock
     private EventService eventService;
 

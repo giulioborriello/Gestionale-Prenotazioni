@@ -10,6 +10,11 @@ import java.util.List;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
+//Questo livello si occupa di leggere/scrivere nel database e fornisce metodi pronti per filtrare eventi,
+// così il controller può rispondere rapidamente alle richieste del client.
+
+
+
 
     // Metodo che ricerca eventi per nome
     Event findByName(String name);

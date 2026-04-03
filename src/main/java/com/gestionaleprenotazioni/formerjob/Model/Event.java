@@ -16,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "Event", schema = "formerjob")
 public class Event {
-
+//Questa classe rappresenta un evento reale nel sistema: nome, descrizione, luogo, data, tipo, prezzo e biglietti.
+// È collegata ai biglietti venduti tramite relazione uno-a-molti.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; // identificativo dell'evento

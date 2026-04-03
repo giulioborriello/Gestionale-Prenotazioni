@@ -14,6 +14,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+//Questo livello è il cuore dell’applicazione: controlla che i dati siano corretti,
+// costruisce gli oggetti Event da DTO e gestisce tutte le ricerche richieste dal front-end.
+
+
 
 @Service
 public class EventService extends AbstractService<Event, EventDto> {

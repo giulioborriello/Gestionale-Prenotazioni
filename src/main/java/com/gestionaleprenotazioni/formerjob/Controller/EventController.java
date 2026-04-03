@@ -15,7 +15,8 @@ import java.util.List;
 @RequestMapping("Event")
 @CrossOrigin(origins="http://localhost:4200")
 public class EventController extends AbstractController<EventDto> {
-
+//Questo controller espone tutte le funzionalità del sistema lato client: permette di cercare eventi con filtri diversi,
+// creare nuovi eventi e ottenere informazioni dettagliate.
     @Autowired
     private EventService eventService;
 

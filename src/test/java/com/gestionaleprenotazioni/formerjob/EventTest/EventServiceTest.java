@@ -19,7 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class EventServiceTest {
-
+    //Questi test dimostrano che tutte le funzionalità funzionano come previsto.
+// Non serve avere il database reale, perché usiamo mock per simulare dati.
+// È un modo per garantire affidabilità del sistema.
     @Mock
     private EventRepository eventRepository;
 

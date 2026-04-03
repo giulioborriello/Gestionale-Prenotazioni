@@ -6,7 +6,8 @@ import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-
+//Il mapper traduce un DTO in un’entità per salvare nel database,
+// e viceversa per inviare dati al front-end.
 @Component
 public class EventMapper extends AbstractMapper<EventDto, Event> {
 
