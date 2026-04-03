@@ -3,14 +3,12 @@ package com.gestionaleprenotazioni.formerjob.Controller;
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
+import com.gestionaleprenotazioni.formerjob.Service.AllegatoService;
 import com.gestionaleprenotazioni.formerjob.Service.EmailService;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
 import com.gestionaleprenotazioni.formerjob.Service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -21,11 +19,13 @@ public class EmailController {
     private final EmailService emailService;
     private final EventService eventService;
     private final UserService userService;
+    private final AllegatoService allegatoService;
 
-    public EmailController(EmailService emailService, EventService eventService, UserService userService) {
+    public EmailController(EmailService emailService, EventService eventService, UserService userService,AllegatoService allegatoService) {
         this.emailService = emailService;
         this.eventService = eventService;
         this.userService = userService;
+        this.allegatoService = allegatoService;
     }
 
     @PostMapping("/send-test-email")
@@ -39,5 +39,20 @@ public class EmailController {
         emailService.sendSimpleEmail(userDto.getEmail(), subject, body);
 
         return ResponseEntity.ok(Map.of("message", "Email di conferma inviata con successo"));
+    }
+
+    @PostMapping("/invia-mail-pdf")
+    public ResponseEntity<Map<String, String>> inviaMailPdf(@RequestParam Long ordineId,
+                                                             @RequestParam String email) {
+        try {
+            allegatoService.inviaOrdineConAllegato(ordineId, email);
+            return ResponseEntity.ok(Map.of("message", "Mail inviata con PDF allegato con successo"));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Errore durante l'invio della mail: " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", "Errore interno: " + e.getMessage()));
+        }
     }
 }
