@@ -1,6 +1,8 @@
 package com.gestionaleprenotazioni.formerjob.Service;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -102,6 +107,138 @@ public class PdfService {
             return out.toByteArray();
         } catch (Exception e) {
             throw new IllegalStateException("Errore generazione PDF", e);
+        }
+    }
+
+    public byte[] generaPdfDaSwagger(String json) {
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            Document document = new Document(PageSize.A4, 36, 36, 54, 36); // margini
+            PdfWriter.getInstance(document, out);
+
+            document.open();
+
+            // Titolo principale
+            Font titleFont = new Font(Font.HELVETICA, 20, Font.BOLD, Color.BLUE);
+            Paragraph title = new Paragraph("DOCUMENTAZIONE API", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
+            document.add(title);
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(json);
+            JsonNode paths = root.get("paths");
+
+            paths.fieldNames().forEachRemaining(path -> {
+                try {
+                    JsonNode methods = paths.get(path);
+                    methods.fieldNames().forEachRemaining(method -> {
+                        try {
+                            JsonNode operation = methods.get(method);
+
+                            // ✨ Titolo Endpoint
+                            Font endpointFont = new Font(Font.HELVETICA, 14, Font.BOLD, Color.BLACK);
+                            Paragraph endpointTitle = new Paragraph(method.toUpperCase() + " " + path, endpointFont);
+                            endpointTitle.setSpacingBefore(10);
+                            endpointTitle.setSpacingAfter(5);
+                            document.add(endpointTitle);
+
+                            // Descrizione
+                            String summary = operation.has("summary") ? operation.get("summary").asText() : "-";
+                            Font summaryFont = new Font(Font.HELVETICA, 11, Font.ITALIC, Color.DARK_GRAY);
+                            document.add(new Paragraph("Descrizione: " + summary, summaryFont));
+
+                            // Parametri
+                            if (operation.has("parameters") && operation.get("parameters").size() > 0) {
+                                PdfPTable table = new PdfPTable(4);
+                                table.setWidthPercentage(100);
+                                table.setSpacingBefore(5);
+                                table.setSpacingAfter(10);
+
+                                // Header
+                                Font headerFont = new Font(Font.HELVETICA, 11, Font.BOLD, Color.WHITE);
+                                PdfPCell h1 = new PdfPCell(new Phrase("Nome", headerFont));
+                                PdfPCell h2 = new PdfPCell(new Phrase("In", headerFont));
+                                PdfPCell h3 = new PdfPCell(new Phrase("Tipo", headerFont));
+                                PdfPCell h4 = new PdfPCell(new Phrase("Required", headerFont));
+
+                                Color headerBg = new Color(0, 121, 182);
+                                h1.setBackgroundColor(headerBg);
+                                h2.setBackgroundColor(headerBg);
+                                h3.setBackgroundColor(headerBg);
+                                h4.setBackgroundColor(headerBg);
+
+                                table.addCell(h1);
+                                table.addCell(h2);
+                                table.addCell(h3);
+                                table.addCell(h4);
+
+                                for (JsonNode param : operation.get("parameters")) {
+                                    table.addCell(param.has("name") ? param.get("name").asText() : "-");
+                                    table.addCell(param.has("in") ? param.get("in").asText() : "-");
+                                    table.addCell(param.has("schema") && param.get("schema").has("type") ?
+                                            param.get("schema").get("type").asText() : "-");
+                                    table.addCell(param.has("required") ? String.valueOf(param.get("required").asBoolean()) : "-");
+                                }
+
+                                document.add(table);
+                            } else {
+                                document.add(new Paragraph("Parametri: nessuno", summaryFont));
+                            }
+
+                            // Responses
+                            if (operation.has("responses")) {
+                                document.add(new Paragraph("Risposte:", summaryFont));
+
+                                PdfPTable respTable = new PdfPTable(2);
+                                respTable.setWidthPercentage(60);
+                                respTable.setSpacingBefore(5);
+                                respTable.setSpacingAfter(10);
+
+                                Font respHeader = new Font(Font.HELVETICA, 11, Font.BOLD, Color.WHITE);
+                                PdfPCell rh1 = new PdfPCell(new Phrase("Codice", respHeader));
+                                PdfPCell rh2 = new PdfPCell(new Phrase("Descrizione", respHeader));
+                                Color respHeaderBg = new Color(0, 121, 182);
+                                rh1.setBackgroundColor(respHeaderBg);
+                                rh2.setBackgroundColor(respHeaderBg);
+                                respTable.addCell(rh1);
+                                respTable.addCell(rh2);
+
+                                operation.get("responses").fieldNames().forEachRemaining(code -> {
+                                    JsonNode resp = operation.get("responses").get(code);
+                                    respTable.addCell(code);
+                                    respTable.addCell(resp.has("description") ? resp.get("description").asText() : "-");
+                                });
+
+                                document.add(respTable);
+                            } else {
+                                document.add(new Paragraph("Risposte: nessuna", summaryFont));
+                            }
+
+                            // Linea separatrice
+                            document.add(new Paragraph("---------------------------------------------------------"));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            document.close();
+
+            byte[] pdfBytes = out.toByteArray();
+
+            // 📁 SALVATAGGIO FILE
+            Path filePath = Paths.get("src/main/resources/static/docs/documentazione.pdf");
+            Files.createDirectories(filePath.getParent());
+            Files.write(filePath, pdfBytes);
+
+            return pdfBytes;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Errore generazione PDF", e);
         }
     }
 
