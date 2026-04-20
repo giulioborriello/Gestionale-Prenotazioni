@@ -34,8 +34,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // disabilitiamo CSRF per le API REST
                 .authorizeHttpRequests(auth -> auth
 
-                        // endpoint di login pubblico (nessuna autenticazione richiesta)
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        // registrazione pubblica
+                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
                         // solo ADMIN può inserire, aggiornare e cancellare
                         .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
