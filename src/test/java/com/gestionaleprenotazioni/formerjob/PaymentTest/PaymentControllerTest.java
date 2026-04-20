@@ -18,6 +18,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Test di unità per {@link PaymentController}.
+ * <p>
+ * Questa classe testa il comportamento degli endpoint REST isolando il Controller
+ * dal Service tramite l'utilizzo di Mockito. Si concentra sulla corretta gestione
+ * delle risposte HTTP e sulla delega delle chiamate al servizio di business logic.
+ * </p>
+ */
 @ExtendWith(MockitoExtension.class)
 public class PaymentControllerTest {
 
@@ -27,7 +35,10 @@ public class PaymentControllerTest {
     @InjectMocks
     private PaymentController paymentController;
 
-    // metodo di supporto per creare un PaymentDto di test
+    /**
+     * Metodo di utilità per creare un oggetto {@link PaymentDto} predefinito.
+     * @return Un'istanza di PaymentDto popolata con dati di test.
+     */
     private PaymentDto createPaymentDto() {
         PaymentDto dto = new PaymentDto();
         dto.setId(1);
@@ -36,7 +47,14 @@ public class PaymentControllerTest {
         dto.setDate(LocalDateTime.of(2024, 1, 15, 10, 30));
         return dto;
     }
-
+    /**
+     * Verifica che l'endpoint per lo storico pagamenti restituisca correttamente
+     * i dati ottenuti dal servizio.
+     * <p>
+     * Scenario: Il servizio restituisce una lista contenente un pagamento.<br>
+     * Esito atteso: Risposta HTTP 200 OK e corpo del messaggio non nullo.
+     * </p>
+     */
     @Test
     void testGetAllPayments() {
         PaymentDto dto = createPaymentDto();
@@ -49,7 +67,13 @@ public class PaymentControllerTest {
         assertThat(result.getBody()).isNotNull();
         verify(paymentService).getAll();
     }
-
+    /**
+     * Verifica il filtraggio dei pagamenti per metodo tramite l'endpoint dedicato.
+     * <p>
+     * Scenario: Richiesta di pagamenti effettuati con "PAYPAL".<br>
+     * Esito atteso: La lista restituita contiene pagamenti con il metodo corretto.
+     * </p>
+     */
     @Test
     void testGetByMethod() {
         PaymentDto dto = createPaymentDto();
@@ -63,7 +87,13 @@ public class PaymentControllerTest {
         assertThat(result.getBody().get(0).getMethod()).isEqualTo(PaymentMethod.PAYPAL);
         verify(paymentService).findByMethod("PAYPAL");
     }
-
+    /**
+     * Verifica il recupero dei pagamenti associati a un utente specifico.
+     * <p>
+     * Scenario: Richiesta dei pagamenti per l'utente con ID 1.<br>
+     * Esito atteso: Verifica che l'ID del pagamento restituito corrisponda a quello mockato.
+     * </p>
+     */
     @Test
     void testGetByUserId() {
         PaymentDto dto = createPaymentDto();
