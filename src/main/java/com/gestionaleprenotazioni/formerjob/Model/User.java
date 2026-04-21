@@ -37,7 +37,7 @@ public class User
 
     private String password;
 
-    private Date DateOfBirth;
+    private Date dateOfBirth;
 
     private Role role;
 

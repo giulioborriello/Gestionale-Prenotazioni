@@ -20,7 +20,7 @@ public class UserDto
     private String surname;
     private String email;
     private String password;
-    private Date DateOfBirth;
+    private Date dateOfBirth;
     private Role role;
     private List<Integer> ticketIds;
     private List<Integer> paymentIds;
