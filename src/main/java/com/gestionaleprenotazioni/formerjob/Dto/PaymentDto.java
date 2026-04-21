@@ -31,7 +31,7 @@ public class PaymentDto {
     /**
      * Metodo di pagamento utilizzato per la transazione.
      */
-    @Schema(description = "Metodo utilizzato (es. PAYPAL, CREDIT_CARD, CASH)", example = "PAYPAL")
+    @Schema(description = "Metodo utilizzato (es. PAYPAL, CREDIT_CARD)", example = "PAYPAL")
     private PaymentMethod method;
 
     /**

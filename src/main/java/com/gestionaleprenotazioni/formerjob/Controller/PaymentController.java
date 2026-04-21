@@ -19,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/payment")
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Pagamenti", description = "Area dedicata alla consultazione e gestione dei flussi monetari")
 public class PaymentController extends AbstractController<PaymentDto> {
 
@@ -66,4 +67,5 @@ public class PaymentController extends AbstractController<PaymentDto> {
     public ResponseEntity<List<PaymentDto>> getByUserId(@PathVariable Integer userId) {
         return ResponseEntity.ok(paymentService.findByUserId(userId));
     }
+
 }
