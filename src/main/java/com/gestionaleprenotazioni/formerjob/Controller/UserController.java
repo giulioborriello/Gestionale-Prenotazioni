@@ -5,8 +5,10 @@ import com.gestionaleprenotazioni.formerjob.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 // Segnala a Spring che questa è una REST API Controller
@@ -56,5 +58,10 @@ public class UserController
     public UserDto FindBySurnameAndEmail(String surname,String email)
     {
         return service.findBySurnameAndEmail(surname,email);
+    }
+
+    @PostMapping("/insert")
+    public UserDto insert(@RequestBody UserDto user) {
+        return service.insert(user);
     }
 }
