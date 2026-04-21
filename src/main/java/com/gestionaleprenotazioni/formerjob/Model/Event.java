@@ -31,6 +31,9 @@ public class Event {
     @Column(length=50,nullable=false)
     private String location; // luogo dell'evento
 
+    @Column(length=100,nullable=false)
+    private String imagePath; // immagine dell'evento
+
     @Column(nullable=false)
     private Date date; // data dell'evento
 
