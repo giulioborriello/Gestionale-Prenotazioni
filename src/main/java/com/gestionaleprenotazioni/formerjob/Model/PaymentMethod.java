@@ -6,6 +6,5 @@ package com.gestionaleprenotazioni.formerjob.Model;
 public enum PaymentMethod {
     CREDIT_CARD,
     PAYPAL,
-    BANK_TRANSFER,
-    CASH
+    BANK_TRANSFER
 }

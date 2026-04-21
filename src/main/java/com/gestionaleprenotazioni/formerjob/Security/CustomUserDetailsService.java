@@ -2,7 +2,6 @@ package com.gestionaleprenotazioni.formerjob.Security;
 
 import com.gestionaleprenotazioni.formerjob.Model.User;
 import com.gestionaleprenotazioni.formerjob.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +14,11 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

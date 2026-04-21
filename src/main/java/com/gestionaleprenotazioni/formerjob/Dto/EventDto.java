@@ -19,10 +19,11 @@ public class EventDto {
     private String name; // nome dell'evento
     private String description; // descrizione dell'evento
     private String location; // luogo dell'evento
+    private String imagePath; // immagine dell'evento
     private Date date; // data dell'evento
     private Integer maxTickets; // numero massimo di biglietti per evento
     private Integer selledTickets; // numero di biglietti venduti per un evento
     private Double ticketPrice; // Prezzo del biglietto per l'evento
     private Type type; // tipologia di evento
-    private List<TicketDto> tickets; // Biglietti collegati all'evento
+    private List<Integer> ticketIds; // Biglietti collegati all'evento
 }

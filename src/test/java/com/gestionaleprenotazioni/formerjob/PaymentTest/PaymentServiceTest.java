@@ -20,6 +20,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Test di unità per {@link PaymentService}.
+ * <p>
+ * Questa classe verifica la logica di business dello strato Service, assicurando
+ * la corretta interazione tra la Repository e il Mapper. Tutti i test utilizzano
+ * oggetti Mock per isolare la logica del servizio dalle dipendenze esterne.
+ * </p>
+ */
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceTest {
 
@@ -32,7 +40,10 @@ public class PaymentServiceTest {
     @InjectMocks
     private PaymentService paymentService;
 
-    // metodo di supporto per creare una Payment (entity) di test
+    /**
+     * Crea un'entità {@link Payment} di test.
+     * @return Istanza di Payment popolata per il testing.
+     */
     private Payment createPayment() {
         Payment payment = new Payment();
         payment.setId(1);
@@ -41,7 +52,10 @@ public class PaymentServiceTest {
         return payment;
     }
 
-    // metodo di supporto per creare un PaymentDto di test
+    /**
+     * Crea un {@link PaymentDto} di test.
+     * @return Istanza di PaymentDto popolata per il testing.
+     */
     private PaymentDto createPaymentDto() {
         PaymentDto dto = new PaymentDto();
         dto.setId(1);
@@ -50,7 +64,10 @@ public class PaymentServiceTest {
         dto.setDate(LocalDateTime.of(2024, 1, 15, 10, 30));
         return dto;
     }
-
+    /**
+     * Verifica il recupero di tutti i pagamenti.
+     * <p>Assicura che la chiamata al repository venga mappata correttamente in una lista di DTO.</p>
+     */
     @Test
     void testGetAll() {
         Payment payment = createPayment();
@@ -66,7 +83,9 @@ public class PaymentServiceTest {
         verify(paymentRepository).findAll();
         verify(paymentMapper).toDTOList(List.of(payment));
     }
-
+    /**
+     * Verifica la lettura di un singolo pagamento tramite ID.
+     */
     @Test
     void testRead() {
         Payment payment = createPayment();
@@ -83,7 +102,10 @@ public class PaymentServiceTest {
         verify(paymentRepository).findById(1);
         verify(paymentMapper).toDTO(payment);
     }
-
+    /**
+     * Verifica l'inserimento di un nuovo pagamento.
+     * <p>Testa il flusso completo: DTO -> Entity -> Save -> DTO.</p>
+     */
     @Test
     void testInsert() {
         Payment payment = createPayment();
@@ -102,7 +124,9 @@ public class PaymentServiceTest {
         verify(paymentRepository).save(payment);
         verify(paymentMapper).toDTO(payment);
     }
-
+    /**
+     * Verifica l'aggiornamento di un pagamento esistente.
+     */
     @Test
     void testUpdate() {
         Payment payment = createPayment();
@@ -121,14 +145,18 @@ public class PaymentServiceTest {
         verify(paymentRepository).save(payment);
         verify(paymentMapper).toDTO(payment);
     }
-
+    /**
+     * Verifica la cancellazione logica o fisica di un pagamento tramite ID.
+     */
     @Test
     void testDelete() {
         // delete non ritorna nulla, verifichiamo solo che venga chiamato
         paymentService.delete(1);
         verify(paymentRepository).deleteById(1);
     }
-
+    /**
+     * Verifica la ricerca filtrata per metodo di pagamento valido.
+     */
     @Test
     void testFindByMethod() {
         Payment payment = createPayment();
@@ -145,7 +173,10 @@ public class PaymentServiceTest {
         verify(paymentRepository).findByMethod(PaymentMethod.PAYPAL);
         verify(paymentMapper).toDTOList(List.of(payment));
     }
-
+    /**
+     * Verifica la robustezza del sistema in caso di metodo di pagamento non valido.
+     * <p>Assicura che il servizio gestisca l'errore senza eccezioni, restituendo una lista vuota.</p>
+     */
     @Test
     void testFindByMethodInvalid() {
         // caso in cui il metodo passato non esiste nell'enum
@@ -157,7 +188,9 @@ public class PaymentServiceTest {
         verify(paymentRepository, org.mockito.Mockito.never())
                 .findByMethod(org.mockito.ArgumentMatchers.any());
     }
-
+    /**
+     * Verifica la ricerca di tutti i pagamenti effettuati da un utente specifico.
+     */
     @Test
     void testFindByUserId() {
         Payment payment = createPayment();
