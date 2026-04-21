@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -20,6 +21,7 @@ import java.util.List;
 public class DevSecurityConfig {
 
     @Bean
+    @Primary
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
@@ -45,6 +47,7 @@ public class DevSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/User/insert").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/Event/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(basic -> {});
