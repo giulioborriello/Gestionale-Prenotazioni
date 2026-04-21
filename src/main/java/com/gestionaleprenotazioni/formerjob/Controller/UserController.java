@@ -2,107 +2,66 @@ package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
 import com.gestionaleprenotazioni.formerjob.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-
-/**
- * Controller REST per operazioni di ricerca sugli utenti.
- *
- * <p>Espone endpoint sotto il path base {@code /User} e delega la logica
- * al servizio {@link UserService}.</p>
- */
+// Segnala a Spring che questa è una REST API Controller
+// Converte automaticamente i risultati in JSON/XML per le HTTP Response
 @RestController
+// Base path per tutte le rotte di questo controller
+// Es: http://localhost:8080/User/findByName?name=Mario
 @RequestMapping("User")
+// CORS: Permette richieste AJAX da Angular (localhost:4200)
+// Necessario per sviluppo frontend/backend separati
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController
 {
-    /**
-     * Servizio applicativo per ricerca utenti.
-     */
-    private final UserService service;
-
-    /**
-     * Costruttore con dependency injection del service.
-     *
-     * @param service servizio utenti
-     */
-    public UserController(UserService service) {
-        this.service = service;
-    }
-
-    /**
-     * Cerca utenti per nome.
-     *
-     * <p>Endpoint: {@code GET /User/findByName}</p>
-     *
-     * @param name nome da cercare
-     * @return lista di utenti che corrispondono al nome
-     */
+    // Dependency Injection: Spring inietta automaticamente UserService
+    @Autowired
+    // (constructor injection sarebbe preferibile per immutabilità)
+    private UserService service;
+    // GET /User/findByName?name=Mario
+    // Query param 'name' viene automaticamente bindato dal parametro metodo
     @GetMapping("/findByName")
+    // Delega al Service layer (business logic + DTO conversion)
     public List<UserDto> findByName(String name)
     {
         return service.findByName(name);
     }
-
-    /**
-     * Cerca utenti per cognome.
-     *
-     * <p>Endpoint: {@code GET /User/findBySurname}</p>
-     *
-     * @param surname cognome da cercare
-     * @return lista di utenti che corrispondono al cognome
-     */
+    // GET /User/findBySurname?surname=Rossi
     @GetMapping("/findBySurname")
     public List<UserDto> FindBySurname(String surname)
     {
         return service.findBySurname(surname);
     }
-
-    /**
-     * Cerca un utente tramite email.
-     *
-     * <p>Endpoint: {@code GET /User/findByEmail}</p>
-     *
-     * @param email email da cercare
-     * @return utente trovato
-     */
+    // GET /User/findByEmail?email=mario@test.it
     @GetMapping("/findByEmail")
+    // Restituisce singolo utente (200 OK o eccezione se non trovato)
     public UserDto FindByEmail(String email)
     {
         return service.findByEmail(email);
     }
 
-    /**
-     * Cerca utenti per combinazione nome + cognome.
-     *
-     * <p>Endpoint: {@code GET /User/findByNameAndSurname}</p>
-     *
-     * @param name nome da cercare
-     * @param surname cognome da cercare
-     * @return lista di utenti che corrispondono a nome e cognome
-     */
     @GetMapping("/findByNameAndSurname")
     public List<UserDto> FindByNameAndSurname(String name, String surname)
     {
         return service.findByNameAndSurname(name, surname);
     }
 
-    /**
-     * Cerca un utente per combinazione cognome + email.
-     *
-     * <p>Endpoint: {@code GET /User/findBySurnameAndEmail}</p>
-     *
-     * @param surname cognome da cercare
-     * @param email email da cercare
-     * @return utente trovato
-     */
     @GetMapping("/findBySurnameAndEmail")
     public UserDto FindBySurnameAndEmail(String surname,String email)
     {
         return service.findBySurnameAndEmail(surname,email);
+    }
+
+    @PostMapping("/insert")
+    public UserDto insert(@RequestBody UserDto user) {
+        return service.insert(user);
     }
 }

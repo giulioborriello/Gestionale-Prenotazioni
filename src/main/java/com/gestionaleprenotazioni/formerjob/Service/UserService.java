@@ -9,78 +9,56 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-/**
- * Servizio per la gestione degli utenti.
- * Estende AbstractService per fornire operazioni di base e metodi personalizzati
- * per trovare utenti basati su nome, cognome, email e combinazioni di essi.
- */
+// Segnala a Spring che questa classe è un componente del Service layer
 @Service
 public class UserService extends AbstractService<User,UserDto>
 {
+    // Mapper specifico per User → UserDto (generato da MapStruct)
+    // Converte entità JPA in DTO sicuri per l'API
     private final UserMapper userMapper;
-
+    // Repository specifico per operazioni CRUD + query custom su User
     private final UserRepository userRepository;
-    /**
-     * Costruttore per UserService.
-     *
-     * @param repository il repository JPA per le entità User
-     * @param converter il mapper generico per convertire UserDto a User
-     * @param userMapper il mapper specifico per convertire liste di User a UserDto
-     * @param userRepository il repository specifico per User
-     */
+    // Costruttore con Dependency Injection
+    // Spring inietta automaticamente le dipendenze dichiarate
     public UserService(JpaRepository<User, Integer> repository, Mapper<UserDto,User> converter, UserMapper userMapper, UserRepository userRepository) {
+        // Chiama super per inizializzare la classe base AbstractService
+        // (eredita metodi CRUD generici: save, findAll, delete, etc.)
         super(repository, converter);
+        // Salva le dipendenze specifiche per i metodi custom
         this.userMapper = userMapper;
         this.userRepository = userRepository;
     }
-    /**
-     * Trova una lista di utenti per nome.
-     *
-     * @param name il nome da cercare
-     * @return una lista di UserDto corrispondenti al nome specificato
-     */
+
+    // Cerca utenti per nome esatto (metodo derivato JPA)
+    // SQL generato: SELECT * FROM user WHERE name = ?
     public List<UserDto> findByName(String name)
     {
+        // Repository → List<User> → Mapper → List<UserDto>
         return userMapper.toDTOList(userRepository.findByName(name));
     }
-    /**
-     * Trova una lista di utenti per cognome.
-     *
-     * @param surname il cognome da cercare
-     * @return una lista di UserDto corrispondenti al cognome specificato
-     */
+
+    // Cerca utenti per cognome esatto
+    // SQL generato: SELECT * FROM user WHERE surname = ?
     public List<UserDto> findBySurname(String surname)
     {
+
         return userMapper.toDTOList(userRepository.findBySurname(surname));
     }
-    /**
-     * Trova un singolo utente per indirizzo email.
-     *
-     * @param email l'indirizzo email da cercare
-     * @return il UserDto corrispondente all'email specificata, o null se non trovato
-     */
+
+    // Cerca utente per email (restituisce singolo risultato)
+    // Solitamente usato per login/recupero password
     public UserDto findByEmail(String email)
     {
+        // Single entity → Single DTO
         return userMapper.toDTO(userRepository.findByEmail(email));
     }
-    /**
-     * Trova una lista di utenti per nome e cognome.
-     *
-     * @param name il nome da cercare
-     * @param surname il cognome da cercare
-     * @return una lista di UserDto corrispondenti al nome e cognome specificati
-     */
+    // Cerca per nome E cognome (AND logico)
+    // SQL generato: SELECT * FROM user WHERE name = ? AND surname = ?
     public List<UserDto> findByNameAndSurname(String name, String surname)
     {
         return userMapper.toDTOList(userRepository.findByNameAndSurname(name, surname));
     }
-    /**
-     * Trova un singolo utente per cognome e indirizzo email.
-     *
-     * @param surname il cognome da cercare
-     * @param email l'indirizzo email da cercare
-     * @return il UserDto corrispondente al cognome e all'email specificati, o null se non trovato
-     */
+    // Cerca per cognome E email (utile per recupero account)
     public UserDto findBySurnameAndEmail(String surname,String email)
     {
         return userMapper.toDTO(userRepository.findBySurnameAndEmail(surname,email));

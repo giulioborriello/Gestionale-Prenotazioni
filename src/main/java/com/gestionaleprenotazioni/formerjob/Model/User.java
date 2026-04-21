@@ -8,68 +8,44 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
-/**
- * Entità JPA che rappresenta un utente del sistema di prenotazione di eventi.
- *
- * Questa classe modella i dati personali di un utente, le credenziali di accesso,
- * e mantiene le relazioni con i biglietti e i pagamenti associati.
- *
- * @author Gestionale Prenotazioni
- * @version 1.0
- */
+//Getter è un annotazione che autoimplementa i metodi getter
 @Getter
+//Setter è un annotazione che autoimplementa i setter
 @Setter
+//AllArgaConstrucor è un annotazione che autoimplementa un costruttore con tutti i campi
 @AllArgsConstructor
+//NoArgsConstructor è un annotazione che autoimplementa un costruttore senza campi
 @NoArgsConstructor
+// Entity è un annotazione che dichira che quella che si vede è un entità
 @Entity
+//Table è un annotazione che dichiara la tabella di DB dell' entità
 @Table(name = "User", schema = "formerjob")
 public class User
 {
-    /**
-     * Identificatore univoco dell'utente.
-     * Generato automaticamente dal database come primary key.
-     */
+    //Id è l' annotazione per la chiave primaria
     @Id
+    //GeneratedValue serve per l'aggiunta di nuovi User(id) e li genera automaticamente
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    /**
-     * Nome dell'utente.
-     */
+
     private String name;
-    /**
-     * Cognome dell'utente.
-     */
+
     private String surname;
-    /**
-     * Indirizzo email univoco dell'utente.
-     * Deve essere unico nel sistema per garantire l'unicità dell'identità.
-     */
+
     @Column(unique = true)
     private String email;
-    /**
-     * Password dell'utente per l'autenticazione.
-     * Deve essere crittografata prima di essere memorizzata nel database.
-     */
+
     private String password;
-    /**
-     * Data di nascita dell'utente.
-     */
-    private Date DateOfBirth;
-    /**
-     * Ruolo dell'utente nel sistema (es: ADMIN, USER, MODERATOR).
-     * Determina i permessi e le autorizzazioni disponibili per l'utente.
-     */
+
+    private Date dateOfBirth;
+
     private Role role;
-    /**
-     * Lista di biglietti acquistati o prenotati dall'utente.
-     * Relazione uno-a-molti: un utente può possedere più biglietti.
-     */
+
+    //RELAZIONE 1-N (MappedBy serve per indicare che user è il proprietario della relazione- non creare joinColumn qui)
     @OneToMany(mappedBy = "user")
+
     private List<Ticket> tickets;
-    /**
-     * Lista di pagamenti effettuati dall'utente.
-     * Relazione uno-a-molti: un utente può effettuare più pagamenti.
-     */
+    //RELAZIONE 1-N (MappedBy serve per indicare che user è il proprietario della relazione)
     @OneToMany(mappedBy = "user")
     private List<Payment> payments;
 

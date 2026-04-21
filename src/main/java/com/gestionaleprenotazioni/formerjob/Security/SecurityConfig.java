@@ -2,59 +2,74 @@ package com.gestionaleprenotazioni.formerjob.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile; //import per @Profile
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-@Profile("prod") //questa classe è attiva solo quando il profilo è "prod"
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.List;
+
+@Profile("prod")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static final String API_PATTERN = "/api/**";
-    private static final String ROLE_ADMIN = "ROLE_ADMIN";
-
-
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) {
-        try {
-            return config.getAuthenticationManager();
-        } catch (Exception e) {
-            throw new IllegalStateException("Errore nella creazione di AuthenticationManager", e);
-        }
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
-        try {
-            http
-                    .csrf(csrf -> csrf.disable()) // disabilitiamo CSRF per le API REST
-                    .authorizeHttpRequests(auth -> auth
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
-                            // endpoint di login pubblico (nessuna autenticazione richiesta)
-                            .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-                            // solo ADMIN può inserire, aggiornare e cancellare
-                            .requestMatchers(HttpMethod.POST, API_PATTERN).hasAuthority(ROLE_ADMIN)
-                            .requestMatchers(HttpMethod.PUT, API_PATTERN).hasAuthority(ROLE_ADMIN)
-                            .requestMatchers(HttpMethod.DELETE, API_PATTERN).hasAuthority(ROLE_ADMIN)
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
 
-                            // tutti gli utenti autenticati possono leggere
-                            .requestMatchers(HttpMethod.GET, API_PATTERN).authenticated()
+                        // registrazione pubblica
+                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/User/insert").permitAll()
 
-                            // tutto il resto richiede autenticazione
-                            .anyRequest().authenticated()
-                    )
-                    .httpBasic(basic -> {}); // usiamo Basic Auth
+                        // solo ADMIN può inserire, aggiornare e cancellare
+                        .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN")
 
-            return http.build();
-        } catch (Exception e) {
-            throw new IllegalStateException("Errore nella configurazione security prod", e);
-        }
+                        // tutti gli utenti autenticati possono leggere
+                        .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+
+                        // tutto il resto richiede autenticazione
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(basic -> {});
+
+        return http.build();
     }
 }
