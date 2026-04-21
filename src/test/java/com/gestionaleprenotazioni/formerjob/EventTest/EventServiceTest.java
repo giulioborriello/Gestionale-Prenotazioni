@@ -230,4 +230,22 @@ class EventServiceTest {
             eventService.buildEventFromDto(eventDto);
         });
     }
+
+    // 🔹 Test 16: Trova i 5 eventi più remunerativi
+    @Test
+    void testFindTop5MostRemunerative() {
+
+        when(eventRepository.findTop5ByOrderBySelledTicketsDescDateDesc())
+                .thenReturn(List.of(event));
+
+        when(eventMapper.toDTOList(List.of(event)))
+                .thenReturn(List.of(eventDto));
+
+        List<EventDto> result = eventService.findTop5MostRemunerative();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+
+        verify(eventRepository).findTop5ByOrderBySelledTicketsDescDateDesc();
+    }
 }

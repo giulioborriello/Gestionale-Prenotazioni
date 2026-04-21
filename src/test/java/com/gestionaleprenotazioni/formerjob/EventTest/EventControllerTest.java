@@ -231,4 +231,25 @@ public class EventControllerTest {
 
         verify(eventService).findByTicketPrice(price);
     }
+
+    // 🔹 Test 12: Trova i 5 eventi più remunerativi
+    @Test
+    void testFindTop5MostRemunerative() {
+
+        EventDto dto1 = new EventDto();
+        dto1.setId(1);
+
+        EventDto dto2 = new EventDto();
+        dto2.setId(2);
+
+        when(eventService.findTop5MostRemunerative())
+                .thenReturn(List.of(dto1, dto2));
+
+        List<EventDto> result = eventController.findTop5MostRemunerative();
+
+        assertThat(result).isNotNull();
+        assertThat(result.size()).isGreaterThan(0);
+
+        verify(eventService).findTop5MostRemunerative();
+    }
 }

@@ -114,4 +114,11 @@ public class EventController extends AbstractController<EventDto> {
         return eventService.findByTicketPrice(ticketPrice);
     }
 
+    // 🔹 Top 5 eventi più remunerativi (più venduti e più recenti)
+    @Operation(summary = "Trova i 5 eventi più remunerativi")
+    @GetMapping("/findTop5MostRemunerative")
+    public List<EventDto> findTop5MostRemunerative() {
+        return eventService.findTop5MostRemunerative();
+    }
+
 }

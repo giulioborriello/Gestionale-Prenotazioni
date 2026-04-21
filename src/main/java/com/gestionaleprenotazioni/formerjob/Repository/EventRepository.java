@@ -48,4 +48,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     // Metodo che ricerca eventi per il costo del biglietto
     List<Event> findByTicketPrice(Double ticketPrice);
+
+    // Metodo che ricerca eventi più remunerativi e più recenti
+    List<Event> findTop5ByOrderBySelledTicketsDescDateDesc();
 }

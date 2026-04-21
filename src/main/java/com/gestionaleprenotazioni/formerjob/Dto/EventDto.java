@@ -26,5 +26,5 @@ public class EventDto {
     private Integer selledTickets; // numero di biglietti venduti per un evento
     private Double ticketPrice; // Prezzo del biglietto per l'evento
     private Type type; // tipologia di evento
-    private List<TicketDto> tickets; // Biglietti collegati all'evento
+    private List<Integer> ticketIds; // Biglietti collegati all'evento
 }
