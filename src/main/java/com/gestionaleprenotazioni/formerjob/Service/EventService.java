@@ -124,4 +124,11 @@ public class EventService extends AbstractService<Event, EventDto> {
         return eventMapper.toDTOList(eventRepository.findByTicketPrice(ticketPrice));
     }
 
+    // 🔹 Metodo per trovare i 5 eventi più remunerativi (più venduti e più recenti)
+    public List<EventDto> findTop5MostRemunerative() {
+        return eventMapper.toDTOList(
+                eventRepository.findTop5ByOrderBySelledTicketsDescDateDesc()
+        );
+    }
+
 }
