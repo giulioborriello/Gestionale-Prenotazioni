@@ -1,5 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Service;
 
+import com.gestionaleprenotazioni.formerjob.Dto.LoginRequestDto;
 import com.gestionaleprenotazioni.formerjob.Dto.LoginResponseDto;
 import com.gestionaleprenotazioni.formerjob.Dto.RegisterRequestDto;
 import com.gestionaleprenotazioni.formerjob.Model.Role;
@@ -49,6 +50,37 @@ public class AuthService {
                 saved.getSurname(),
                 saved.getEmail(),
                 saved.getRole(),
+                true
+        );
+    }
+
+    public LoginResponseDto login(LoginRequestDto request) {
+        User user = userRepository.findByEmail(request.getEmail());
+        
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenziali non valide");
+        }
+        
+        String inputPassword = request.getPassword();
+        String storedPassword = user.getPassword();
+        boolean passwordMatches = false;
+        
+        if (passwordEncoder != null) {
+            passwordMatches = passwordEncoder.matches(inputPassword, storedPassword);
+        } else {
+            passwordMatches = inputPassword.equals(storedPassword);
+        }
+        
+        if (!passwordMatches) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenziali non valide");
+        }
+        
+        return new LoginResponseDto(
+                user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getEmail(),
+                user.getRole(),
                 true
         );
     }

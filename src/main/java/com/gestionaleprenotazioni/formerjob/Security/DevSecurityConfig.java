@@ -46,9 +46,13 @@ public class DevSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/User/insert").permitAll()
                         .requestMatchers(HttpMethod.GET, "/Event/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(basic -> {});
 

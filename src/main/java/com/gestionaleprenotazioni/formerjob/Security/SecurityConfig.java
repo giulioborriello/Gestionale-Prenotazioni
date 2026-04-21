@@ -48,19 +48,13 @@ public class SecurityConfig {
 
                         // registrazione pubblica
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/User/insert").permitAll()
                         .requestMatchers(HttpMethod.GET, "/Event/**").permitAll()
-
-                        // solo ADMIN può inserire, aggiornare e cancellare
-                        .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN")
-
-                        // tutti gli utenti autenticati possono leggere
-                        .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
-
-                        // tutto il resto richiede autenticazione
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(basic -> {});
 

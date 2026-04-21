@@ -1,5 +1,6 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
+import com.gestionaleprenotazioni.formerjob.Dto.LoginRequestDto;
 import com.gestionaleprenotazioni.formerjob.Dto.LoginResponseDto;
 import com.gestionaleprenotazioni.formerjob.Dto.RegisterRequestDto;
 import com.gestionaleprenotazioni.formerjob.Service.AuthService;
@@ -22,5 +23,11 @@ public class AuthController {
     public ResponseEntity<LoginResponseDto> register(@RequestBody RegisterRequestDto request) {
         LoginResponseDto response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
+        LoginResponseDto response = authService.login(request);
+        return ResponseEntity.ok(response);
     }
 }
