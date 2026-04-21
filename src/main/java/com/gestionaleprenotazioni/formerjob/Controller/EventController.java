@@ -1,6 +1,7 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
+import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import com.gestionaleprenotazioni.formerjob.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class EventController extends AbstractController<EventDto> {
 
     @Autowired
     private EventService eventService;
+
+    @PostMapping("/buildEventFromDto")
+    public Event buildEventFromDto(@RequestBody EventDto dto) {
+        return eventService.buildEventFromDto(dto);
+    }
 
     // 🔹 Per nome
     @GetMapping("/findByName")
@@ -65,6 +71,30 @@ public class EventController extends AbstractController<EventDto> {
             @RequestParam("data") @DateTimeFormat(pattern = "yyyy-MM-dd") Date data) {
 
         return eventService.findByDateBefore(data);
+    }
+
+    // 🔹 Per biglietti venduti uguali a un valore
+    @GetMapping("/findBySelledTickets")
+    public List<EventDto> findBySelledTickets(@RequestParam("selledTickets") Integer selledTickets) {
+        return eventService.findBySelledTickets(selledTickets);
+    }
+
+    // 🔹 Per biglietti venduti minori di un valore
+    @GetMapping("/findBySelledTicketsLessThan")
+    public List<EventDto> findBySelledTicketsLessThan(@RequestParam("selledTickets") Integer selledTickets) {
+        return eventService.findBySelledTicketsLessThan(selledTickets);
+    }
+
+    // 🔹 Per biglietti venduti maggiori di un valore
+    @GetMapping("/findBySelledTicketsGreaterThan")
+    public List<EventDto> findBySelledTicketsGreaterThan(@RequestParam("selledTickets") Integer selledTickets) {
+        return eventService.findBySelledTicketsGreaterThan(selledTickets);
+    }
+
+    // 🔹 Per prezzo biglietto
+    @GetMapping("/findByTicketPrice")
+    public List<EventDto> findByTicketPrice(@RequestParam("ticketPrice") Double ticketPrice) {
+        return eventService.findByTicketPrice(ticketPrice);
     }
 
 }

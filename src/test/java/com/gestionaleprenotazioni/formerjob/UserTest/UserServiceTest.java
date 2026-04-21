@@ -11,7 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,12 +36,12 @@ public class UserServiceTest {
         User entity = new User();
         UserDto dto = new UserDto();
 
-        when(userRepository.findByName(name)).thenReturn(entity);
-        when(userMapper.toDTO(entity)).thenReturn(dto);
+        when(userRepository.findByName(name)).thenReturn(List.of(entity));
+        when(userMapper.toDTOList(List.of(entity))).thenReturn(List.of(dto));
 
-        UserDto result = userService.findByName(name);
+        List<UserDto> result = userService.findByName(name);
 
-        assertThat(result).isEqualTo(dto);
+        assertThat(result).isEqualTo(List.of(dto));
     }
 
     @Test
@@ -49,12 +52,29 @@ public class UserServiceTest {
         User entity = new User();
         UserDto dto = new UserDto();
 
-        when(userRepository.findBySurname(surname)).thenReturn(entity);
-        when(userMapper.toDTO(entity)).thenReturn(dto);
+        when(userRepository.findBySurname(surname)).thenReturn(List.of(entity));
+        when(userMapper.toDTOList(List.of(entity))).thenReturn(List.of(dto));
 
-        UserDto result = userService.findBySurname(surname);
+        List<UserDto> result = userService.findBySurname(surname);
 
-        assertThat(result).isEqualTo(dto);
+        assertThat(result).isEqualTo(List.of(dto));
+    }
+
+    @Test
+    void findByNameAndSurname()
+    {
+        String name = "Diego";
+        String surname = "Maradona";
+        
+        User entity = new User();
+        UserDto dto = new UserDto();
+
+        when(userRepository.findByNameAndSurname(name, surname)).thenReturn(List.of(entity));
+        when(userMapper.toDTOList(List.of(entity))).thenReturn(List.of(dto));
+
+        List<UserDto> result = userService.findByNameAndSurname(name, surname);
+
+        assertThat(result).isEqualTo(List.of(dto));
     }
 
     @Test
@@ -72,37 +92,7 @@ public class UserServiceTest {
 
         assertThat(result).isEqualTo(dto);
     }
-
-    @Test
-    void findByTaxCode()
-    {
-        String taxCode = "GNNSPT99H34F839Z";
-
-        User entity = new User();
-        UserDto dto = new UserDto();
-
-        when(userRepository.findByTaxCode(taxCode)).thenReturn(entity);
-        when(userMapper.toDTO(entity)).thenReturn(dto);
-
-        UserDto result = userService.findByTaxCode(taxCode);
-
-        assertThat(result).isEqualTo(dto);
-    }
-
-    @Test
-    void findByNameAndSurname()
-    {
-        User entity = new User();
-        UserDto dto = new UserDto();
-
-        when(userRepository.findByNameAndSurname("Gennaro", "Esposito")).thenReturn(entity);
-        when(userMapper.toDTO(entity)).thenReturn(dto);
-
-        UserDto result = userService.findByNameAndSurname("Gennaro", "Esposito");
-
-        assertThat(result).isEqualTo(dto);
-    }
-
+    
     @Test
     void findBySurnameAndEmail()
     {

@@ -12,8 +12,6 @@ import java.util.List;
 
 @Service
 public class PaymentService extends AbstractService<Payment, PaymentDto> {
-
-
     private final PaymentRepository paymentRepository;
 
     @Autowired
@@ -22,13 +20,6 @@ public class PaymentService extends AbstractService<Payment, PaymentDto> {
         super(paymentRepository, paymentMapper);
         this.paymentRepository = paymentRepository;
     }
-
-
-    public List<PaymentDto> findAllVerifiedByUserId(Integer userId) {
-
-        return mapper.toDTOList(paymentRepository.findAllVerifiedPaymentsByUserId(userId));
-    }
-
 
     public List<PaymentDto> findByMethod(String method) {
         try {
@@ -41,8 +32,7 @@ public class PaymentService extends AbstractService<Payment, PaymentDto> {
     }
 
 
-    public List<PaymentDto> findByChecked(Boolean checked) {
-
-        return mapper.toDTOList(paymentRepository.findByChecked(checked));
+    public List<PaymentDto> findByUserId(Integer userId) {
+        return mapper.toDTOList(paymentRepository.findByUser_Id(userId));
     }
 }

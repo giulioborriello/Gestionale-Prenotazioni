@@ -2,14 +2,10 @@ package com.gestionaleprenotazioni.formerjob.Service;
 
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Mapper.TicketMapper;
-import com.gestionaleprenotazioni.formerjob.Model.Cart;
 import com.gestionaleprenotazioni.formerjob.Model.Event;
-import com.gestionaleprenotazioni.formerjob.Model.Place;
 import com.gestionaleprenotazioni.formerjob.Model.Ticket;
 import com.gestionaleprenotazioni.formerjob.Model.User;
-import com.gestionaleprenotazioni.formerjob.Repository.CartRepository;
 import com.gestionaleprenotazioni.formerjob.Repository.EventRepository;
-import com.gestionaleprenotazioni.formerjob.Repository.PlaceRepository;
 import com.gestionaleprenotazioni.formerjob.Repository.TicketRepository;
 import com.gestionaleprenotazioni.formerjob.Repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -23,22 +19,16 @@ import java.util.List;
 public class TicketService extends AbstractService<Ticket, TicketDto>{
     private final TicketMapper ticketMapper;
     private final TicketRepository ticketRepository;
-    private final CartRepository cartRepository;
-    private final PlaceRepository placeRepository;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
 
     public TicketService(TicketMapper ticketMapper,
                          TicketRepository ticketRepository,
-                         CartRepository cartRepository,
-                         PlaceRepository placeRepository,
                          UserRepository userRepository,
                          EventRepository eventRepository) {
         super(ticketRepository, ticketMapper);
         this.ticketMapper = ticketMapper;
         this.ticketRepository = ticketRepository;
-        this.cartRepository = cartRepository;
-        this.placeRepository = placeRepository;
         this.userRepository = userRepository;
         this.eventRepository = eventRepository;
     }
@@ -74,28 +64,11 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
 
         Ticket ticket = ticketMapper.toEntity(dto);
         ticket.setEvent(resolveEvent(dto.getEventId()));
-
-        if (dto.getCartId() != null) {
-            ticket.setCart(resolveCart(dto.getCartId()));
-        }
-        if (dto.getPlaceId() != null) {
-            ticket.setPlace(resolvePlace(dto.getPlaceId()));
-        }
         if (dto.getUserId() != null) {
             ticket.setUser(resolveUser(dto.getUserId()));
         }
 
         return ticket;
-    }
-
-    private Cart resolveCart(Integer id) {
-        return cartRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found with id: " + id));
-    }
-
-    private Place resolvePlace(Integer id) {
-        return placeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Place not found with id: " + id));
     }
 
     private User resolveUser(Integer id) {
@@ -114,18 +87,6 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
 
     public List<TicketDto> findTicketByCreationDate(LocalDateTime creationDate) {
         return ticketMapper.toDTOList(ticketRepository.findTicketByCreationDate(creationDate));
-    }
-
-    public List<TicketDto> findTicketByUser(User user) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByUser(user));
-    }
-
-    public List<TicketDto> findTicketByCart(Cart cart) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByCart(cart));
-    }
-
-    public List<TicketDto> findTicketByPlace(Place place) {
-        return ticketMapper.toDTOList(ticketRepository.findTicketByPlace(place));
     }
 
     public List<TicketDto> findTicketByPriceGreaterThanEqual(Double price) {

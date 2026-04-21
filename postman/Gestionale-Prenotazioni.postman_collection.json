@@ -3,64 +3,62 @@
     "_postman_id": "f5cd0b9a-42e1-4d10-9559-5ef9ab0b45f4",
     "name": "Gestionale Prenotazioni - Controllers",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Collection per testare tutti i metodi esposti dai controller Spring Boot."
+    "description": "Collection aggiornata sugli endpoint correnti del progetto e sui dati seed di data.sql."
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:8080" },
-    { "key": "cartId", "value": "1" },
     { "key": "userId", "value": "1" },
     { "key": "paymentId", "value": "1" },
     { "key": "eventId", "value": "1" },
-    { "key": "placeId", "value": "1" },
-    { "key": "ticketId", "value": "1" }
+    { "key": "ticketId", "value": "1" },
+    { "key": "eventName", "value": "Rock Night" },
+    { "key": "userEmail", "value": "filippo.rossi01@mail.com" },
+    { "key": "userPassword", "value": "pwd001" }
   ],
   "item": [
     {
-      "name": "CartController (/api/cart)",
+      "name": "AuthController (/auth)",
       "item": [
         {
-          "name": "GET /api/cart/getall",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/cart/getall" }
-        },
-        {
-          "name": "GET /api/cart/read?id",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/cart/read?id={{cartId}}" }
-        },
-        {
-          "name": "POST /api/cart/insert",
+          "name": "POST /auth/login",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": 10,\n  \"totalPrice\": 120.0,\n  \"userId\": 1,\n  \"paymentId\": 1,\n  \"ticketIds\": [1, 2]\n}"
+              "raw": "{\n  \"email\": \"{{userEmail}}\",\n  \"password\": \"{{userPassword}}\"\n}"
             },
-            "url": "{{baseUrl}}/api/cart/insert"
+            "url": "{{baseUrl}}/auth/login"
           }
         },
         {
-          "name": "PUT /api/cart/update",
+          "name": "POST /auth/register",
           "request": {
-            "method": "PUT",
+            "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": 10,\n  \"totalPrice\": 150.0,\n  \"userId\": 1,\n  \"paymentId\": 1,\n  \"ticketIds\": [1, 2, 3]\n}"
+              "raw": "{\n  \"name\": \"Mario\",\n  \"surname\": \"Rossi\",\n  \"email\": \"mario.rossi.new@mail.com\",\n  \"password\": \"pwd123\",\n  \"taxCode\": \"RSSMRA80A01H501U\",\n  \"dateOfBirth\": \"1990-01-15T00:00:00.000+00:00\"\n}"
             },
-            "url": "{{baseUrl}}/api/cart/update"
+            "url": "{{baseUrl}}/auth/register"
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "EmailController (/email)",
+      "item": [
         {
-          "name": "DELETE /api/cart/delete?id",
-          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/cart/delete?id={{cartId}}" }
-        },
-        {
-          "name": "GET /api/cart/user/{userId}",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/cart/user/{{userId}}" }
-        },
-        {
-          "name": "GET /api/cart/details/{id}",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/cart/details/{{cartId}}" }
+          "name": "POST /email/send-test-email",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticketId\": 1,\n  \"name\": \"Filippo\",\n  \"surname\": \"Rossi\",\n  \"price\": 50.0,\n  \"creationDate\": \"2026-04-01T12:00:00\",\n  \"userId\": 1,\n  \"eventId\": 1\n}"
+            },
+            "url": "{{baseUrl}}/email/send-test-email"
+          }
         }
       ]
     },
@@ -82,7 +80,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": 20,\n  \"name\": \"Rock Night\",\n  \"description\": \"Concerto serale\",\n  \"location\": \"Milano\",\n  \"date\": \"2026-04-20T21:00:00.000+00:00\",\n  \"type\": \"CONCERTI\",\n  \"place\": {\n    \"id\": 1,\n    \"code\": \"A1\",\n    \"status\": false,\n    \"type\": \"STANDARD\",\n    \"eventId\": 20\n  },\n  \"tickets\": []\n}"
+              "raw": "{\n  \"name\": \"Rock Night Extra\",\n  \"description\": \"Concerto Rock speciale\",\n  \"location\": \"Milano\",\n  \"date\": \"2026-05-20T21:00:00.000+00:00\",\n  \"maxTickets\": 250,\n  \"selledTickets\": 0,\n  \"ticketPrice\": 50.0,\n  \"type\": \"CONCERTI\",\n  \"tickets\": []\n}"
             },
             "url": "{{baseUrl}}/Event/insert"
           }
@@ -94,7 +92,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": 20,\n  \"name\": \"Rock Night Updated\",\n  \"description\": \"Concerto aggiornato\",\n  \"location\": \"Milano\",\n  \"date\": \"2026-04-21T21:00:00.000+00:00\",\n  \"type\": \"CONCERTI\",\n  \"place\": {\n    \"id\": 1,\n    \"code\": \"A1\",\n    \"status\": true,\n    \"type\": \"STANDARD\",\n    \"eventId\": 20\n  },\n  \"tickets\": []\n}"
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"Rock Night\",\n  \"description\": \"Concerto Rock\",\n  \"location\": \"Milano\",\n  \"date\": \"2026-04-20T21:00:00.000+00:00\",\n  \"maxTickets\": 250,\n  \"selledTickets\": 120,\n  \"ticketPrice\": 50.0,\n  \"type\": \"CONCERTI\",\n  \"tickets\": []\n}"
             },
             "url": "{{baseUrl}}/Event/update"
           }
@@ -104,12 +102,24 @@
           "request": { "method": "DELETE", "url": "{{baseUrl}}/Event/delete?id={{eventId}}" }
         },
         {
+          "name": "POST /Event/buildEventFromDto",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Cinema Special\",\n  \"description\": \"Evento cinema dedicato\",\n  \"location\": \"Roma\",\n  \"date\": \"2026-06-10T20:30:00.000+00:00\",\n  \"maxTickets\": 250,\n  \"selledTickets\": 0,\n  \"ticketPrice\": 35.0,\n  \"type\": \"CINEMA\",\n  \"tickets\": []\n}"
+            },
+            "url": "{{baseUrl}}/Event/buildEventFromDto"
+          }
+        },
+        {
           "name": "GET /Event/findByName?name",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByName?name=Rock%20Night" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByName?name={{eventName}}" }
         },
         {
           "name": "GET /Event/findByDescription?description",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByDescription?description=Concerto" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByDescription?description=Concerto Rock" }
         },
         {
           "name": "GET /Event/findByType?type",
@@ -121,7 +131,7 @@
         },
         {
           "name": "GET /Event/findByDataBetween?startDate&endDate",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByDataBetween?startDate=2026-04-01&endDate=2026-04-30" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByDataBetween?startDate=2026-04-01&endDate=2026-05-30" }
         },
         {
           "name": "GET /Event/findByDataAfter?data",
@@ -129,7 +139,23 @@
         },
         {
           "name": "GET /Event/findByDataBefore?data",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByDataBefore?data=2026-05-01" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByDataBefore?data=2026-06-01" }
+        },
+        {
+          "name": "GET /Event/findBySelledTickets?selledTickets",
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findBySelledTickets?selledTickets=120" }
+        },
+        {
+          "name": "GET /Event/findBySelledTicketsLessThan?selledTickets",
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findBySelledTicketsLessThan?selledTickets=100" }
+        },
+        {
+          "name": "GET /Event/findBySelledTicketsGreaterThan?selledTickets",
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findBySelledTicketsGreaterThan?selledTickets=100" }
+        },
+        {
+          "name": "GET /Event/findByTicketPrice?ticketPrice",
+          "request": { "method": "GET", "url": "{{baseUrl}}/Event/findByTicketPrice?ticketPrice=50.0" }
         }
       ]
     },
@@ -151,7 +177,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": 30,\n  \"orderId\": 1001,\n  \"amount\": 120.0,\n  \"status\": \"SUCCESS\",\n  \"method\": \"CREDIT_CARD\",\n  \"transactionId\": \"TX-1001\",\n  \"attemptedAt\": \"2026-03-31T10:00:00\"\n}"
+              "raw": "{\n  \"method\": \"CREDIT_CARD\",\n  \"totalPrice\": 99.99,\n  \"date\": \"2026-04-02T10:30:00\",\n  \"userId\": 1\n}"
             },
             "url": "{{baseUrl}}/api/payment/insert"
           }
@@ -163,7 +189,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": 30,\n  \"orderId\": 1001,\n  \"amount\": 120.0,\n  \"status\": \"SUCCESS\",\n  \"method\": \"PAYPAL\",\n  \"transactionId\": \"TX-1001-UPD\",\n  \"attemptedAt\": \"2026-03-31T10:05:00\"\n}"
+              "raw": "{\n  \"id\": 1,\n  \"method\": \"PAYPAL\",\n  \"totalPrice\": 120.5,\n  \"date\": \"2026-03-31T10:00:00\",\n  \"userId\": 1\n}"
             },
             "url": "{{baseUrl}}/api/payment/update"
           }
@@ -181,53 +207,8 @@
           "request": { "method": "GET", "url": "{{baseUrl}}/api/payment/method/CREDIT_CARD" }
         },
         {
-          "name": "GET /api/payment/status/{checked}",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/payment/status/true" }
-        },
-        {
-          "name": "GET /api/payment/user/{userId}/verified",
-          "request": { "method": "GET", "url": "{{baseUrl}}/api/payment/user/{{userId}}/verified" }
-        }
-      ]
-    },
-    {
-      "name": "PlaceController (/Place)",
-      "item": [
-        {
-          "name": "GET /Place/getall",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Place/getall" }
-        },
-        {
-          "name": "GET /Place/read?id",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Place/read?id={{placeId}}" }
-        },
-        {
-          "name": "POST /Place/insert",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"id\": 40,\n  \"code\": \"C1\",\n  \"status\": false,\n  \"type\": \"STANDARD\",\n  \"eventId\": 1\n}"
-            },
-            "url": "{{baseUrl}}/Place/insert"
-          }
-        },
-        {
-          "name": "PUT /Place/update",
-          "request": {
-            "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"id\": 40,\n  \"code\": \"C1\",\n  \"status\": true,\n  \"type\": \"STANDARD\",\n  \"eventId\": 1\n}"
-            },
-            "url": "{{baseUrl}}/Place/update"
-          }
-        },
-        {
-          "name": "DELETE /Place/delete?id",
-          "request": { "method": "DELETE", "url": "{{baseUrl}}/Place/delete?id={{placeId}}" }
+          "name": "GET /api/payment/user/{userId}",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/payment/user/{{userId}}" }
         }
       ]
     },
@@ -249,7 +230,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Mario\",\n  \"surname\": \"Rossi\",\n  \"price\": 60.0,\n  \"creationDate\": \"2026-03-31T12:00:00\",\n  \"cartId\": 1,\n  \"placeId\": 1,\n  \"userId\": 1,\n  \"eventId\": 1\n}"
+              "raw": "{\n  \"name\": \"Filippo\",\n  \"surname\": \"Rossi\",\n  \"price\": 50.0,\n  \"creationDate\": \"2026-04-02T12:00:00\",\n  \"userId\": 1,\n  \"eventId\": 1\n}"
             },
             "url": "{{baseUrl}}/Ticket/insert"
           }
@@ -261,7 +242,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"ticketId\": 1,\n  \"name\": \"Mario\",\n  \"surname\": \"Rossi\",\n  \"price\": 65.0,\n  \"creationDate\": \"2026-03-31T12:05:00\",\n  \"cartId\": 1,\n  \"placeId\": 1,\n  \"userId\": 1,\n  \"eventId\": 1\n}"
+              "raw": "{\n  \"ticketId\": 1,\n  \"name\": \"Filippo\",\n  \"surname\": \"Rossi\",\n  \"price\": 55.0,\n  \"creationDate\": \"2026-04-02T12:05:00\",\n  \"userId\": 1,\n  \"eventId\": 1\n}"
             },
             "url": "{{baseUrl}}/Ticket/update"
           }
@@ -272,23 +253,11 @@
         },
         {
           "name": "GET /Ticket/findByNameAndSurname",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findByNameAndSurname?name=Mario&surname=Rossi" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findByNameAndSurname?name=Filippo&surname=Rossi" }
         },
         {
           "name": "GET /Ticket/findTicketByCreationDate",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findTicketByCreationDate?creationDate=2026-03-31T12:00:00" }
-        },
-        {
-          "name": "GET /Ticket/findTicketByUser",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findTicketByUser?id={{userId}}" }
-        },
-        {
-          "name": "GET /Ticket/findTicketByCart",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findTicketByCart?id={{cartId}}" }
-        },
-        {
-          "name": "GET /Ticket/findTicketByPlace",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findTicketByPlace?id={{placeId}}" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findTicketByCreationDate?creationDate=2026-04-01T12:00:00" }
         },
         {
           "name": "GET /Ticket/findTicketByPriceGreaterThanEqual",
@@ -304,7 +273,7 @@
         },
         {
           "name": "GET /Ticket/findTicketByDateRange",
-          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findTicketByDateRange?startTime=2026-03-01T00:00:00&endTime=2026-04-01T00:00:00" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/Ticket/findTicketByDateRange?startTime=2026-03-01T00:00:00&endTime=2026-04-30T00:00:00" }
         }
       ]
     },
@@ -313,7 +282,7 @@
       "item": [
         {
           "name": "GET /User/findByName",
-          "request": { "method": "GET", "url": "{{baseUrl}}/User/findByName?name=Mario" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/User/findByName?name=Filippo" }
         },
         {
           "name": "GET /User/findBySurname",
@@ -321,19 +290,15 @@
         },
         {
           "name": "GET /User/findByEmail",
-          "request": { "method": "GET", "url": "{{baseUrl}}/User/findByEmail?email=mario.rossi@example.com" }
-        },
-        {
-          "name": "GET /User/findByTaxCode",
-          "request": { "method": "GET", "url": "{{baseUrl}}/User/findByTaxCode?taxCode=RSSMRA90A01H501U" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/User/findByEmail?email={{userEmail}}" }
         },
         {
           "name": "GET /User/findByNameAndSurname",
-          "request": { "method": "GET", "url": "{{baseUrl}}/User/findByNameAndSurname?name=Mario&surname=Rossi" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/User/findByNameAndSurname?name=Filippo&surname=Rossi" }
         },
         {
           "name": "GET /User/findBySurnameAndEmail",
-          "request": { "method": "GET", "url": "{{baseUrl}}/User/findBySurnameAndEmail?surname=Rossi&email=mario.rossi@example.com" }
+          "request": { "method": "GET", "url": "{{baseUrl}}/User/findBySurnameAndEmail?surname=Rossi&email={{userEmail}}" }
         }
       ]
     }

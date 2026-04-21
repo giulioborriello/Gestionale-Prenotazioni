@@ -1,18 +1,11 @@
 package com.gestionaleprenotazioni.formerjob.Controller;
 
 import com.gestionaleprenotazioni.formerjob.Dto.EventDto;
-import com.gestionaleprenotazioni.formerjob.Dto.PlaceDto;
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
 import com.gestionaleprenotazioni.formerjob.Dto.UserDto;
-import com.gestionaleprenotazioni.formerjob.Service.EmailService;
-import com.gestionaleprenotazioni.formerjob.Service.EventService;
-import com.gestionaleprenotazioni.formerjob.Service.PlaceService;
-import com.gestionaleprenotazioni.formerjob.Service.UserService;
+import com.gestionaleprenotazioni.formerjob.Service.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -21,28 +14,43 @@ import java.util.Map;
 public class EmailController {
 
     private final EmailService emailService;
-    private final PlaceService placeService;
     private final EventService eventService;
     private final UserService userService;
+    private final AllegatoService allegatoService;
+    private final TicketService ticketService;
 
-    public EmailController(EmailService emailService, PlaceService placeService, EventService eventService, UserService userService) {
+    public EmailController(EmailService emailService, EventService eventService, UserService userService, AllegatoService allegatoService, TicketService ticketService) {
         this.emailService = emailService;
         this.eventService = eventService;
-        this.placeService = placeService;
         this.userService = userService;
+        this.allegatoService = allegatoService;
+        this.ticketService = ticketService;
     }
 
     @PostMapping("/send-test-email")
     public ResponseEntity<Map<String, String>> sendTestEmail(@RequestBody TicketDto ticketDto) {
-        PlaceDto placeDto = placeService.read(ticketDto.getPlaceId());
         EventDto eventDto = eventService.read(ticketDto.getEventId());
         UserDto userDto = userService.read(ticketDto.getUserId());
 
         String subject = emailService.buildPurchaseConfirmationSubject(eventDto.getName());
-        String body = emailService.buildPurchaseConfirmationBody(userDto, eventDto, placeDto);
+        String body = emailService.buildPurchaseConfirmationBody(userDto, eventDto);
 
         emailService.sendSimpleEmail(userDto.getEmail(), subject, body);
 
         return ResponseEntity.ok(Map.of("message", "Email di conferma inviata con successo"));
+    }
+
+    @PostMapping("/invia-mail-pdf")
+    public ResponseEntity<Map<String, String>> inviaMailPdf(@RequestParam Integer id) {
+        try {
+            allegatoService.inviaOrdineConAllegato(ticketService.read(id), eventService.read(ticketService.read(id).getEventId()), userService.read(ticketService.read(id).getUserId()));
+            return ResponseEntity.ok(Map.of("message", "Mail inviata con PDF allegato con successo"));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Errore durante l'invio della mail: " + e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", "Errore interno: " + e.getMessage()));
+        }
     }
 }

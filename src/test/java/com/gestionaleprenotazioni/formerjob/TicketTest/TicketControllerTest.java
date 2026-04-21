@@ -2,9 +2,6 @@ package com.gestionaleprenotazioni.formerjob.TicketTest;
 
 import com.gestionaleprenotazioni.formerjob.Controller.TicketController;
 import com.gestionaleprenotazioni.formerjob.Dto.TicketDto;
-import com.gestionaleprenotazioni.formerjob.Model.Cart;
-import com.gestionaleprenotazioni.formerjob.Model.Place;
-import com.gestionaleprenotazioni.formerjob.Model.User;
 import com.gestionaleprenotazioni.formerjob.Service.TicketService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,42 +64,6 @@ public class TicketControllerTest {
 
         assertExpectedTicketDto(result);
         verify(ticketService, times(1)).findTicketByCreationDate(fixedDate);
-    }
-
-    @Test
-    void findTicketByUser_Test() {
-        User user = new User();
-        when(ticketService.findTicketByUser(user))
-                .thenReturn(Collections.singletonList(ticketDto));
-
-        List<TicketDto> result = ticketController.findTicketByUser(user);
-
-        assertExpectedTicketDto(result);
-        verify(ticketService, times(1)).findTicketByUser(user);
-    }
-
-    @Test
-    void findTicketByCart_Test() {
-        Cart cart = new Cart();
-        when(ticketService.findTicketByCart(cart))
-                .thenReturn(Collections.singletonList(ticketDto));
-
-        List<TicketDto> result = ticketController.findTicketByCart(cart);
-
-        assertExpectedTicketDto(result);
-        verify(ticketService, times(1)).findTicketByCart(cart);
-    }
-
-    @Test
-    void findTicketByPlace_Test() {
-        Place place = new Place();
-        when(ticketService.findTicketByPlace(place))
-                .thenReturn(Collections.singletonList(ticketDto));
-
-        List<TicketDto> result = ticketController.findTicketByPlace(place);
-
-        assertExpectedTicketDto(result);
-        verify(ticketService, times(1)).findTicketByPlace(place);
     }
 
     @Test
