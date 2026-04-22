@@ -38,7 +38,7 @@ public class PaymentDto {
      * Importo totale della transazione espresso in formato double (es. 99.99).
      */
     @Schema(description = "Costo totale della transazione", example = "99.99")
-    private double totalPrice;
+    private Double totalPrice;
 
     /**
      * Data e ora in cui è avvenuto il pagamento.
@@ -59,4 +59,14 @@ public class PaymentDto {
      */
     @Schema(description = "ID dell'utente che ha effettuato il pagamento", example = "101")
     private Integer userId;
+
+    /**
+     * Identificatore univoco dell'evento (ID) associato al pagamento.
+     * <p>
+     * Viene utilizzato l'ID per minimizzare il payload della richiesta
+     * e mantenere il disaccoppiamento tra le entità.
+     * </p>
+     */
+    @Schema(description = "ID dell'evento acquistato", example = "50")
+    private Integer eventId;
 }

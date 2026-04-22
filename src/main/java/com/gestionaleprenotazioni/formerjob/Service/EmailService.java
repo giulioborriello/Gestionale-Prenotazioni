@@ -55,28 +55,23 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendEmailWithTicket(String to, String subject,String body, byte[] pdfBytes, String linkedFile)
-    {
-      try
-      {
-          MimeMessage message = mailSender.createMimeMessage();
-          MimeMessageHelper  helper = new MimeMessageHelper(message, true);
+    public void sendEmailWithTicket(String to, String subject, String body, byte[] pdfBytes, String linkedFile) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-          helper.setFrom("no-reply@tuodominio.it");
-          helper.setTo(to);
-          helper.setSubject(subject);
-          helper.setText(body);
+            // USA LA VARIABILE 'from' INVECE DELL'EMAIL FISSA
+            helper.setFrom(from);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body);
 
-          helper.addAttachment(
-                  linkedFile,
-                  new ByteArrayResource(pdfBytes),
-                  "application/pdf"
-          );
+            helper.addAttachment(linkedFile, new ByteArrayResource(pdfBytes), "application/pdf");
 
-          mailSender.send(message);
-      } catch (Exception e) {
-          throw new IllegalStateException("Errore invio mail con allegato PDF", e);
-      }
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new IllegalStateException("Errore invio mail con allegato PDF", e);
+        }
     }
 
 
