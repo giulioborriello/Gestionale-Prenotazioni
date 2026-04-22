@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import com.gestionaleprenotazioni.formerjob.Model.Event;
 
 /**
  * Entità JPA che rappresenta la tabella {@code payment} nel database.
@@ -60,6 +61,14 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    /**
+     * Riferimento all'evento acquistato con questo pagamento.
+     * Utilizza una relazione ManyToOne (molti pagamenti per un evento).
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
 
 
 }

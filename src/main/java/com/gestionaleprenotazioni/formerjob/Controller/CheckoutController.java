@@ -20,8 +20,7 @@ public class CheckoutController {
 
     @PostMapping
     public ResponseEntity<String> eseguiCheckout(@RequestBody PaymentDto paymentDto) {
-        // Qui il frontend invia i dati. 
-        // Tu li passi al service che hai già testato!
+
         checkoutService.completePurchase(paymentDto);
 
         return ResponseEntity.ok("Acquisto completato con successo. Email inviata!");
