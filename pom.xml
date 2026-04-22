@@ -80,6 +80,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- CLOUDINARY (Servizio di archiviazione immagini) -->
+		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http5</artifactId>
+			<version>1.38.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
