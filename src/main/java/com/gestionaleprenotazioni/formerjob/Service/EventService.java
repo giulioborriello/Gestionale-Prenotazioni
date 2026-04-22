@@ -70,13 +70,21 @@ public class EventService extends AbstractService<Event, EventDto> {
     }
 
     // 🔹 Metodo per trovare l'evento per nome
-    public EventDto findByName(String name) {
-        return eventMapper.toDTO(eventRepository.findByName(name));
+    public List<EventDto> findByName(String name) {
+        return eventRepository
+                .findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(eventMapper::toDTO)
+                .toList();
     }
 
     // 🔹 Metodo per trovare l'evento per nome
-    public EventDto findByDescription(String description) {
-        return eventMapper.toDTO(eventRepository.findByDescription(description));
+    public List<EventDto> findByDescription(String description) {
+        return eventRepository
+                .findByDescriptionContainingIgnoreCase(description)
+                .stream()
+                .map(eventMapper::toDTO)
+                .toList();
     }
 
     // 🔹 Metodo per trovare l'evento per nome
@@ -86,7 +94,11 @@ public class EventService extends AbstractService<Event, EventDto> {
 
     // 🔹 Metodo per trovare l'evento per nome
     public List<EventDto> findByLocation(String location) {
-        return eventMapper.toDTOList(eventRepository.findByLocation(location));
+        return eventRepository
+                .findByLocationContainingIgnoreCase(location)
+                .stream()
+                .map(eventMapper::toDTO)
+                .toList();
     }
 
     // 🔹 Metodo per trovare l'evento per nome

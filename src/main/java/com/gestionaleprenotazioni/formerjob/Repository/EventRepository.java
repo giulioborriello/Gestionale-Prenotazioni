@@ -12,16 +12,16 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
     // Metodo che ricerca eventi per nome
-    Event findByName(String name);
+    List<Event> findByNameContainingIgnoreCase(String name);
 
     // Metodo che ricerca eventi per descrizione
-    Event findByDescription(String description);
+    List<Event> findByDescriptionContainingIgnoreCase(String description);
 
     // Metodo che ricerca eventi per tipologia di evento
     List<Event> findByType(Type type);
 
     // Metodo che ricerca eventi per il luogo dell'evento
-    List<Event> findByLocation(String location);
+    List<Event> findByLocationContainingIgnoreCase(String location);
 
     // Metodo che ricerca eventi tra due date
     List<Event> findByDateBetween(Date startDate, Date endDate);
