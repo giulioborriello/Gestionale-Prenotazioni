@@ -11,8 +11,8 @@ TRUNCATE TABLE formerjob."user" RESTART IDENTITY CASCADE;
 -- =========================
 INSERT INTO formerjob."user" (name, surname, email, password, date_of_birth, role) VALUES
 ('Mario','Merola','admin@test.com','pwd001','1980-01-01', 0),
-('Giacomo','Bianchi','user@test.com','pwd002','1981-02-15', 1);
-
+('Giacomo','Bianchi','user@test.com','$2a$10$agcfwK7lkMtjqUv0mEGsH.RLfCICAFGUn84JOAmk4OHSXr7cOYEf.','1981-02-15', 1);
+-- password: Pippo1
 -- =========================
 -- INSERT EVENT
 -- =========================
@@ -41,9 +41,9 @@ INSERT INTO formerjob.ticket (name, surname, price, creation_date, user_id, even
 -- =========================
 -- INSERT PAYMENT
 -- =========================
-INSERT INTO formerjob.payment (method, total_price, date, user_id) VALUES
-('CREDIT_CARD', 120.50, '2026-04-19 14:13:00', 1),
-('PAYPAL', 75.00, '2026-04-16 14:13:00', 2),
-('CREDIT_CARD', 200.00, '2026-04-20 14:13:00', 1),
-('PAYPAL', 50.00, '2026-04-18 14:13:00', 2),
-('CREDIT_CARD', 180.30, '2026-04-17 14:13:00', 1);
+INSERT INTO formerjob.payment (method, total_price, date, user_id, event_id) VALUES
+('CREDIT_CARD', 120.50, '2026-04-19 14:13:00', 1,1),
+('PAYPAL', 75.00, '2026-04-16 14:13:00', 2,2),
+('CREDIT_CARD', 200.00, '2026-04-20 14:13:00', 1, 3),
+('PAYPAL', 50.00, '2026-04-18 14:13:00', 2, 4),
+('CREDIT_CARD', 180.30, '2026-04-17 14:13:00', 1, 5);
