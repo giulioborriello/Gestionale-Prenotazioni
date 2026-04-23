@@ -121,4 +121,22 @@ public class EventController extends AbstractController<EventDto> {
         return eventService.findTop5MostRemunerative();
     }
 
+    // 🔹 Biglietti venduti per evento
+    @Operation(summary = "Biglietti venduti di un evento")
+    @GetMapping("/getSelledTicketsByEventId")
+    public Integer getSelledTicketsByEventId(
+            @RequestParam("eventId") Integer eventId
+    ) {
+        return eventService.getSelledTicketsByEventId(eventId);
+    }
+
+    // 🔹 Biglietti disponibili per evento
+    @Operation(summary = "Biglietti disponibili di un evento")
+    @GetMapping("/getAvailableTicketsByEventId")
+    public Integer getAvailableTicketsByEventId(
+            @RequestParam("eventId") Integer eventId
+    ) {
+        return eventService.getAvailableTicketsByEventId(eventId);
+    }
+
 }

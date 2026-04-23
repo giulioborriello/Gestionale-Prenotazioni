@@ -3,6 +3,8 @@ package com.gestionaleprenotazioni.formerjob.Repository;
 import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -46,4 +48,12 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     // Metodo che ricerca eventi più remunerativi e più recenti
     List<Event> findTop5ByOrderBySelledTicketsDescDateDesc();
+
+    // 🔹 Biglietti venduti di un singolo evento
+    @Query("SELECT e.selledTickets FROM Event e WHERE e.id = :eventId")
+    Integer getSelledTicketsByEventId(@Param("eventId") Integer eventId);
+
+    // 🔹 Biglietti disponibili di un singolo evento
+    @Query("SELECT (e.maxTickets - e.selledTickets) FROM Event e WHERE e.id = :eventId")
+    Integer getAvailableTicketsByEventId(@Param("eventId") Integer eventId);
 }
