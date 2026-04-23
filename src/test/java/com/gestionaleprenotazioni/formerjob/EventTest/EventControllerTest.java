@@ -260,4 +260,28 @@ public class EventControllerTest {
 
         verify(eventService).findTop5MostRemunerative();
     }
+
+    // 🔹 Test 13: Metodo per ottenere il totale dei biglietti venduti
+    @Test
+    void testGetSelledTicketsByEventId() {
+        when(eventService.getSelledTicketsByEventId(1)).thenReturn(75);
+
+        Integer result = eventController.getSelledTicketsByEventId(1);
+
+        assertThat(result).isEqualTo(75);
+
+        verify(eventService).getSelledTicketsByEventId(1);
+    }
+
+    // 🔹 Test 14: Metodo per ottenere il totale dei biglietti disponibili
+    @Test
+    void testGetAvailableTicketsByEventId() {
+        when(eventService.getAvailableTicketsByEventId(1)).thenReturn(170);
+
+        Integer result = eventController.getAvailableTicketsByEventId(1);
+
+        assertThat(result).isEqualTo(170);
+
+        verify(eventService).getAvailableTicketsByEventId(1);
+    }
 }
