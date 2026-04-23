@@ -61,5 +61,12 @@ public class Payment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    /**
+     * Riferimento all'evento acquistato con questo pagamento.
+     * Utilizza una relazione ManyToOne (molti pagamenti per un evento).
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event;
 
 }
