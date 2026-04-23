@@ -33,14 +33,14 @@ public class EventController extends AbstractController<EventDto> {
     // 🔹 Per nome
     @Operation(summary = "Trova un evento per nome")
     @GetMapping("/findByName")
-    public EventDto findByName(@Parameter(description = "Nome dell'evento da cercare", required = true) @RequestParam("name") String name) {
+    public List<EventDto> findByName(@Parameter(description = "Nome dell'evento da cercare", required = true) @RequestParam("name") String name) {
         return eventService.findByName(name);
     }
 
     // 🔹 Per descrizione
     @Operation(summary = "Trova un evento per descrizione")
     @GetMapping("/findByDescription")
-    public EventDto findByDescription(@Parameter(description = "Descrizione dell'evento da cercare", required = true)@RequestParam("description") String description) {
+    public List<EventDto> findByDescription(@RequestParam("description") String description) {
         return eventService.findByDescription(description);
     }
 
@@ -54,7 +54,7 @@ public class EventController extends AbstractController<EventDto> {
     // 🔹 Per location
     @Operation(summary = "Trova un evento per luogo")
     @GetMapping("/findByLocation")
-    public List<EventDto> findByLocation(@Parameter(description = "Luogo dell'evento da cercare", required = true)@RequestParam("location") String location) {
+    public List<EventDto> findByLocation(@RequestParam("location") String location) {
         return eventService.findByLocation(location);
     }
 
@@ -119,6 +119,24 @@ public class EventController extends AbstractController<EventDto> {
     @GetMapping("/findTop5MostRemunerative")
     public List<EventDto> findTop5MostRemunerative() {
         return eventService.findTop5MostRemunerative();
+    }
+
+    // 🔹 Biglietti venduti per evento
+    @Operation(summary = "Biglietti venduti di un evento")
+    @GetMapping("/getSelledTicketsByEventId")
+    public Integer getSelledTicketsByEventId(
+            @RequestParam("eventId") Integer eventId
+    ) {
+        return eventService.getSelledTicketsByEventId(eventId);
+    }
+
+    // 🔹 Biglietti disponibili per evento
+    @Operation(summary = "Biglietti disponibili di un evento")
+    @GetMapping("/getAvailableTicketsByEventId")
+    public Integer getAvailableTicketsByEventId(
+            @RequestParam("eventId") Integer eventId
+    ) {
+        return eventService.getAvailableTicketsByEventId(eventId);
     }
 
 }

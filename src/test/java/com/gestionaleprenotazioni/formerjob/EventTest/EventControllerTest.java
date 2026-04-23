@@ -28,18 +28,21 @@ public class EventControllerTest {
     // 🔹 Test 1: Trova evento per nome
     @Test
     void testFindByName() {
-        String name = "ITALIASPAGNA";
+        String name = "ITALIA";
 
         EventDto dto = new EventDto();
         dto.setId(1);
-        dto.setName(name);
+        dto.setName("Italia-Spagna");
 
-        when(eventService.findByName(name)).thenReturn(dto);
+        List<EventDto> list = List.of(dto);
 
-        EventDto result = eventController.findByName(name);
+        when(eventService.findByName(name)).thenReturn(list);
+
+        List<EventDto> result = eventController.findByName(name);
 
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo(name);
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getName()).containsIgnoringCase(name);
 
         verify(eventService).findByName(name);
     }
@@ -47,16 +50,20 @@ public class EventControllerTest {
     // 🔹 Test 2: Trova evento per descrizione
     @Test
     void testFindByDescription() {
-        String desc = "KKAJWHDJEJBDEUBCUJE";
+        String desc = "Marvel";
 
         EventDto dto = new EventDto();
-        dto.setDescription(desc);
+        dto.setDescription("Film Marvel Avengers");
 
-        when(eventService.findByDescription(desc)).thenReturn(dto);
+        List<EventDto> list = List.of(dto);
 
-        EventDto result = eventController.findByDescription(desc);
+        when(eventService.findByDescription(desc)).thenReturn(list);
 
-        assertThat(result.getDescription()).isEqualTo(desc);
+        List<EventDto> result = eventController.findByDescription(desc);
+
+        assertThat(result).isNotNull();
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getDescription()).containsIgnoringCase(desc);
 
         verify(eventService).findByDescription(desc);
     }
@@ -81,19 +88,22 @@ public class EventControllerTest {
     // 🔹 Test 4: Trova per location
     @Test
     void testFindByLocation() {
-        String location = "Napoli";
+        String loc = "nap";
 
         EventDto dto = new EventDto();
-        dto.setLocation(location);
+        dto.setLocation("Napoli Stadio Maradona");
 
-        when(eventService.findByLocation(location))
-                .thenReturn(List.of(dto));
+        List<EventDto> list = List.of(dto);
 
-        List<EventDto> result = eventController.findByLocation(location);
+        when(eventService.findByLocation(loc)).thenReturn(list);
 
-        assertThat(result.get(0).getLocation()).isEqualTo(location);
+        List<EventDto> result = eventController.findByLocation(loc);
 
-        verify(eventService).findByLocation(location);
+        assertThat(result).isNotNull();
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getLocation()).containsIgnoringCase(loc);
+
+        verify(eventService).findByLocation(loc);
     }
 
     // 🔹 Test 5: Tra due date
@@ -249,5 +259,29 @@ public class EventControllerTest {
         assertThat(result.size()).isGreaterThan(0);
 
         verify(eventService).findTop5MostRemunerative();
+    }
+
+    // 🔹 Test 13: Metodo per ottenere il totale dei biglietti venduti
+    @Test
+    void testGetSelledTicketsByEventId() {
+        when(eventService.getSelledTicketsByEventId(1)).thenReturn(75);
+
+        Integer result = eventController.getSelledTicketsByEventId(1);
+
+        assertThat(result).isEqualTo(75);
+
+        verify(eventService).getSelledTicketsByEventId(1);
+    }
+
+    // 🔹 Test 14: Metodo per ottenere il totale dei biglietti disponibili
+    @Test
+    void testGetAvailableTicketsByEventId() {
+        when(eventService.getAvailableTicketsByEventId(1)).thenReturn(170);
+
+        Integer result = eventController.getAvailableTicketsByEventId(1);
+
+        assertThat(result).isEqualTo(170);
+
+        verify(eventService).getAvailableTicketsByEventId(1);
     }
 }

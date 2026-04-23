@@ -10,6 +10,7 @@ import com.gestionaleprenotazioni.formerjob.Repository.TicketRepository;
 import com.gestionaleprenotazioni.formerjob.Repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -64,8 +65,10 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
      * @throws ResponseStatusException NOT_FOUND se utente/evento referenziati non esistono
      */
     @Override
+    @Transactional
     public TicketDto insert(TicketDto dto) {
         Ticket ticket = buildTicketFromDto(dto);
+        incrementSelledTickets(ticket.getEvent());
         return ticketMapper.toDTO(ticketRepository.save(ticket));
     }
 
@@ -145,6 +148,21 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
     private Event resolveEvent(Integer id) {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found with id: " + id));
+    }
+
+    /**
+     * Incrementa il numero di ticket venduti dell'evento associato al ticket.
+     *
+     * <p>Se il contatore e null, viene inizializzato a 0 prima dell'incremento.</p>
+     *
+     * @param event evento da aggiornare
+     */
+    private void incrementSelledTickets(Event event) {
+        if (event.getSelledTickets() == null) {
+            event.setSelledTickets(0);
+        }
+
+        event.setSelledTickets(event.getSelledTickets() + 1);
     }
 
     /**

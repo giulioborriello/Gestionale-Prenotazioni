@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -56,24 +57,35 @@ class EventServiceTest {
     // 🔹 Test 1: Trova evento per nome
     @Test
     void testFindByName() {
-        when(eventRepository.findByName("Cinema Night")).thenReturn(event);
+        String input = "cinema";
+
+        when(eventRepository.findByNameContainingIgnoreCase(input))
+                .thenReturn(List.of(event));
+
         when(eventMapper.toDTO(event)).thenReturn(eventDto);
 
-        EventDto result = eventService.findByName("Cinema Night");
+        List<EventDto> result = eventService.findByName(input);
 
         assertNotNull(result);
-        assertEquals("Cinema Night", result.getName());
+        assertEquals(1, result.size());
+        assertEquals("Cinema Night", result.get(0).getName());
     }
 
     // 🔹 Test 2: Trova Evento per descrizione
     @Test
     void testFindByDescription() {
-        when(eventRepository.findByDescription("Film Marvel")).thenReturn(event);
+        String input = "marvel";
+
+        when(eventRepository.findByDescriptionContainingIgnoreCase(input))
+                .thenReturn(List.of(event));
+
         when(eventMapper.toDTO(event)).thenReturn(eventDto);
 
-        EventDto result = eventService.findByDescription("Film Marvel");
+        List<EventDto> result = eventService.findByDescription(input);
 
-        assertEquals("Film Marvel", result.getDescription());
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Film Marvel Avengers", result.get(0).getDescription());
     }
 
     // 🔹 Test 3: Trova eventi per tipo di evento
@@ -91,12 +103,18 @@ class EventServiceTest {
     // 🔹 Test 4: Trova Evento per luogo
     @Test
     void testFindByLocation() {
-        when(eventRepository.findByLocation("Roma")).thenReturn(List.of(event));
-        when(eventMapper.toDTOList(List.of(event))).thenReturn(List.of(eventDto));
+        String input = "nap";
 
-        List<EventDto> result = eventService.findByLocation("Roma");
+        when(eventRepository.findByLocationContainingIgnoreCase(input))
+                .thenReturn(List.of(event));
 
-        assertEquals("Roma", result.get(0).getLocation());
+        when(eventMapper.toDTO(event)).thenReturn(eventDto);
+
+        List<EventDto> result = eventService.findByLocation(input);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Napoli Stadio Maradona", result.get(0).getLocation());
     }
 
     // 🔹 Test 5: Trova Evento tra due date
@@ -245,5 +263,30 @@ class EventServiceTest {
         assertEquals(1, result.size());
 
         verify(eventRepository).findTop5ByOrderBySelledTicketsDescDateDesc();
+    }
+
+    // 🔹 Test 17: Metodo per ottenere il totale dei biglietti venduti
+    @Test
+    void testGetSelledTicketsByEventId() {
+        event.setSelledTickets(75);
+
+        when(eventRepository.findById(1)).thenReturn(Optional.of(event));
+
+        Integer result = eventService.getSelledTicketsByEventId(1);
+
+        assertEquals(75, result);
+    }
+
+    // 🔹 Test 18: Metodo per ottenere il totale dei biglietti disponibili
+    @Test
+    void testGetAvailableTicketsByEventId() {
+        event.setMaxTickets(250);
+        event.setSelledTickets(80);
+
+        when(eventRepository.findById(1)).thenReturn(Optional.of(event));
+
+        Integer result = eventService.getAvailableTicketsByEventId(1);
+
+        assertEquals(170, result);
     }
 }
