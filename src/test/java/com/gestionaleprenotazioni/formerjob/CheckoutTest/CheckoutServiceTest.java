@@ -1,8 +1,10 @@
 package com.gestionaleprenotazioni.formerjob.CheckoutTest;
 
 import com.gestionaleprenotazioni.formerjob.Dto.PaymentDto;
+import com.gestionaleprenotazioni.formerjob.Model.Event;
 import com.gestionaleprenotazioni.formerjob.Model.Payment;
 import com.gestionaleprenotazioni.formerjob.Model.PaymentMethod;
+import com.gestionaleprenotazioni.formerjob.Repository.EventRepository;
 import com.gestionaleprenotazioni.formerjob.Repository.PaymentRepository;
 import com.gestionaleprenotazioni.formerjob.Repository.TicketRepository;
 import com.gestionaleprenotazioni.formerjob.Service.CheckoutService;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.persistence.EntityManager;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +38,12 @@ class CheckoutServiceTest {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @MockitoBean
     private EmailService emailService;
@@ -66,13 +76,19 @@ class CheckoutServiceTest {
 
         long initialPaymentCount = paymentRepository.count();
         long initialTicketCount = ticketRepository.count();
+        Event eventBeforePurchase = eventRepository.findById(dto.getEventId()).orElseThrow();
+        int initialSelledTickets = eventBeforePurchase.getSelledTickets();
 
         // 2. Act
         assertDoesNotThrow(() -> checkoutService.completePurchase(dto), "Il metodo completePurchase non dovrebbe lanciare eccezioni");
+        entityManager.flush();
+        entityManager.clear();
 
         // 3. Assert
         assertEquals(initialPaymentCount + 1, paymentRepository.count(), "Dovrebbe esserci un nuovo pagamento nel DB");
         assertEquals(initialTicketCount + 1, ticketRepository.count(), "Dovrebbe esserci un nuovo ticket nel DB");
+        Event updatedEvent = eventRepository.findById(dto.getEventId()).orElseThrow();
+        assertEquals(initialSelledTickets + 1, updatedEvent.getSelledTickets(), "L'evento associato dovrebbe incrementare i ticket venduti di uno");
 
         List<Payment> payments = paymentRepository.findAll();
         Payment lastPayment = payments.get(payments.size() - 1);
