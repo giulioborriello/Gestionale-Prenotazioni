@@ -1,17 +1,14 @@
 -- =========================
 -- RESET DATABASE
 -- =========================
-TRUNCATE TABLE formerjob.ticket RESTART IDENTITY CASCADE;
-TRUNCATE TABLE formerjob.payment RESTART IDENTITY CASCADE;
-TRUNCATE TABLE formerjob.event RESTART IDENTITY CASCADE;
-TRUNCATE TABLE formerjob."user" RESTART IDENTITY CASCADE;
+
 
 -- =========================
 -- INSERT USER
 -- =========================
 INSERT INTO formerjob."user" (name, surname, email, password, date_of_birth, role) VALUES
 ('Mario','Merola','admin@test.com','pwd001','1980-01-01', 0),
-('Giacomo','Bianchi','user@test.com','pwd002','1981-02-15', 1);
+('Gennaro','Merola','user@test.com','pwd001','1980-01-01', 1);
 
 -- =========================
 -- INSERT EVENT
