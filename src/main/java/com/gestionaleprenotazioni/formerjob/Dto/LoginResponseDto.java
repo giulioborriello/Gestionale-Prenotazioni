@@ -19,4 +19,3 @@ public class LoginResponseDto {
     private Role role;
     private boolean status;
 }
-

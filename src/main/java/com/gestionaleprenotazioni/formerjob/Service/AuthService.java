@@ -23,7 +23,6 @@ public class AuthService {
     }
 
     public LoginResponseDto register(RegisterRequestDto request) {
-
         if (userRepository.findByEmail(request.getEmail()) != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email già in uso");
         }
