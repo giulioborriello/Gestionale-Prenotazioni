@@ -78,7 +78,5 @@
 /target/classes/com/gestionaleprenotazioni/formerjob/Controller/CloudinaryController.class
 /target/classes/com/gestionaleprenotazioni/formerjob/Service/CloudinaryService.class
 /target/classes/com/gestionaleprenotazioni/formerjob/Dto/ImageUploadResponseDto.class
-/target/classes/com/gestionaleprenotazioni/formerjob/Controller/PurchaseOrderController.class
-/target/classes/com/gestionaleprenotazioni/formerjob/Dto/PurchaseOrderDto.class
-/target/classes/com/gestionaleprenotazioni/formerjob/Service/PurchaseOrderService.class
-/target/classes/com/gestionaleprenotazioni/formerjob/Dto/TicketHolderDto.class
+target/
+.idea/
