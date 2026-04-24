@@ -116,6 +116,131 @@ public class EventService extends AbstractService<Event, EventDto> {
         return eventMapper.toDTOList(eventRepository.findByDateBefore(data));
     }
 
+    public List<EventDto> advancedSearch(String name, String description, String location, Date startDate, Date endDate) {
+
+        // nome + descrizione + luogo + date
+        if (name != null && !name.isBlank() && description != null && !description.isBlank() && location != null
+                && !location.isBlank() && startDate != null && endDate != null) {
+
+            return eventRepository
+                    .findByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndLocationContainingIgnoreCaseAndDateBetween(
+                            name, description, location, startDate, endDate)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // nome + luogo + date
+        if (name != null && !name.isBlank() && location != null && !location.isBlank()
+                && startDate != null && endDate != null) {
+
+            return eventRepository
+                    .findByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseAndDateBetween(
+                            name, location, startDate, endDate)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // nome + descrizione + luogo
+        if (name != null && !name.isBlank() && description != null && !description.isBlank()
+                && location != null && !location.isBlank()) {
+
+            return eventRepository
+                    .findByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndLocationContainingIgnoreCase(
+                            name, description, location)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // nome + descrizione
+        if (name != null && !name.isBlank()
+                && description != null && !description.isBlank()
+                && (location == null || location.isBlank())
+                && startDate == null && endDate == null) {
+
+            return eventRepository
+                    .findByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCase(
+                            name, description)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // nome + luogo
+        if (name != null && !name.isBlank()
+                && location != null && !location.isBlank()
+                && description == null
+                && startDate == null && endDate == null) {
+
+            return eventRepository
+                    .findByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(
+                            name, location)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // descrizione + luogo
+        if (description != null && !description.isBlank()
+                && location != null && !location.isBlank()
+                && name == null
+                && startDate == null && endDate == null) {
+
+            return eventRepository
+                    .findByDescriptionContainingIgnoreCaseAndLocationContainingIgnoreCase(
+                            description, location)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // nome + date
+        if (name != null && !name.isBlank()
+                && startDate != null && endDate != null
+                && description == null
+                && location == null) {
+
+            return eventRepository
+                    .findByNameContainingIgnoreCaseAndDateBetween(
+                            name, startDate, endDate)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // luogo + date
+        if (location != null && !location.isBlank()
+                && startDate != null && endDate != null
+                && name == null
+                && description == null) {
+
+            return eventRepository
+                    .findByLocationContainingIgnoreCaseAndDateBetween(
+                            location, startDate, endDate)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        // descrizione + date
+        if (description != null && !description.isBlank()
+                && startDate != null && endDate != null
+                && name == null
+                && location == null) {
+
+            return eventRepository
+                    .findByDescriptionContainingIgnoreCaseAndDateBetween(
+                            description, startDate, endDate)
+                    .stream()
+                    .map(eventMapper::toDTO)
+                    .toList();
+        }
+
+        return eventMapper.toDTOList(eventRepository.findAll());
+    }
+
     // 🔹 Metodo per trovare l'evento per per numero di biglietti venduti
     public List<EventDto> findBySelledTickets(Integer selledTickets) {
         return eventMapper.toDTOList(eventRepository.findBySelledTickets(selledTickets));

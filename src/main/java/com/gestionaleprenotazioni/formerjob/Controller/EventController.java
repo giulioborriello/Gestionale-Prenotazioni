@@ -86,6 +86,16 @@ public class EventController extends AbstractController<EventDto> {
         return eventService.findByDateBefore(data);
     }
 
+    // 🔹  Filtri avanzati
+    @Operation(summary = "Ricerca avanzata eventi")
+    @GetMapping("/advancedSearch")
+    public List<EventDto> advancedSearch(@RequestParam(required = false) String name,
+            @RequestParam(required = false) String description, @RequestParam(required = false) String location,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        return eventService.advancedSearch(name, description, location, startDate, endDate);
+    }
+
     // 🔹 Per biglietti venduti uguali a un valore
     @Operation(summary = "Trova un evento per numero di biglietti venduti")
     @GetMapping("/findBySelledTickets")
