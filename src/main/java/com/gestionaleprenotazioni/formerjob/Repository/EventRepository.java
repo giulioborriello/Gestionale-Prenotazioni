@@ -34,6 +34,34 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     // Metodo che ricerca eventi prima di una certa data
     List<Event> findByDateBefore(Date data);
 
+    // Nome + Descrizione
+    List<Event> findByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCase(String name, String description );
+
+    // Nome + Luogo
+    List<Event> findByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(String name, String location);
+
+    // Descrizione + Luogo
+    List<Event> findByDescriptionContainingIgnoreCaseAndLocationContainingIgnoreCase(String description, String location);
+
+    // Nome + Data Between
+    List<Event> findByNameContainingIgnoreCaseAndDateBetween(String name, Date startDate, Date endDate);
+
+    // Luogo + Data Between
+    List<Event> findByLocationContainingIgnoreCaseAndDateBetween(String location, Date startDate, Date endDate);
+
+    // Descrizione + Data Between
+    List<Event> findByDescriptionContainingIgnoreCaseAndDateBetween(String description, Date startDate, Date endDate);
+
+    // Nome + Luogo + Data Between
+    List<Event> findByNameContainingIgnoreCaseAndLocationContainingIgnoreCaseAndDateBetween(String name, String location, Date startDate, Date endDate);
+
+    // Nome + Descrizione + Luogo
+    List<Event> findByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndLocationContainingIgnoreCase(String name, String description, String location);
+
+    // Nome + Descrizione + Luogo + Data Between
+    List<Event> findByNameContainingIgnoreCaseAndDescriptionContainingIgnoreCaseAndLocationContainingIgnoreCaseAndDateBetween(
+            String name, String description, String location, Date startDate, Date endDate);
+
     // Metodo che ricerca eventi per numero di biglietti venduti
     List<Event> findBySelledTickets(Integer selledTickets);
 
