@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Data Transfer Object (DTO) per la gestione dei dati di pagamento.
@@ -69,4 +70,8 @@ public class PaymentDto {
      */
     @Schema(description = "ID dell'evento acquistato", example = "50")
     private Integer eventId;
+
+    @Schema(description = "Lista degli intestatari dei biglietti")
+    private List<TicketHolderDto> tickets;
+
 }

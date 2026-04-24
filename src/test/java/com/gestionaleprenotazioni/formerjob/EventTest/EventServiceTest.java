@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -262,5 +263,30 @@ class EventServiceTest {
         assertEquals(1, result.size());
 
         verify(eventRepository).findTop5ByOrderBySelledTicketsDescDateDesc();
+    }
+
+    // 🔹 Test 17: Metodo per ottenere il totale dei biglietti venduti
+    @Test
+    void testGetSelledTicketsByEventId() {
+        event.setSelledTickets(75);
+
+        when(eventRepository.findById(1)).thenReturn(Optional.of(event));
+
+        Integer result = eventService.getSelledTicketsByEventId(1);
+
+        assertEquals(75, result);
+    }
+
+    // 🔹 Test 18: Metodo per ottenere il totale dei biglietti disponibili
+    @Test
+    void testGetAvailableTicketsByEventId() {
+        event.setMaxTickets(250);
+        event.setSelledTickets(80);
+
+        when(eventRepository.findById(1)).thenReturn(Optional.of(event));
+
+        Integer result = eventService.getAvailableTicketsByEventId(1);
+
+        assertEquals(170, result);
     }
 }

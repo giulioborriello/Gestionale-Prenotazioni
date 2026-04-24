@@ -143,4 +143,26 @@ public class EventService extends AbstractService<Event, EventDto> {
         );
     }
 
+    // 🔹 Biglietti venduti di un singolo evento
+    public Integer getSelledTicketsByEventId(Integer eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Evento non trovato"
+                ));
+
+        return event.getSelledTickets();
+    }
+
+    // 🔹 Biglietti disponibili di un singolo evento
+    public Integer getAvailableTicketsByEventId(Integer eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Evento non trovato"
+                ));
+
+        return event.getMaxTickets() - event.getSelledTickets();
+    }
+
 }
