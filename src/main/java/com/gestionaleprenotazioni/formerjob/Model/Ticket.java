@@ -86,4 +86,14 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
+
+    /**
+     * Pagamento associato al ticket.
+     *
+     * <p>Relazione molti-a-uno caricata in modo lazy.
+     * Mappata tramite la colonna `payment_id` (obbligatoria).</p>
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id", nullable = false)
+    private Payment payment;
 }

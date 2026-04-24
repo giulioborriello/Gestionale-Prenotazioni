@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmailService {
@@ -38,42 +40,55 @@ public class EmailService {
                 + "Il tuo biglietto e stato confermato con i seguenti dettagli:\n\n"
                 + "Evento: " + eventDto.getName() + "\n"
                 + "Data evento: " + formatEventDate(eventDto.getDate()) + "\n"
-                + "Posto: " + eventDto.getLocation() +"\n"
+                + "Posto: " + eventDto.getLocation() + "\n"
                 + "Ti aspettiamo!\n"
                 + "Team EventIO";
     }
 
-
     public void sendSimpleEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-
         message.setFrom(from);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
-
         mailSender.send(message);
     }
 
+    // Metodo originale — un solo allegato
     public void sendEmailWithTicket(String to, String subject, String body, byte[] pdfBytes, String linkedFile) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-            // USA LA VARIABILE 'from' INVECE DELL'EMAIL FISSA
             helper.setFrom(from);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(body);
-
             helper.addAttachment(linkedFile, new ByteArrayResource(pdfBytes), "application/pdf");
-
             mailSender.send(message);
         } catch (Exception e) {
             throw new IllegalStateException("Errore invio mail con allegato PDF", e);
         }
     }
 
+    // Nuovo metodo — lista di allegati (Map<nomeFile, bytesFile>)
+    public void sendEmailWithMultipleTickets(String to, String subject, String body, Map<String, byte[]> attachments) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body);
+
+            for (Map.Entry<String, byte[]> entry : attachments.entrySet()) {
+                helper.addAttachment(entry.getKey(), new ByteArrayResource(entry.getValue()), "application/pdf");
+            }
+
+            mailSender.send(message);
+        } catch (Exception e) {
+            throw new IllegalStateException("Errore invio mail con allegati PDF multipli", e);
+        }
+    }
 
     private String formatEventDate(Date eventDate) {
         if (eventDate == null) {

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Entità JPA che rappresenta la tabella {@code payment} nel database.
@@ -68,5 +69,8 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
+
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 
 }

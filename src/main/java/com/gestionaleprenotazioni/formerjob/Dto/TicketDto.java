@@ -61,4 +61,6 @@ public class TicketDto {
      * Identificativo dell'evento associato al ticket.
      */
     private Integer eventId;
+
+    private Integer paymentId;
 }

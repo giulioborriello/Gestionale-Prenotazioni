@@ -29,14 +29,6 @@ INSERT INTO formerjob.event (name, description, location, image_path, date, max_
 ('Giro d Italia 2026 Arrivo', 'Tappa finale iconica', 'Roma', '/media/giro_italia.jpg', '2026-06-26 16:00:00', 10000, 0, 'SPORT', 0.00),
 ('Sonar Barcelona', 'Musica, Creativita e Tecnologia', 'Barcellona', '/media/sonar.jpg', '2026-07-15 22:00:00', 15000, 11200, 'CONCERTI', 90.00);
 
--- =========================
--- INSERT TICKET
--- =========================
-INSERT INTO formerjob.ticket (name, surname, price, creation_date, user_id, event_id) VALUES
-('Filippo','Rossi', 50.00, '2026-04-19 14:13:00', 1, 1),
-('Giacomo','Bianchi', 35.00, '2026-04-18 14:13:00', 2, 2),
-('Martina','Verdi', 45.00, '2026-04-19 14:13:00', 1, 3),
-('Laura','Conti', 40.00, '2026-04-17 14:13:00', 2, 4);
 
 -- =========================
 -- INSERT PAYMENT
@@ -47,3 +39,12 @@ INSERT INTO formerjob.payment (method, total_price, date, user_id, event_id) VAL
 ('CREDIT_CARD', 200.00, '2026-04-20 14:13:00', 1, 3),
 ('PAYPAL', 50.00, '2026-04-18 14:13:00', 2, 4),
 ('CREDIT_CARD', 180.30, '2026-04-17 14:13:00', 1, 5);
+
+-- =========================
+-- INSERT TICKET
+-- =========================
+INSERT INTO formerjob.ticket (name, surname, price, creation_date, user_id, event_id, payment_id) VALUES
+('Filippo','Rossi', 50.00, '2026-04-19 14:13:00', 1, 1, 1),
+('Giacomo','Bianchi', 35.00, '2026-04-18 14:13:00', 2, 2, 2),
+('Martina','Verdi', 45.00, '2026-04-19 14:13:00', 1, 3, 3),
+('Laura','Conti', 40.00, '2026-04-17 14:13:00', 2, 4, 4);
