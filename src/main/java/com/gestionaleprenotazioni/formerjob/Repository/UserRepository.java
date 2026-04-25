@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>
@@ -19,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Integer>
         User findByEmail(String email);
         User findBySurnameAndEmail(String surname,String email);
         List<User> findByNameAndSurname(String name, String surname);
+        Optional<User> findByResetToken(String resetToken);
 }
