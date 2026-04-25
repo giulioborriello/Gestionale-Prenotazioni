@@ -12,6 +12,11 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_PROFILES_ACTIVE: dev
+      APP_MAIL_FROM: prova@gestionale.local
+      CLOUDINARY_CLOUD_NAME: dstpobuge
+      CLOUDINARY_API_KEY: 578733462843927
+      CLOUDINARY_API_SECRET: FiwS5H_5RbyCXkQ8SuRlQhjcwLA
+
     ports:
       - "8080:8080"
 
