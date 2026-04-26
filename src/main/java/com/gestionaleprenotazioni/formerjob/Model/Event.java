@@ -48,7 +48,7 @@ public class Event {
     @Column(nullable=false)
     private Double ticketPrice;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Ticket> tickets;
 
 
