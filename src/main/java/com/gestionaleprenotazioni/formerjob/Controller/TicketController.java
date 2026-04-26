@@ -60,6 +60,12 @@ public class TicketController extends AbstractController<TicketDto> {
 		return ticketService.findTicketByCreationDate(creationDate);
 	}
 
+	@GetMapping("/findTicketByUserId")
+	public List<TicketDto> findTicketByUserId( Integer userId) {
+
+		return ticketService.findTicketByUserId(userId);
+	}
+
 	/**
 	 * Cerca i ticket con prezzo maggiore o uguale al valore indicato.
 	 *
@@ -108,4 +114,6 @@ public class TicketController extends AbstractController<TicketDto> {
 			@RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime) {
 		return ticketService.findTicketByDateRange(startTime, endTime);
 	}
+
+
 }

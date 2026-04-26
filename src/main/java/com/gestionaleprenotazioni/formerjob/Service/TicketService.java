@@ -165,4 +165,8 @@ public class TicketService extends AbstractService<Ticket, TicketDto>{
     public List<TicketDto> findTicketByDateRange(LocalDateTime startTime, LocalDateTime endTime) {
         return ticketMapper.toDTOList(ticketRepository.findTicketByDateRange(startTime, endTime));
     }
+    public List<TicketDto> findTicketByUserId(Integer userId)
+    {
+        return ticketMapper.toDTOList((ticketRepository.findTicketByUserId(userId)));
+    }
 }
