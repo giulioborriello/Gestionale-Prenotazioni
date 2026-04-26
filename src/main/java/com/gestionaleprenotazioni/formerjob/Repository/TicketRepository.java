@@ -71,7 +71,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     @Query("SELECT t FROM Ticket t WHERE t.creationDate >= ?1 AND t.creationDate <= ?2")
     List<Ticket> findTicketByDateRange(LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query("SELECT t FROM Ticket t WHERE t.user_id = ?1")
-    List<Ticket> findTicketByUserId(Integer user_id);
+    List<Ticket> findTicketByUser_Id(Integer userId);
 
 }

@@ -61,9 +61,9 @@ public class TicketController extends AbstractController<TicketDto> {
 	}
 
 	@GetMapping("/findTicketByUserId")
-	public List<TicketDto> findTicketByUserId( Integer user_id) {
+	public List<TicketDto> findTicketByUserId(@RequestParam("userId") Integer userId) {
 
-		return ticketService.findTicketByUserId(user_id);
+		return ticketService.findTicketByUserId(userId);
 	}
 
 	/**
