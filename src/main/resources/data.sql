@@ -9,10 +9,11 @@ TRUNCATE TABLE formerjob."user" RESTART IDENTITY CASCADE;
 -- =========================
 -- INSERT USER
 -- =========================
-INSERT INTO formerjob."user" (name, surname, email, password, date_of_birth, role) VALUES
-('Mario','Merola','admin@test.com','pwd001','1980-01-01', 0),
-('Giacomo','Bianchi','user@test.com','$2a$10$agcfwK7lkMtjqUv0mEGsH.RLfCICAFGUn84JOAmk4OHSXr7cOYEf.','1981-02-15', 1);
--- password: Pippo1
+INSERT INTO formerjob."user" (name, surname, email, password, date_of_birth, role, reset_token, reset_token_expiry) VALUES
+('Mario','Merola','admin@test.com','$2a$12$5Pa3N/Nq2zRJfXHDhMSxru64tNFVF7k8QeAIg.sa6HaATG2.ocxNa','1980-01-01', 0, '', null),
+-- password admin: pwd001
+('Giacomo','Bianchi','user@test.com','$2a$10$agcfwK7lkMtjqUv0mEGsH.RLfCICAFGUn84JOAmk4OHSXr7cOYEf.','1981-02-15', 1, '', null);
+-- password user: Pippo1
 -- =========================
 -- INSERT EVENT
 -- =========================

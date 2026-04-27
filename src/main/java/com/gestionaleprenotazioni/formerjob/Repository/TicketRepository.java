@@ -70,4 +70,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
      */
     @Query("SELECT t FROM Ticket t WHERE t.creationDate >= ?1 AND t.creationDate <= ?2")
     List<Ticket> findTicketByDateRange(LocalDateTime startDate, LocalDateTime endDate);
+
+    List<Ticket> findTicketByUser_Id(Integer userId);
+
 }

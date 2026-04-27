@@ -41,6 +41,10 @@ public class User
 
     private Role role;
 
+    private String resetToken;
+
+    private Date resetTokenExpiry;
+
     //RELAZIONE 1-N (MappedBy serve per indicare che user è il proprietario della relazione- non creare joinColumn qui)
     @OneToMany(mappedBy = "user")
 

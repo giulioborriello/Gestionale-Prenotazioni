@@ -290,4 +290,14 @@ public class EventService extends AbstractService<Event, EventDto> {
         return event.getMaxTickets() - event.getSelledTickets();
     }
 
+    public EventDto findById(Integer id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Evento non trovato con id: " + id
+                ));
+
+        return eventMapper.toDTO(event);
+    }
+
 }
