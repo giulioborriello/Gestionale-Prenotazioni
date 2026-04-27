@@ -149,4 +149,13 @@ public class EventController extends AbstractController<EventDto> {
         return eventService.getAvailableTicketsByEventId(eventId);
     }
 
+    @Operation(summary = "Trova evento per ID")
+    @GetMapping("/findById")
+    public EventDto findById(
+            @Parameter(description = "ID dell'evento da cercare", required = true)
+            @RequestParam("id") Integer id
+    ) {
+        return eventService.findById(id);
+    }
+
 }
