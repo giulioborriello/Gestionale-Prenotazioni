@@ -29,92 +29,126 @@ public class PdfService {
     private static final String TYPE = "type";
     private static final String DESCRIPTION = "description";
 
-    public byte[] generaPdfOrdine(String username, String surname, Double price, String location, String eventName, Date eventDate) {
+    public byte[] generaPdfOrdine(
+            String username,
+            String surname,
+            Double price,
+            String location,
+            String eventName,
+            Date eventDate
+    ) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            Document document = new Document();
-            document.setMargins(40, 40, 40, 40);
-            PdfWriter.getInstance(document, out);
 
+            Document document = new Document(PageSize.A4, 40, 40, 50, 50);
+            PdfWriter.getInstance(document, out);
             document.open();
 
-            // Titolo principale
-            Paragraph title = new Paragraph("Riepilogo Prenotazione", new Font(Font.HELVETICA, 24, Font.BOLD));
+            // ===============================
+            // FONT
+            // ===============================
+
+            Font titleFont = new Font(Font.HELVETICA, 24, Font.BOLD, new Color(25, 55, 109));
+            Font sectionFont = new Font(Font.HELVETICA, 14, Font.BOLD, new Color(33, 33, 33));
+            Font labelFont = new Font(Font.HELVETICA, 11, Font.BOLD, Color.DARK_GRAY);
+            Font valueFont = new Font(Font.HELVETICA, 11, Font.NORMAL, Color.BLACK);
+            Font footerFont = new Font(Font.HELVETICA, 10, Font.ITALIC, Color.GRAY);
+            Font priceFont = new Font(Font.HELVETICA, 16, Font.BOLD, new Color(0, 128, 0));
+
+            // ===============================
+            // HEADER
+            // ===============================
+
+            Paragraph title = new Paragraph("BIGLIETTO EVENTO", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
-            title.setSpacingAfter(30);
+            title.setSpacingAfter(10);
             document.add(title);
 
-            // Linea decorativa
-            Paragraph line = new Paragraph("_____________________________________________________");
-            line.setAlignment(Element.ALIGN_CENTER);
-            line.setSpacingAfter(20);
-            document.add(line);
+            Paragraph subtitle = new Paragraph(
+                    "Conferma ufficiale della tua prenotazione",
+                    new Font(Font.HELVETICA, 11, Font.ITALIC, Color.GRAY)
+            );
+            subtitle.setAlignment(Element.ALIGN_CENTER);
+            subtitle.setSpacingAfter(25);
+            document.add(subtitle);
 
-            // Sezione Info Evento
-            Paragraph eventSection = new Paragraph("Informazioni Evento", new Font(Font.HELVETICA, 14, Font.BOLD));
-            eventSection.setSpacingBefore(10);
-            eventSection.setSpacingAfter(10);
-            document.add(eventSection);
+            // ===============================
+            // EVENT INFO
+            // ===============================
+
+            Paragraph eventHeader = new Paragraph("INFORMAZIONI EVENTO", sectionFont);
+            eventHeader.setSpacingAfter(10);
+            document.add(eventHeader);
 
             PdfPTable eventTable = new PdfPTable(2);
             eventTable.setWidthPercentage(100);
-            
-            addRowToTable(eventTable, "Nome Evento:", eventName);
-            addRowToTable(eventTable, "Data e Ora:", formatDate(eventDate));
-            addRowToTable(eventTable, "Luogo:", location);
+            eventTable.setSpacingAfter(20);
+
+            addStyledRow(eventTable, "Evento", eventName, labelFont, valueFont);
+            addStyledRow(eventTable, "Data", formatDate(eventDate), labelFont, valueFont);
+            addStyledRow(eventTable, "Location", location, labelFont, valueFont);
 
             document.add(eventTable);
-            document.add(new Paragraph(" "));
 
-            // Sezione Info Passeggero
-            Paragraph passengerSection = new Paragraph("Dettagli Utente", new Font(Font.HELVETICA, 14, Font.BOLD));
-            passengerSection.setSpacingBefore(10);
-            passengerSection.setSpacingAfter(10);
-            document.add(passengerSection);
+            // ===============================
+            // USER INFO
+            // ===============================
 
-            PdfPTable passengerTable = new PdfPTable(2);
-            passengerTable.setWidthPercentage(100);
+            Paragraph userHeader = new Paragraph("DETTAGLI UTENTE", sectionFont);
+            userHeader.setSpacingAfter(10);
+            document.add(userHeader);
 
-            addRowToTable(passengerTable, "Nome:", username);
-            addRowToTable(passengerTable, "Cognome:", surname);
+            PdfPTable userTable = new PdfPTable(2);
+            userTable.setWidthPercentage(100);
+            userTable.setSpacingAfter(20);
 
-            document.add(passengerTable);
-            document.add(new Paragraph(" "));
+            addStyledRow(userTable, "Nome", username, labelFont, valueFont);
+            addStyledRow(userTable, "Cognome", surname, labelFont, valueFont);
 
-            // Sezione Prezzo
-            Paragraph priceSection = new Paragraph("Dettagli Prezzo", new Font(Font.HELVETICA, 14, Font.BOLD));
-            priceSection.setSpacingBefore(10);
-            priceSection.setSpacingAfter(10);
-            document.add(priceSection);
+            document.add(userTable);
 
-            PdfPTable priceTable = new PdfPTable(2);
+            // ===============================
+            // PRICE BOX
+            // ===============================
+
+            PdfPTable priceTable = new PdfPTable(1);
             priceTable.setWidthPercentage(100);
+            priceTable.setSpacingBefore(10);
+            priceTable.setSpacingAfter(25);
 
             PdfPCell priceCell = new PdfPCell();
-            priceCell.setBackgroundColor(new Color(100, 200, 100));
-            priceCell.setPadding(8);
-            priceCell.setPhrase(new Phrase("Prezzo:", new Font(Font.HELVETICA, 12, Font.BOLD)));
+            priceCell.setBackgroundColor(new Color(230, 255, 230));
+            priceCell.setPadding(15);
+            priceCell.setBorderColor(new Color(0, 150, 0));
 
-            PdfPCell priceCellValue = new PdfPCell();
-            priceCellValue.setBackgroundColor(new Color(200, 255, 200));
-            priceCellValue.setPadding(8);
-            priceCellValue.setPhrase(new Phrase("€ " + String.format("%.2f", price), new Font(Font.HELVETICA, 12, Font.BOLD)));
+            Paragraph priceParagraph = new Paragraph(
+                    "IMPORTO PAGATO: € " + String.format("%.2f", price),
+                    priceFont
+            );
+            priceParagraph.setAlignment(Element.ALIGN_CENTER);
 
+            priceCell.addElement(priceParagraph);
             priceTable.addCell(priceCell);
-            priceTable.addCell(priceCellValue);
 
             document.add(priceTable);
-            document.add(new Paragraph(" "));
 
-            // Footer
-            Paragraph footer = new Paragraph("Grazie per la tua prenotazione!", new Font(Font.HELVETICA, 10, Font.ITALIC));
+            // ===============================
+            // FOOTER
+            // ===============================
+
+            Paragraph footer = new Paragraph(
+                    "Grazie per aver scelto EventIO\nTi auguriamo una splendida esperienza!",
+                    footerFont
+            );
             footer.setAlignment(Element.ALIGN_CENTER);
             footer.setSpacingBefore(20);
+
             document.add(footer);
 
             document.close();
 
             return out.toByteArray();
-        } catch (DocumentException | IOException e) {
+
+        } catch (Exception e) {
             throw new PdfGenerationException("Errore generazione PDF ordine", e);
         }
     }
@@ -170,6 +204,26 @@ public class PdfService {
         } catch (DocumentException | IOException e) {
             throw new PdfGenerationException("Errore generazione PDF documentazione", e);
         }
+    }
+
+    private void addStyledRow(
+            PdfPTable table,
+            String label,
+            String value,
+            Font labelFont,
+            Font valueFont
+    ) {
+        PdfPCell labelCell = new PdfPCell(new Phrase(label, labelFont));
+        labelCell.setBackgroundColor(new Color(245, 245, 245));
+        labelCell.setPadding(10);
+        labelCell.setBorderColor(new Color(220, 220, 220));
+
+        PdfPCell valueCell = new PdfPCell(new Phrase(value != null ? value : "-", valueFont));
+        valueCell.setPadding(10);
+        valueCell.setBorderColor(new Color(220, 220, 220));
+
+        table.addCell(labelCell);
+        table.addCell(valueCell);
     }
 
     private void addEndpointSection(Document document, String path, String method, JsonNode operation) throws DocumentException {
