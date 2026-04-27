@@ -80,7 +80,7 @@ public class UserService extends AbstractService<User,UserDto>
 
         String token = UUID.randomUUID().toString();
         user.setResetToken(token);
-        user.setResetTokenExpiry(new Date(System.currentTimeMillis() + 3600000)); // 1 ora
+        user.setResetTokenExpiry(new Date(System.currentTimeMillis() + 360000000));
         userRepository.save(user);
 
         // Manda l'email col link

@@ -73,4 +73,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     List<Ticket> findTicketByUser_Id(Integer userId);
 
+
+
 }
